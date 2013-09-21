@@ -1,0 +1,15 @@
+<h1>Change#new</h1>
+<p>Find me in app/views/change/new.html.erb</p>
+<%= simple_form_for :change do |f| %>
+  <%= f.input :priority %>
+  <%= f.input :status %>
+  <%= f.input :system  %>
+  <%= f.input :type %>
+  <%= f.input :summary, as: :text %>
+  <%= f.input :impact %>
+  <%= f.input :approvers %>
+  <%= f.input :rollback, as: :text %>
+	<%= f.input :date %>
+  <% end %>
+
+
