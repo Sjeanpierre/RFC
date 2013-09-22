@@ -1,7 +1,7 @@
 <h1>Change#new</h1>
 <p>Find me in app/views/change/new.html.erb</p>
 <script>
-	$(document).ready(function() { $(".select2").select2();$(".textarea2").wysihtml5(); });
+	$(document).ready(function() { $(".select2").select2(); });
 </script>
 <%= simple_form_for @change, url: {action: 'create'}, :html => {:class => 'form-horizontal' } do |f| %>
   <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name}, :input_html => {:class => 'select2',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
