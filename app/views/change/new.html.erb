@@ -1,15 +1,16 @@
 <h1>Change#new</h1>
 <p>Find me in app/views/change/new.html.erb</p>
-<%= simple_form_for :change do |f| %>
-  <%= f.input :priority %>
-  <%= f.input :status %>
-  <%= f.input :system  %>
-  <%= f.input :type %>
-  <%= f.input :summary, as: :text %>
+<script>
+	$(document).ready(function() { $(".select2").select2();$(".textarea2").wysihtml5(); });
+</script>
+<%= simple_form_for @change, url: {action: 'create'}, :html => {:class => 'form-horizontal' } do |f| %>
+  <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name}, :input_html => {:class => 'select2',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
+  <%= f.input :status, :collection => Status.all.map {|s| s.name}, :input_html => {:class => 'select2',:placeholder => 'Select Status', :style => 'width: 200px'}%>
+  <%= f.input :system, :collection => System.all.map {|s| s.name}, :input_html => {:class => 'select2',:placeholder => 'Select Impacted System', :style => 'width: 200px'}%>
+  <%= f.input :type, :collection => Type.all.map {|s| s.name}, :input_html => {:class => 'select2',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
+  <%= f.input :summary, as: :text%>
   <%= f.input :impact %>
-  <%= f.input :approvers %>
   <%= f.input :rollback, as: :text %>
-	<%= f.input :date %>
   <% end %>
 
 

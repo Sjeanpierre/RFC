@@ -40,6 +40,7 @@ gem 'nokogiri'
 
 # Assets
 gem 'coffee-rails', '~> 4.0.0'
+gem 'select2-rails'
 # gem 'haml_assets'
 
 # gem 'handlebars_assets'

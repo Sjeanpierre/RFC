@@ -3,5 +3,7 @@ class ChangeController < ApplicationController
   end
 
   def new
+    @change = Change.new
+    @statuses = Status.all
   end
 end
