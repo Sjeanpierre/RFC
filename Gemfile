@@ -21,7 +21,8 @@ gem 'omniauth-github'
 gem 'mysql2'
 
 # FORM
-gem 'simple_form'
+#gem 'simple_form', github: 'plataformatec/simple_form', branch: 'master'
+gem 'simple_form', :git => 'https://github.com/plataformatec/simple_form.git'
 
 # Performance and Exception management
 # gem 'airbrake'
@@ -41,6 +42,7 @@ gem 'nokogiri'
 # Assets
 gem 'coffee-rails', '~> 4.0.0'
 gem 'select2-rails'
+gem 'tinymce-rails'
 # gem 'haml_assets'
 
 # gem 'handlebars_assets'
@@ -50,11 +52,11 @@ gem 'less-rails'
 gem 'sass-rails', '~> 4.0.0'
 gem 'therubyracer'
 gem 'turbolinks'
-gem 'twitter-bootstrap-rails', github: 'diowa/twitter-bootstrap-rails', branch: 'fontawesome-3.2.1'
+#gem 'twitter-bootstrap-rails', github: 'diowa/twitter-bootstrap-rails', branch: 'fontawesome-3.2.1'
+gem 'less-rails-bootstrap'
 gem 'uglifier', '>= 1.3.0'
 
 group :development, :test do
-  gem 'debugger'
   gem 'delorean'
   gem 'factory_girl_rails'
   gem 'faker'

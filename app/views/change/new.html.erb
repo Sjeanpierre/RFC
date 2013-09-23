@@ -1,16 +1,16 @@
-<h1>Change#new</h1>
-<p>Find me in app/views/change/new.html.erb</p>
+<h1>Request Change</h1>
+<%= tinymce :simple %>
 <script>
 	$(document).ready(function() { $(".select2").select2(); });
 </script>
-<%= simple_form_for @change, url: {action: 'create'}, :html => {:class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @change, url: {action: 'create'} do |f| %>
   <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name}, :input_html => {:class => 'select2',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
   <%= f.input :status, :collection => Status.all.map {|s| s.name}, :input_html => {:class => 'select2',:placeholder => 'Select Status', :style => 'width: 200px'}%>
   <%= f.input :system, :collection => System.all.map {|s| s.name}, :input_html => {:class => 'select2',:placeholder => 'Select Impacted System', :style => 'width: 200px'}%>
-  <%= f.input :type, :collection => Type.all.map {|s| s.name}, :input_html => {:class => 'select2',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
-  <%= f.input :summary, as: :text%>
-  <%= f.input :impact %>
-  <%= f.input :rollback, as: :text %>
-  <% end %>
-
+  <%= f.input :type, :collection => Type.all.map {|t| t.name}, :input_html => {:class => 'select2',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
+  <%= f.input :impact, :collection => Impact.all.map {|i| i.name}, :input_html => {:class => 'select2',:placeholder => 'Select Expected Impact', :style => 'width: 200px'} %>
+  <%= f.input :summary, as: :text, :input_html => {:class => 'tinymce', :rows => 15}%>
+  <%= f.input :rollback, as: :text, :input_html => {:class => 'tinymce', :rows => 15}%><br>
+  <%= f.button :submit, :class => 'btn btn-primary btn-lg' %>
+<% end %>
 

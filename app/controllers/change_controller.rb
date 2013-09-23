@@ -4,6 +4,9 @@ class ChangeController < ApplicationController
 
   def new
     @change = Change.new
-    @statuses = Status.all
+  end
+
+  def create
+    Change.create_change_request(params)
   end
 end
