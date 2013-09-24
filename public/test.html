@@ -1,0 +1,43 @@
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/css/bootstrap-editable.css"
+      rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<p>X-editable Bootstrap popup</p>
+<div style="margin: 150px">
+    <a href="#" id="username">awesome</a>
+</div>
+
+<script>$('#username').editable({
+    type: 'text',
+    url: '/post',
+    pk: 1,
+    placement: 'top',
+    title: 'Enter username'
+});
+
+
+//ajax emulation. Type "err" to see error message
+$.mockjax({
+    url: '/post',
+    responseTime: 400,
+    response: function (settings) {
+        if (settings.data.value == 'err') {
+            this.status = 500;
+            this.responseText = 'Validation error!';
+        } else {
+            this.responseText = '';
+        }
+    }
+});</script>
+
+
+
+

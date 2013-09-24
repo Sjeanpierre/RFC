@@ -13,6 +13,12 @@
 
 ActiveRecord::Schema.define(version: 20130922230933) do
 
+  create_table "change_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "changes", force: true do |t|
     t.string   "title"
     t.text     "summary"
@@ -58,12 +64,6 @@ ActiveRecord::Schema.define(version: 20130922230933) do
 
   create_table "systems", force: true do |t|
     t.string   "group"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
