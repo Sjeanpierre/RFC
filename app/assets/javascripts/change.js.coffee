@@ -8,10 +8,11 @@ $(document).on "click", ".editable-cancel, .editable-submit", ->
   $(".add").show()
 
 $(document).on "click", ".editable-cancel", ->
-  $('.adder').contents().remove()
+  $('.adder a').last().remove()
 
 
 rfChange.notify = ->
+  $.fn.editable.defaults.mode = 'inline'
   $(".add").click (e) ->
     e.stopPropagation()
     randomID = Math.floor(Math.random() * 1000001)
