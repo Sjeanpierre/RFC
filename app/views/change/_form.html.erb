@@ -1,7 +1,7 @@
 <h1>Request Change</h1>
 <%= tinymce :simple %>
 <script>
-	$(document).ready(function() { $(".select2").select2(); });
+	$(document).ready(function() { $(".select2").select2();rfChange.bsfire() });
 </script>
 <%= simple_form_for @change, url: {action: 'create'} do |f| %>
   <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
