@@ -4,16 +4,38 @@
 	$(document).ready(function() { $(".select2").select2();rfChange.bsfire() });
 </script>
 <%= simple_form_for @change, url: {action: 'create'} do |f| %>
-  <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
-	<div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
-  <%= f.input :status, :collection => Status.all.map {|s| s.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Status', :style => 'width: 200px'}%>
-  <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
-  <%= f.input :system, :collection => System.all.map {|s| s.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Impacted System', :style => 'width: 200px'}%>
-  <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
-  <%= f.input :change_type, :collection => @change_types.map {|t| t.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
-  <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
-  <%= f.input :impact, :collection => Impact.all.map {|i| i.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Expected Impact', :style => 'width: 200px'} %>
-  <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+  <div id='horizontal' class="horizontal">
+
+
+
+
+
+    <div id='drop-down'>
+      <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
+	    <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+    </div>
+
+    <div id='drop-down'>
+      <%= f.input :status, :collection => Status.all.map {|s| s.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Status', :style => 'width: 200px'}%>
+      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+	  </div>
+
+    <div id='drop-down'>
+      <%= f.input :system, :collection => System.all.map {|s| s.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Impacted System', :style => 'width: 200px'}%>
+      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+    </div>
+
+    <div id='drop-down'>
+      <%= f.input :change_type, :collection => @change_types.map {|t| t.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
+      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+    </div>
+
+    <div id='drop-down'>
+      <%= f.input :impact, :collection => Impact.all.map {|i| i.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Expected Impact', :style => 'width: 200px'} %>
+      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+    </div>
+
+  </div>
   <%= f.input :summary, as: :text, :input_html => {:class => 'tinymce', :rows => 15}%>
   <%= f.input :rollback, as: :text, :input_html => {:class => 'tinymce', :rows => 15}%><br>
   <%= f.button :submit, :class => 'btn btn-primary btn-lg' %>
