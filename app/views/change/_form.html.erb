@@ -9,27 +9,27 @@
 
     <div id='drop-down'>
       <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
-	    <div id="newlink"><a data-toggle="modal" href="#priorityModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+	    <div id="newlink"><a data-toggle="modal" href="#priorityModal"><span id='priority-adder' class="glyphicon glyphicon-plus-sign"></span></a></div>
     </div>
 
     <div id='drop-down'>
       <%= f.input :status, :collection => Status.all.map {|s| s.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Status', :style => 'width: 200px'}%>
-      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span id='status-adder' class="glyphicon glyphicon-plus-sign"></span></a></div>
 	  </div>
 
     <div id='drop-down'>
       <%= f.input :system, :collection => System.all.map {|s| s.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Impacted System', :style => 'width: 200px'}%>
-      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span id='system-adder' class="glyphicon glyphicon-plus-sign"></span></a></div>
     </div>
 
     <div id='drop-down'>
       <%= f.input :change_type, :collection => ChangeType.all.map {|t| t.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
-      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span id='change-type-adder' class="glyphicon glyphicon-plus-sign"></span></a></div>
     </div>
 
     <div id='drop-down'>
       <%= f.input :impact, :collection => Impact.all.map {|i| i.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Expected Impact', :style => 'width: 200px'} %>
-      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+      <div id="newlink"><a data-toggle="modal" href="#impactModal"><span id='impact-adder' class="glyphicon glyphicon-plus-sign"></span></a></div>
     </div>
 
   </div>
