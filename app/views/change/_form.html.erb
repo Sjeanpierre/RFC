@@ -1,8 +1,5 @@
 <h1>New Change Request</h1>
 <%= tinymce :simple %>
-<script>
-	$(document).ready(function() { $(".select2").select2();rfChange.bsfire(); });
-</script>
 <%= simple_form_for @change, url: {action: 'create'} do |f| %>
   <div id='horizontal' class="horizontal">
 

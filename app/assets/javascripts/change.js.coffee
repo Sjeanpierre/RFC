@@ -4,6 +4,10 @@
 window.rfChange = {};
 
 
+$(document).ready ->
+  $('.select2').select2()
+  rfChange.bsfire()
+
 $(document).on "click", ".editable-cancel, .editable-submit", ->
   $(".add").show()
 
