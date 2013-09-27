@@ -10,4 +10,5 @@ Starterapp::Application.routes.draw do
   resources :services, only: %i(index create destroy)
   root 'pages#home'
   match '/:resource/add' => 'change#add_resource', :via => 'post'
+  match '/:resource/list' => 'change#get_resources', :via => 'get'
 end
