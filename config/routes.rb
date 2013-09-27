@@ -9,5 +9,5 @@ Starterapp::Application.routes.draw do
   resources :change
   resources :services, only: %i(index create destroy)
   root 'pages#home'
-
+  match '/:resource/add' => 'change#add_resource', :via => 'post'
 end

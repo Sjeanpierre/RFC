@@ -1,7 +1,7 @@
 <h1>New Change Request</h1>
 <%= tinymce :simple %>
 <script>
-	$(document).ready(function() { $(".select2").select2();rfChange.bsfire() });
+	$(document).ready(function() { $(".select2").select2();rfChange.bsfire(); });
 </script>
 <%= simple_form_for @change, url: {action: 'create'} do |f| %>
   <div id='horizontal' class="horizontal">
@@ -12,7 +12,7 @@
 
     <div id='drop-down'>
       <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
-	    <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
+	    <div id="newlink"><a data-toggle="modal" href="#priorityModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
     </div>
 
     <div id='drop-down'>
@@ -26,7 +26,7 @@
     </div>
 
     <div id='drop-down'>
-      <%= f.input :change_type, :collection => @change_types.map {|t| t.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
+      <%= f.input :change_type, :collection => ChangeType.all.map {|t| t.name.capitalize}, :input_html => {:class => 'select2',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
       <div id="newlink"><a data-toggle="modal" href="#impactModal"><span class="glyphicon glyphicon-plus-sign"></span></a></div>
     </div>
 

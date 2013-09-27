@@ -4,11 +4,15 @@ class ChangeController < ApplicationController
 
   def new
     @change = Change.new
-    @change_types = ChangeType.all
   end
 
   def create
-    #Change.create_change_request(params)
+    Change.create_change_request(params)
+    render :json => '', :status => 200
+  end
+
+  def add_resource
+    Change.add_resource_item(params[:resource],params[:value])
     render nothing:true, status: 200
   end
 end

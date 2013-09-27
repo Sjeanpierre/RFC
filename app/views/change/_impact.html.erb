@@ -7,29 +7,25 @@
         <h4 class="modal-title">Add Impacts</h4>
       </div>
       <div class="modal-body">
-        <script>$('#impact').editable({
-	        type: 'text',
-	        mode: 'inline',
-	        url: '/change',
-	        placement: 'top',
-	        value: '',
-	        title: 'Enter New Impact'
-        });</script>
-
-        <ul>
+        <ul class="impact-list">
           <% Impact.all.each do |impact| %>
             <li><%= impact.name.capitalize %></li>
           <% end %>
-          <a href="#" id="impact" class="editable-emptyeditable editable-click editable-empty" style="">New Impact</a>
+          <div class="adder">
+
+          </div>
         </ul>
+        <div class="controls">
+          <button type="button" class="add add-button btn btn-success btn-xs">
+            <span class="add glyphicon glyphicon-plus"></span> Add New
+          </button>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="save-btn" class="btn btn-primary">Save changes</button>
+        <button type="button" id="save-btn" class="btn btn-primary btn-lg" data-dismiss="modal">Done</button>
       </div>
     </div>
     <!-- /.modal-content -->
   </div>
   <!-- /.modal-dialog -->
 </div><!-- /.modal -->
-

@@ -11,29 +11,27 @@ $(document).on "click", ".editable-cancel", ->
   $('.adder a').last().remove()
 
 
-rfChange.notify = ->
-  $(".add").click (e) ->
+rfChange.notify = (modalName)->
+  watchButton = "##{modalName}Modal .modal-content .add-button"
+  $(watchButton).click (e) ->
     e.stopPropagation()
-    randomID = Math.floor(Math.random() * 1000001)
-    uid = 'impact_'+randomID
-    editable = "<a href='#' data-pk='#{randomID}' id='#{uid}' class='editable editable-click inline-input' style=''></a>"
-    $('.adder').append(editable)
-    selector = '#'+uid
-    rfChange.initeditable(selector)
-    $(selector).editable "toggle"
-    $(this).hide()
+    randomId = Math.floor(Math.random() * 1000001)
+    uid = "#{modalName}_#{randomId}"
+    editable = "<a href='#' data-pk='#{randomId}' id='#{uid}' class='editable editable-click inline-input' style=''></a>"
+    editField = ".#{modalName}-list .adder"
+    $(editField).append(editable)
+    editFieldSelector = '#'+uid
+    rfChange.initeditable(editFieldSelector,modalName)
+    $(editFieldSelector).editable "toggle"
+#    $(this).hide()
 
-
-
-
-rfChange.initeditable = (selector) ->
+rfChange.initeditable = (selector,resourceName) ->
   $(selector).editable
     type: "text"
     mode: "inline"
-    url: "/change"
+    url: "/#{resourceName}/add"
     placement: "top"
     value: ""
-    title: "Enter New Impact"
     success: (response, newValue) ->
       rfChange.success(selector, newValue)
     error: (err) ->
@@ -45,5 +43,8 @@ rfChange.success = (selector,newValue) ->
   $(selector).remove()
 
 rfChange.bsfire = ->
-  $("#impactModal").on "show.bs.modal", ->
-    rfChange.notify()
+  modals = ['impact','status','system','change_type','priority']
+  for modalName in modals
+    modalSelector = "##{modalName}Modal"
+    $(modalSelector).on "show.bs.modal", ->
+      rfChange.notify(modalName)

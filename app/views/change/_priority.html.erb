@@ -1,22 +1,22 @@
 <!-- Modal -->
-<div class="modal fade" id="impactModal" tabindex="-1" role="dialog" aria-labelledby="impactModalLabel" aria-hidden="true">
+<div class="modal fade" id="priorityModal" tabindex="-1" role="dialog" aria-labelledby="priorityModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Add Impacts</h4>
+        <h4 class="modal-title">Add Priorities</h4>
       </div>
       <div class="modal-body">
-        <ul class="impact-list">
-          <% Impact.all.each do |impact| %>
-            <li><%= impact.name.capitalize %></li>
+        <ul class="priority-list">
+          <% Priority.all.each do |priority| %>
+            <li><%= priority.name.capitalize %></li>
           <% end %>
           <div class="adder">
 
           </div>
         </ul>
         <div class="controls">
-          <button type="button" class="add btn btn-success btn-xs">
+          <button type="button" class="add add-button btn btn-success btn-xs">
             <span class="add glyphicon glyphicon-plus"></span> Add New
           </button>
 
