@@ -27,8 +27,9 @@ rfChange.modalhandler = (clickevent) ->
 
 rfChange.bindClose = (modalName,idValue) ->
   $("##{modalName}").on 'hide.bs.modal', ->
-    rfChange.replaceInput(MODAL_NAMES[idValue])
-
+    newResourceListItems = "##{modalName} ul li.new"
+    rfChange.replaceInput(MODAL_NAMES[idValue]) if $(newResourceListItems).length isnt 0
+    $(newResourceListItems).removeClass('new').addClass('notsonew');
 
 rfChange.handleAdd = (modalId)->
   watchButton = "##{modalId}Modal .modal-content .add-button"
