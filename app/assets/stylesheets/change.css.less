@@ -6,12 +6,11 @@
   font-weight:bold;
   }
 
-#impactModal .modal-dialog {
-  width: 350px;
-  }
 
-#priorityModal .modal-dialog {
-  width: 350px;
+#impactModal, #statusModal, #systemModal, #changeTypeModal, #priorityModal {
+  .modal-dialog {
+    max-width: 350px;
+  }
 }
 
 input {
@@ -32,6 +31,7 @@ input {
 #drop-down {
   display: inline-block;
   #newlink {
+    cursor: pointer;
     padding-top: 29.7px;
     margin-left: -1px;
     float: right;
@@ -41,7 +41,7 @@ input {
       top: 0;
       left: 5px;
     }
-    a {
+    span {
       color: #47A447;
     }
   }
