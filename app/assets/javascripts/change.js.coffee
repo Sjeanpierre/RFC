@@ -21,11 +21,13 @@ $(document).on "click", ".editable-cancel", ->
 rfChange.modalhandler = (clickevent) ->
   idValue = clickevent.currentTarget.attributes.id.value
   modalName = "#{MODAL_NAMES[idValue]}Modal"
-#  alert("clicked #{idValue} modalname is #{modalName}")
   $("##{modalName}").modal('show')
   rfChange.handleAdd(MODAL_NAMES[idValue])
+  rfChange.bindClose(modalName,idValue)
 
-
+rfChange.bindClose = (modalName,idValue) ->
+  $("##{modalName}").on 'hide.bs.modal', ->
+    rfChange.replaceInput(MODAL_NAMES[idValue])
 
 
 rfChange.handleAdd = (modalId)->
@@ -52,7 +54,7 @@ rfChange.initeditable = (selector,resourceName) ->
     success: (response, newValue) ->
       rfChange.success(selector, newValue)
     error: (err) ->
-      console.log "error"
+      console.log "#{err}"
 
 rfChange.success = (selector,newValue) ->
   newData = "<li class='new'>#{newValue}</li>"
@@ -65,3 +67,16 @@ rfChange.bsfire = ->
     modalSelector = "##{modalName}Modal"
     $(modalSelector).on "show.bs.modal", ->
       rfChange.handleAdd(modalName)
+
+
+rfChange.replaceInput = (modalName) ->
+  $.getJSON "/#{modalName}/list", (newValues) ->
+   wrapperName = "#{modalName}-wrapper"
+   randomId = Math.floor(Math.random() * 1000001)
+   dataJs = []
+   for value in newValues
+     v = {id: value, text: value}
+     dataJs.push v
+   $(".#{wrapperName}").first().replaceWith("<input id='#{randomId}' class='select optional select2 #{wrapperName}' style='width: 200px' placeholder='Select #{modalName}' name='change[modalName]'>");
+   $("##{randomId}").select2({width: 'element', data: dataJs})
+   $("##{randomId}").select2('val',newValues[newValues.length - 1])

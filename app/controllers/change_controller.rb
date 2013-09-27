@@ -18,6 +18,6 @@ class ChangeController < ApplicationController
 
   def get_resource
     values = Change.get_resource_items(params[:resource])
-    values.to_json
+    render :json => values
   end
 end
