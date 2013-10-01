@@ -8,7 +8,6 @@ class ChangeController < ApplicationController
 
   def create
     Change.create_change_request(params)
-    render :json => '', :status => 200
   end
 
   def add_resource

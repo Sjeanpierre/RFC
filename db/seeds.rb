@@ -10,6 +10,7 @@ change_types = %w{emergency planned}
 impacts = ['downtime','system outage','none']
 system = %w{DNS Rightscale Cloudflare Amazon Sage Zuora S3}
 statuses = %w(new pending completed aborted rejected)
+users = %w('tom jones', 'bill smith', 'tony doorman')
 
 priorities.each do |priority|
   Priority.create(:name => priority)
@@ -29,4 +30,9 @@ end
 
 statuses.each do |status|
   Status.create(:name => status)
+end
+
+users.each do |user|
+  user_email = "#{user.split('').join('_')}@test.com"
+  User.create(:name => user, :email => user_email)
 end
