@@ -3,6 +3,13 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 window.rfChange = {};
 
+MODAL_NAMES = {'priority-adder': 'priority', 'status-adder': 'status', 'system-adder': 'system', 'change-type-adder': 'changeType', 'impact-adder': 'impact'}
+
+$(document).ready ->
+  $('.select2').select2()
+  $('#priority-adder, #status-adder, #system-adder, #change-type-adder, #impact-adder').click (clickevent) ->
+    rfChange.modalhandler(clickevent)
+
 
 $(document).on "click", ".editable-cancel, .editable-submit", ->
   $(".add").show()
@@ -11,19 +18,32 @@ $(document).on "click", ".editable-cancel", ->
   $('.adder a').last().remove()
 
 
-rfChange.notify = (modalName)->
-  watchButton = "##{modalName}Modal .modal-content .add-button"
+rfChange.modalhandler = (clickevent) ->
+  idValue = clickevent.currentTarget.attributes.id.value
+  modalName = "#{MODAL_NAMES[idValue]}Modal"
+  $("##{modalName}").modal('show')
+  rfChange.handleAdd(MODAL_NAMES[idValue])
+  rfChange.bindClose(modalName,idValue)
+
+rfChange.bindClose = (modalName,idValue) ->
+  $("##{modalName}").on 'hide.bs.modal', ->
+    newResourceListItems = "##{modalName} ul li.new"
+    rfChange.replaceInput(MODAL_NAMES[idValue]) if $(newResourceListItems).length isnt 0
+    $(newResourceListItems).removeClass('new').addClass('notsonew');
+
+rfChange.handleAdd = (modalId)->
+  watchButton = "##{modalId}Modal .modal-content .add-button"
   $(watchButton).click (e) ->
     e.stopPropagation()
     randomId = Math.floor(Math.random() * 1000001)
-    uid = "#{modalName}_#{randomId}"
+    uid = "#{modalId}_#{randomId}"
     editable = "<a href='#' data-pk='#{randomId}' id='#{uid}' class='editable editable-click inline-input' style=''></a>"
-    editField = ".#{modalName}-list .adder"
+    editField = ".#{modalId}-list .adder"
     $(editField).append(editable)
     editFieldSelector = '#'+uid
-    rfChange.initeditable(editFieldSelector,modalName)
+    rfChange.initeditable(editFieldSelector,modalId)
     $(editFieldSelector).editable "toggle"
-#    $(this).hide()
+    $(this).hide()
 
 rfChange.initeditable = (selector,resourceName) ->
   $(selector).editable
@@ -35,7 +55,7 @@ rfChange.initeditable = (selector,resourceName) ->
     success: (response, newValue) ->
       rfChange.success(selector, newValue)
     error: (err) ->
-      console.log "error"
+      console.log "#{err}"
 
 rfChange.success = (selector,newValue) ->
   newData = "<li class='new'>#{newValue}</li>"
@@ -47,4 +67,17 @@ rfChange.bsfire = ->
   for modalName in modals
     modalSelector = "##{modalName}Modal"
     $(modalSelector).on "show.bs.modal", ->
-      rfChange.notify(modalName)
+      rfChange.handleAdd(modalName)
+
+
+rfChange.replaceInput = (modalName) ->
+  $.getJSON "/#{modalName}/list", (newValues) ->
+   wrapperName = "#{modalName}-wrapper"
+   randomId = Math.floor(Math.random() * 1000001)
+   dataJs = []
+   for value in newValues
+     v = {id: value, text: value}
+     dataJs.push v
+   $(".#{wrapperName}").first().replaceWith("<input id='#{randomId}' class='select optional select2 #{wrapperName}' style='width: 200px' placeholder='Select #{modalName}' name='change[modalName]'>");
+   $("##{randomId}").select2({width: 'element', data: dataJs})
+   $("##{randomId}").select2('val',newValues[newValues.length - 1])

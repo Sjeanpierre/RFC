@@ -5,7 +5,7 @@ class Change < ActiveRecord::Base
   has_one :change_type
   has_one :impact
 
-  RESOURCES = {:impact => Impact,:status =>Status,:system => System,:change_type => ChangeType,:priority => Priority}
+  RESOURCES = {:impact => Impact,:status =>Status,:system => System,:changeType => ChangeType,:priority => Priority}
 
   def self.create_change_request(params)
     priority_id = Priority.find_or_create_by(:name => params[:priority].downcase).id
@@ -26,8 +26,14 @@ class Change < ActiveRecord::Base
   end
 
   def self.add_resource_item(resource_type,resource_name)
-    raise('invalid resource') if !RESOURCES.has_key?(resource_type.to_sym)
+    raise('invalid resource') unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
-    resource_class.create(:name => resource_name)
+    resource_class.find_or_create_by(:name => resource_name.downcase)
+  end
+
+  def self.get_resource_items(resource_type)
+    raise("#{resource_type} is an invalid resource") unless RESOURCES.has_key?(resource_type.to_sym)
+    resource_class = RESOURCES[resource_type.to_sym]
+    resource_class.all.map {|resource| resource.name.capitalize}
   end
 end

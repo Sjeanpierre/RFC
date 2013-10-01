@@ -4,14 +4,19 @@
 .new {
   color: #1E90FF;
   font-weight:bold;
+  text-transform: capitalize;
   }
 
-#impactModal .modal-dialog {
-  width: 350px;
-  }
+.notsonew {
+  font-weight:bold;
+  text-transform: capitalize;
+}
 
-#priorityModal .modal-dialog {
-  width: 350px;
+
+#impactModal, #statusModal, #systemModal, #changeTypeModal, #priorityModal {
+  .modal-dialog {
+    max-width: 350px;
+  }
 }
 
 .title-input {
@@ -22,6 +27,10 @@ input {
   clear: both;
   float: left;
   width: 150px;
+}
+
+.select2-container .select2-chosen {
+  text-transform: capitalize;
 }
 
 
@@ -35,16 +44,16 @@ input {
 #drop-down {
   display: inline-block;
   #newlink {
+    cursor: pointer;
     padding-top: 29.7px;
     margin-left: -1px;
     float: right;
     margin-right: 11px;
     .glyphicon {
-//      font-size: 1.25em;
       top: 0;
       left: 5px;
     }
-    a {
+    span {
       color: #47A447;
     }
   }
