@@ -3,15 +3,11 @@
 <%= simple_form_for @change, url: {action: 'create'} do |f| %>
   <div class="title-input">
     <div class="input-group">
-      <%=f.input :title,:label => false,:input_html => {:class => 'form-control input-lg', :placeholder => 'Please Enter Title For Change Request'}%>
-      <span class="input-group-addon">0/160 Chars</span>
+      <%=f.input :title,:label => false,:input_html => {:class => 'form-control input-lg', :id => 'title_label', :placeholder => 'Please Enter Title For Change Request'}%>
+      <span class="input-group-addon"><span id="counter"></span>/80 Chars Remaining</span>
 	  </div>
   </div>
   <div id='horizontal' class="horizontal">
-
-
-
-
     <div id='drop-down'>
       <%= f.input :priority, :as => :select, :collection =>  Priority.all.map {|p| p.name.capitalize}, :input_html => {:class => 'select2 priority-wrapper',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
 	    <div id="newlink"><span id='priority-adder' class="glyphicon glyphicon-plus-sign"></span></div>
