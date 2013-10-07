@@ -4,11 +4,15 @@
 window.rfChange = {};
 
 MODAL_NAMES = {'priority-adder': 'priority', 'status-adder': 'status', 'system-adder': 'system', 'change-type-adder': 'changeType', 'impact-adder': 'impact'}
+COLOR_CLASSES = ['blue', 'green', 'purple', 'yellow', 'red']
 
 $(document).ready ->
   $('.select2').select2()
+  $('.approver-select').select2()
   $('#priority-adder, #status-adder, #system-adder, #change-type-adder, #impact-adder').click (clickevent) ->
     rfChange.modalhandler(clickevent)
+  $('.approver-select').on 'change', (changeevent) ->
+    rfChange.colorSet(changeevent)
   rfChange.titleCounter()
 
 
@@ -32,6 +36,14 @@ rfChange.titleCounter = ->
       rfChange.overCount()
     onSafeCount: ->
       rfChange.underCount()
+
+rfChange.colorSet = (changed) ->
+  if typeof changed.added != 'undefined'
+    newItem = $('.select2-choices .select2-search-choice').last()
+    randomElement = COLOR_CLASSES[Math.floor(Math.random() * COLOR_CLASSES.length)]
+    newItem.attr('id',"#{randomElement}")
+
+
 
 
 rfChange.modalhandler = (clickevent) ->

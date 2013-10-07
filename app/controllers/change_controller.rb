@@ -7,7 +7,12 @@ class ChangeController < ApplicationController
   end
 
   def create
-    Change.create_change_request(params)
+    #if params[:priority] && params[:status] && params[:system] && params[:type] && params[:impact]
+      Change.create_change_request(params[:change])
+    render :text => 'good'
+    #else
+    #  redirect_to new_change_path, :notice => 'missing values'
+    #end
   end
 
   def add_resource
