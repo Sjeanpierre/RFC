@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130922230933) do
+ActiveRecord::Schema.define(version: 20131005232317) do
+
+  create_table "approvers", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "change_id"
+    t.boolean  "approved"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "approvers", ["change_id"], name: "index_approvers_on_change_id", using: :btree
+  add_index "approvers", ["user_id"], name: "index_approvers_on_user_id", using: :btree
 
   create_table "change_types", force: true do |t|
     t.string   "name"
@@ -28,7 +39,7 @@ ActiveRecord::Schema.define(version: 20130922230933) do
     t.integer  "priority_id"
     t.integer  "status_id"
     t.integer  "system_id"
-    t.integer  "type_id"
+    t.integer  "change_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "impact_id"

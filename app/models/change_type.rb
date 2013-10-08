@@ -1,3 +1,3 @@
 class ChangeType < ActiveRecord::Base
-  belongs_to :change
+  has_one :change
 end

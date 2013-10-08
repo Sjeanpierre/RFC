@@ -12,12 +12,61 @@
   text-transform: capitalize;
 }
 
+.approver-select {
+  width: 100%;
+  font-size: 18px;
+  li {
+    line-height: 30px !important;
+    margin: 4px 0 3px 5px !important;
+  }
+  input {
+    height: 40px;
+  }
+}
+
+.list-style {
+  color: #ffffff !important;
+  font-weight: bold;
+//  text-shadow: 1px 1px 1px #cccccc;
+  background-image: none;
+  box-shadow: none;
+}
+
+.approver-colors {
+    #blue {
+      .list-style;
+      background-color: #00BFF3 !important;
+      border-color: #4FA2F9 !important;
+    }
+    #green {
+      .list-style;
+      background-color: #7CC576 !important;
+      border-color: #64b69e !important;
+    }
+    #purple {
+      .list-style;
+      background-color: #c1a0df !important;
+      border-color: #8780D1 !important;
+    }
+    #yellow {
+      .list-style;
+      background-color: #F78E57 !important;
+      border-color: #d9b376 !important;
+    }
+    #red {
+      .list-style;
+      background-color: #F26D7E !important;
+      border-color: #FFC9C0 !important;
+    }
+}
 
 #impactModal, #statusModal, #systemModal, #changeTypeModal, #priorityModal {
   .modal-dialog {
     max-width: 350px;
   }
 }
+
+
 
 .title-input {
   padding-bottom: 12px;

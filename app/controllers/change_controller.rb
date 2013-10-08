@@ -7,7 +7,8 @@ class ChangeController < ApplicationController
   end
 
   def create
-    Change.create_change_request(params)
+    Change.create_change_request(params[:change])
+    render :text => 'good'
   end
 
   def add_resource

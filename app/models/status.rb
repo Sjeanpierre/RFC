@@ -1,3 +1,3 @@
 class Status < ActiveRecord::Base
-  belongs_to :change
+  has_one :change
 end
