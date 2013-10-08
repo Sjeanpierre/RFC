@@ -7,7 +7,8 @@ class ChangeController < ApplicationController
   end
 
   def create
-    Change.create_change_request(params[:change])
+    current_user = User.find(4) unless current_user
+    Change.create_change_request(params[:change],current_user)
     render :text => 'good'
   end
 
