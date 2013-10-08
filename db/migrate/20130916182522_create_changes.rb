@@ -9,7 +9,7 @@ class CreateChanges < ActiveRecord::Migration
       t.integer :priority_id
       t.integer :status_id
       t.integer :system_id
-      t.integer :type_id
+      t.integer :change_type_id
 
       t.timestamps
     end

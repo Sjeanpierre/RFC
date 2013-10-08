@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20131005232317) do
     t.integer  "priority_id"
     t.integer  "status_id"
     t.integer  "system_id"
-    t.integer  "type_id"
+    t.integer  "change_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "impact_id"

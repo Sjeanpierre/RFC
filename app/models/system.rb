@@ -1,3 +1,3 @@
 class System < ActiveRecord::Base
-  belongs_to :change
+  has_one :change
 end

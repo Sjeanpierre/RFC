@@ -1,9 +1,11 @@
 class Change < ActiveRecord::Base
-  has_one :priority
-  has_one :status
-  has_one :system
-  has_one :change_type
-  has_one :impact
+  belongs_to :priority
+  belongs_to :status
+  belongs_to :system
+  belongs_to :change_type
+  belongs_to :impact
+  has_many :approvers
+  has_many :users, through: :approvers
 
   RESOURCES = {:impact => Impact,:status =>Status,:system => System,:changeType => ChangeType,:priority => Priority}
 
@@ -11,9 +13,10 @@ class Change < ActiveRecord::Base
     priority_id = Priority.find_or_create_by(:name => params[:priority].downcase).id
     status_id = Status.find_or_create_by(:name => params[:status].downcase).id
     system_id = System.find_or_create_by(:name => params[:system].downcase).id
-    change_type_id = ChangeType.find_or_create_by(:name => params[:type].downcase).id
+    change_type_id = ChangeType.find_or_create_by(:name => params[:change_type].downcase).id
     impact_id = Impact.find_or_create_by(:name => params[:impact].downcase).id
-    Change.create(
+    approvers = params[:approvers].reject {|approver| approver.blank?}
+    new_change = Change.create(
         :title => params[:summary],
         :priority_id => priority_id,
         :system_id => system_id,
@@ -23,6 +26,10 @@ class Change < ActiveRecord::Base
         :summary => params[:summary],
         :rollback => params[:rollback]
     )
+    approvers.each do |approver|
+      new_change.approvers.build(:user_id => approver)
+    end
+    new_change.save!
   end
 
   def self.add_resource_item(resource_type,resource_name)
