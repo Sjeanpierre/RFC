@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131005232317) do
+ActiveRecord::Schema.define(version: 20131008153256) do
 
   create_table "approvers", force: true do |t|
     t.integer  "user_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20131005232317) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "impact_id"
+    t.integer  "created_by"
   end
 
   create_table "impacts", force: true do |t|
