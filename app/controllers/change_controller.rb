@@ -6,6 +6,10 @@ class ChangeController < ApplicationController
     @change = Change.new
   end
 
+  def index
+    @changes = Change.all
+  end
+
   def create
     current_user = User.find(4) unless current_user
     Change.create_change_request(params[:change],current_user)
