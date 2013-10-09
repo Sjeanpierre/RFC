@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 priorities = %w{high medium low other}
 change_types = %w{emergency planned}
-impacts = ['downtime','system outage','none']
+impacts = ['downtime', 'system outage', 'none']
 system = %w{DNS Rightscale Cloudflare Amazon Sage Zuora S3}
 statuses = %w(new pending completed aborted rejected)
 users = ['tom jones', 'bill smith', 'tony doorman', 'mike snow', 'robert wimby', 'sean turner', 'victor hernandez']
@@ -35,4 +35,18 @@ end
 users.each do |user|
   user_email = "#{user.split(' ').join('_')}@example.com"
   User.create(:name => user.titleize, :email => user_email)
+end
+
+10.times do
+  Change.create(
+      :title => 'seeded title for change',
+      :priority_id => Priority.all.sample(1).first.id,
+      :system_id => System.all.sample(1).first.id,
+      :status_id => Status.all.sample(1).first.id,
+      :change_type_id => ChangeType.all.sample(1).first.id,
+      :impact_id => Impact.all.sample(1).first.id,
+      :summary => 'this is a summary',
+      :rollback => 'this is the rollback',
+      :creator => User.all.sample(1).first
+  )
 end
