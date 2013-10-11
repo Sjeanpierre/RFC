@@ -14,6 +14,7 @@ $(document).ready ->
   $('.approver-select').on 'change', (changeevent) ->
     rfChange.colorSet(changeevent)
   rfChange.titleCounter()
+  rfChange.bindDatatable()
 
 
 $(document).on "click", ".editable-cancel, .editable-submit", ->
@@ -21,6 +22,32 @@ $(document).on "click", ".editable-cancel, .editable-submit", ->
 
 $(document).on "click", ".editable-cancel", ->
   $('.adder a').last().remove()
+
+rfChange.bindDatatable = ->
+  $("#dtable").dataTable
+    aaSorting: [
+      [0, "asc"]
+    ]
+    aoColumnDefs: [
+      bSearchable: false
+      aTargets: [4]
+    ]
+    sDom: "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+    sFilterInput: "form-control input-sm form-control 3784057"
+    sPaginationType: "bootstrap"
+    bRetrieve: true
+    oLanguage:
+      sLengthMenu: "_MENU_ records per page"
+      sSearch: ""
+      sLengthMenu: "_MENU_ <div class='length-text'>records per page</div>"
+    fnPreDrawCallback:  ->
+      $(".dataTables_filter input").addClass "form-control input-sm"
+      $(".dataTables_filter input").css "width", "200px"
+      $(".dataTables_length select").addClass "form-control input-sm"
+      $(".dataTables_length select").css "width", "75px"
+      $('.dataTables_filter input').attr('placeholder', 'Search');
+
+
 
 rfChange.titleCounter = ->
   $("#title_label").simplyCountable
@@ -37,14 +64,12 @@ rfChange.titleCounter = ->
     onSafeCount: ->
       rfChange.underCount()
 
+
 rfChange.colorSet = (changed) ->
   if typeof changed.added != 'undefined'
     newItem = $('.select2-choices .select2-search-choice').last()
     randomElement = COLOR_CLASSES[Math.floor(Math.random() * COLOR_CLASSES.length)]
-    newItem.attr('id',"#{randomElement}")
-
-
-
+    newItem.attr('id', "#{randomElement}")
 
 rfChange.modalhandler = (clickevent) ->
   idValue = clickevent.currentTarget.attributes.id.value
@@ -105,10 +130,10 @@ rfChange.underCount = ->
   $("#title_label").parent().removeClass('has-error')
   $("#title_label").parent().addClass('has-success')
   setTimeout (->
-    rfChange.removeParentClass('has-success','#title_label')
+    rfChange.removeParentClass('has-success', '#title_label')
   ), 1200
 
-rfChange.removeParentClass = (className,selector) ->
+rfChange.removeParentClass = (className, selector) ->
   $(selector).parent().removeClass(className)
 
 rfChange.replaceInput = (modalName) ->

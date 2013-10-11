@@ -1,0 +1,28 @@
+<div class="table-styling">
+  <table id='dtable' class="table table-striped table-bordered">
+    <thead>
+    <tr>
+      <th>RFC #</th>
+      <th>Priority</th>
+      <th>Status</th>
+      <th>Created By</th>
+      <th>Created</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @changes.each do |change| %>
+      <tr>
+        <td><%= change.id %></td>
+        <td><%= change.priority.name %></td>
+        <td><%= change.status.name %></td>
+        <td><%= change.creator.try(:name) %></td>
+        <td>
+          <abbr title="<%= change.created_at.to_s(:long) %>" data-livestamp="<%= change.created_at.utc.iso8601 %>"></abbr>
+        </td>
+        <td><%= change.summary %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
