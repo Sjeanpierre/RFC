@@ -8,7 +8,8 @@ Starterapp::Application.routes.draw do
   get '/new' => 'change#new'
   resources :change
   resources :services, only: %i(index create destroy)
-  root 'pages#home'
+  #root 'pages#home'
+  root 'change#index'
   match '/:resource/add' => 'change#add_resource', :via => 'post'
   match '/:resource/list' => 'change#get_resource', :via => 'get'
 end
