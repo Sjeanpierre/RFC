@@ -37,7 +37,7 @@ users.each do |user|
   User.create(:name => user.titleize, :email => user_email)
 end
 
-10.times do
+30.times do
   Change.create(
       :title => 'seeded title for change',
       :priority_id => Priority.all.sample(1).first.id,
