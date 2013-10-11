@@ -11,6 +11,8 @@ $(document).ready ->
   $('.approver-select').select2()
   $('#priority-adder, #status-adder, #system-adder, #change-type-adder, #impact-adder').click (clickevent) ->
     rfChange.modalhandler(clickevent)
+  $('tbody tr[data-href]').addClass('clickable-row').click (clickevent) ->
+    rfChange.rowClick(clickevent)
   $('.approver-select').on 'change', (changeevent) ->
     rfChange.colorSet(changeevent)
   rfChange.titleCounter()
@@ -22,6 +24,9 @@ $(document).on "click", ".editable-cancel, .editable-submit", ->
 
 $(document).on "click", ".editable-cancel", ->
   $('.adder a').last().remove()
+
+rfChange.rowClick = (clickevent) ->
+  window.location = $(clickevent.currentTarget).attr('data-href')
 
 rfChange.bindDatatable = ->
   $("#dtable").dataTable
