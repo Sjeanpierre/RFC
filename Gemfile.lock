@@ -210,6 +210,8 @@ GEM
       rspec-mocks (~> 2.13.0)
     rubyzip (0.9.9)
     safe_yaml (0.9.3)
+    sanitize (2.0.6)
+      nokogiri (>= 1.4.4)
     sass (3.2.9)
     sass-rails (4.0.0)
       railties (>= 4.0.0.beta, < 5.0)
@@ -300,6 +302,7 @@ DEPENDENCIES
   rails_12factor
   rspec
   rspec-rails
+  sanitize
   sass-rails (~> 4.0.0)
   select2-rails
   selenium-webdriver

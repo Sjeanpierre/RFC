@@ -37,6 +37,7 @@ gem 'simple_form', :git => 'https://github.com/plataformatec/simple_form.git'
 # gem 'http_accept_language'
 gem 'jquery-rails'
 gem 'nokogiri'
+gem 'sanitize'
 # gem 'resque', require: 'resque/server' # Resque web interface
 
 # Assets

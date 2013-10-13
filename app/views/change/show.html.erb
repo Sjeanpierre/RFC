@@ -1,2 +1,4 @@
 <h1>Change#show</h1>
 <p>Find me in app/views/change/show.html.erb</p>
+	  <p><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED) %></p>
+    <p><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED) %></p>
