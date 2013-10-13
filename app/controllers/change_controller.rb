@@ -1,5 +1,6 @@
 class ChangeController < ApplicationController
   def show
+    @change = Change.find(params[:id])
   end
 
   def new

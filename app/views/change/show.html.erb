@@ -1,4 +1,30 @@
-<h1>Change#show</h1>
-<p>Find me in app/views/change/show.html.erb</p>
+<div class="change-heading">
+  <h2><%= @change.title.capitalize %></h2>
+</div>
+
+<div class="change-subheading">
+  <ul>
+    <li><b>Priority: </b><%= @change.priority.name.capitalize %></li>
+    <li><b>Status: </b><%= @change.status.name.capitalize %></li>
+    <li><b>System: </b><%= @change.system.name.capitalize %></li>
+    <li><b>Change Type: </b><%= @change.change_type.name.capitalize %></li>
+    <li class="last"><b>Potential Impact: </b><%= @change.impact.name.capitalize %></li>
+  </ul>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	  <h3 class="panel-title">Change Summary</h3>
+	</div>
+	<div class="panel-body">
 	  <p><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED) %></p>
+	</div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Rollback Plan</h3>
+  </div>
+  <div class="panel-body">
     <p><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED) %></p>
+  </div>
+</div>
+
