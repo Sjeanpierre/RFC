@@ -1,43 +1,44 @@
+<div class="error-notification"></div>
 <h1>New Change Request</h1>
 <%= tinymce :simple %>
-<%= simple_form_for @change, url: {action: 'create'} do |f| %>
+<%= simple_form_for @change, url: {action: 'create'}, :html => {:id => 'change-form',:'data-error-container' => '.error-notification'} do |f| %>
   <div class="title-input">
     <div class="input-group">
-      <%=f.input :title,:label => false,:input_html => {:class => 'form-control input-lg', :id => 'title_label', :placeholder => 'Please Enter Title For Change Request'}%>
+      <%=f.input :title,:label => false,required: true,:input_html => {:class => 'form-control input-lg', :id => 'title_label', :'data-error-message' => 'Title field is required', :placeholder => 'Please Enter Title For Change Request'}%>
       <span class="input-group-addon"><span id="counter"></span>/80 Chars Remaining</span>
 	  </div>
   </div>
   <div id='horizontal' class="horizontal">
     <div id='drop-down'>
-      <%= f.input :priority,required: true, :as => :select, :collection =>  Priority.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 priority-wrapper',:placeholder => 'Select Priority', :style => 'width: 200px'}%>
+      <%= f.input :priority,required: true, :as => :select, :collection =>  Priority.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 priority-wrapper', :'data-error-message' => 'Priority field is required', :placeholder => 'Select Priority', :style => 'width: 200px'}%>
 	    <div id="newlink"><span id='priority-adder' class="glyphicon glyphicon-plus-sign"></span></div>
     </div>
 
     <div id='drop-down'>
-      <%= f.input :status, :collection => Status.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 status-wrapper',:placeholder => 'Select Status', :style => 'width: 200px'}%>
+      <%= f.input :status,required: true, :collection => Status.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 status-wrapper',:'data-error-message' => 'Status field is required', :placeholder => 'Select Status', :style => 'width: 200px'}%>
       <div id="newlink"><span id='status-adder' class="glyphicon glyphicon-plus-sign"></span></div>
 	  </div>
 
     <div id='drop-down'>
-      <%= f.input :system, :collection => System.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 system-wrapper',:placeholder => 'Select Impacted System', :style => 'width: 200px'}%>
+      <%= f.input :system,required: true, :collection => System.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 system-wrapper',:'data-error-message' => 'System field is required', :placeholder => 'Select Impacted System', :style => 'width: 200px'}%>
       <div id="newlink"><span id='system-adder' class="glyphicon glyphicon-plus-sign"></span></div>
     </div>
 
     <div id='drop-down'>
-      <%= f.input :change_type, :collection => ChangeType.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 changeType-wrapper',:placeholder => 'Select Change Type', :style => 'width: 200px'}%>
+      <%= f.input :change_type,required: true, :collection => ChangeType.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 changeType-wrapper',:'data-error-message' => 'Change Type field is required', :placeholder => 'Select Change Type', :style => 'width: 200px'}%>
       <div id="newlink"><span id='change-type-adder' class="glyphicon glyphicon-plus-sign"></span></div>
     </div>
 
     <div id='drop-down'>
-      <%= f.input :impact, :collection => Impact.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 impact-wrapper',:placeholder => 'Select Expected Impact', :style => 'width: 200px'} %>
+      <%= f.input :impact,required: true, :collection => Impact.all.map(&:name).map(&:capitalize), :input_html => {:class => 'select2 impact-wrapper',:'data-error-message' => 'Impact field is required', :placeholder => 'Select Expected Impact', :style => 'width: 200px'} %>
       <div id="newlink"><span id='impact-adder' class="glyphicon glyphicon-plus-sign"></span></div>
     </div>
 
   </div>
-  <%= f.input :summary,required: true, as: :text, :input_html => {:class => 'tinymce', :rows => 15}%>
-  <%= f.input :rollback,required: true, as: :text, :input_html => {:class => 'tinymce', :rows => 15}%><br>
-  <%= f.input :approvers,required: true, :collection => User.all.map {|u| [u.name, u.id]}, :input_html => {:value => '',:multiple => true, :class => 'approver-select approver-colors',:placeholder => 'Select Approvers'} %><br>
+  <%= f.input :summary, as: :text,required: true, :input_html => {:class => 'tinymce',:id => 'summary-textarea', :rows => 15,:'data-error-message' => 'Summary field is required'}%>
+  <%= f.input :rollback, as: :text,required: true, :input_html => {:class => 'tinymce',:id => 'rollback-textarea', :rows => 15,:'data-error-message' => 'Rollback field is required'}%><br>
+  <%= f.input :approvers,required: true, :collection => User.all.map {|u| [u.name, u.id]}, :input_html => {:value => '',:multiple => true, :class => 'approver-select approver-colors',:'data-error-message' => 'Approver field is required', :placeholder => 'Select Approvers'} %><br>
   <div>
-    <%= f.button :submit, :class => 'btn btn-primary btn-lg' %>
+    <%= f.button :submit, :class => 'btn btn-primary btn-lg change-submit' %>
   </div>
 <% end %>

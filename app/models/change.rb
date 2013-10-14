@@ -18,7 +18,7 @@ class Change < ActiveRecord::Base
     impact_id = Impact.find_or_create_by(:name => params[:impact].downcase).id
     approvers = params[:approvers].reject {|approver| approver.blank?}
     new_change = Change.create(
-        :title => params[:summary],
+        :title => params[:title],
         :priority_id => priority_id,
         :system_id => system_id,
         :status_id => status_id,
