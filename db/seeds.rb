@@ -46,6 +46,7 @@ end
       :change_type_id => ChangeType.all.sample(1).first.id,
       :impact_id => Impact.all.sample(1).first.id,
       :summary => 'this is a summary',
+      :change_date => Date.strptime(Time.now.strftime('%m/%d/%Y'),'%m/%d/%Y'),
       :rollback => 'this is the rollback',
       :creator => User.all.sample(1).first
   )

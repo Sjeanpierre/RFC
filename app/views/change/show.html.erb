@@ -5,6 +5,7 @@
 <div class="change-subheading">
   <ul>
 	  <li><b>Creator: </b><%= @change.creator.name %></li>
+    <li><b>Due Date: </b><%= @change.change_date.try(:strftime, '%m/%d/%Y') %></li>
     <li><b>Priority: </b><%= @change.priority.name.capitalize %></li>
     <li><b>Status: </b><%= @change.status.name.capitalize %></li>
     <li><b>System: </b><%= @change.system.name.capitalize %></li>
