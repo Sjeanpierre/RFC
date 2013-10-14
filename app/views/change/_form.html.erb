@@ -37,8 +37,8 @@
   </div>
   <%= f.input :summary, as: :text, required: true, :input_html => { :class => 'tinymce', :id => 'summary-textarea', :rows => 15, :'data-error-message' => 'Summary field is required' } %>
   <%= f.input :rollback, as: :text, required: true, :input_html => { :class => 'tinymce', :id => 'rollback-textarea', :rows => 15, :'data-error-message' => 'Rollback field is required' } %><br>
+  <%= f.input :change_date,:as => :string, required: true, :input_html => { :'data-provide'=> 'datepicker', :class => 'form-control input-lg', :placeholder => 'Select expected change date' } %><br><br>
   <%= f.input :approvers, required: true, :collection => User.all.map { |u| [u.name, u.id] }, :input_html => { :value => '', :multiple => true, :class => 'approver-select approver-colors', :'data-error-message' => 'Approver field is required', :placeholder => 'Select Approvers' } %><br>
-   <%= f.input :change_date,:as => :string, required: true, :input_html => { :class => 'form-control input-lg',:id => 'date-select', :placeholder => 'Select expected change date' } %><br><br>
   <div class="submit-button">
     <%= f.button :submit, :class => 'btn btn-primary btn-lg change-submit' %>
   </div>

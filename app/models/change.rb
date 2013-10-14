@@ -24,6 +24,7 @@ class Change < ActiveRecord::Base
         :status_id => status_id,
         :change_type_id => change_type_id,
         :impact_id => impact_id,
+        :change_date => Date.strptime(params[:change_date], '%m/%d/%Y'),
         :summary => params[:summary],
         :rollback => params[:rollback],
         :creator => creator
