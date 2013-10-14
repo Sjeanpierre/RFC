@@ -5,8 +5,16 @@ window.rfChange = {};
 
 MODAL_NAMES = {'priority-adder': 'priority', 'status-adder': 'status', 'system-adder': 'system', 'change-type-adder': 'changeType', 'impact-adder': 'impact'}
 COLOR_CLASSES = ['blue', 'green', 'purple', 'yellow', 'red']
+Messenger.options = {
+  extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+  theme: 'flat'
+}
 
 $(document).ready ->
+  $('.change-form').parsley()
+  $('#change-form').submit (event) ->
+    rfChange.updateTextarea()
+    rfChange.validateForm(event)
   $('.select2').select2()
   $('.approver-select').select2()
   $('#priority-adder, #status-adder, #system-adder, #change-type-adder, #impact-adder').click (clickevent) ->
@@ -17,6 +25,31 @@ $(document).ready ->
     rfChange.colorSet(changeevent)
   rfChange.titleCounter()
   rfChange.bindDatatable()
+
+rfChange.validateForm = (event) ->
+  if $('#change-form').parsley('validate')
+#    $('#change-form').submit()
+  else
+    rfChange.errorNotification()
+    event.preventDefault()
+
+rfChange.updateTextarea = ->
+  rollbackContent = tinyMCE.get('rollback-textarea').getContent()
+  summaryContent = tinyMCE.get('summary-textarea').getContent()
+  $('#rollback-textarea').val(rollbackContent)
+  $('#summary-textarea').val(summaryContent)
+
+rfChange.errorNotification = ->
+  contents = $('.error-notification .parsley-error-list li')
+  contents.each ->
+    errorMsg = $(this).html()
+    rfChange.callMessenger(errorMsg, 'error')
+
+rfChange.callMessenger = (text, type) ->
+  Messenger().post
+    message: text
+    type: type
+    showCloseButton: true
 
 
 $(document).on "click", ".editable-cancel, .editable-submit", ->
@@ -45,13 +78,12 @@ rfChange.bindDatatable = ->
       sLengthMenu: "_MENU_ records per page"
       sSearch: ""
       sLengthMenu: "_MENU_ <div class='length-text'>records per page</div>"
-    fnPreDrawCallback:  ->
+    fnPreDrawCallback: ->
       $(".dataTables_filter input").addClass "form-control input-sm"
       $(".dataTables_filter input").css "width", "200px"
       $(".dataTables_length select").addClass "form-control input-sm"
       $(".dataTables_length select").css "width", "75px"
       $('.dataTables_filter input').attr('placeholder', 'Search');
-
 
 
 rfChange.titleCounter = ->
