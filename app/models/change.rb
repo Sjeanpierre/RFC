@@ -33,6 +33,7 @@ class Change < ActiveRecord::Base
       new_change.approvers.build(:user_id => approver)
     end
     new_change.save!
+    new_change
   end
 
   def self.add_resource_item(resource_type,resource_name)
