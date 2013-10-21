@@ -1,5 +1,5 @@
 <div class="error-notification"></div>
-<h1>New Change Request</h1>
+<h1>New Change Request For  <span id='change-date'><%= Time.now.strftime('%m/%d/%Y') %></span><input type="hidden" id="3784057"/></h1>
 <%= tinymce :simple %>
 <%= simple_form_for @change, url: { action: 'create' }, :html => { :id => 'change-form', :'data-error-container' => '.error-notification' } do |f| %>
   <div class="title-input">
@@ -8,6 +8,7 @@
       <span class="input-group-addon"><span id="counter"></span>/80 Chars Remaining</span>
     </div>
   </div>
+  <%= f.input :change_date,:as => :string, :label => false, required: true, :input_html => { :type => 'hidden',:class => 'form-control input-lg',:id => 'change-date-input', :placeholder => 'Select expected change date' } %>
   <div id='horizontal' class="horizontal">
     <div id='drop-down'>
       <%= f.input :priority, required: true, :as => :select, :collection => Priority.all.map(&:name).map(&:capitalize), :input_html => { :class => 'select2 priority-wrapper', :'data-error-message' => 'Priority field is required', :placeholder => 'Select Priority', :style => 'width: 200px' } %>
@@ -37,7 +38,6 @@
   </div>
   <%= f.input :summary, as: :text, required: true, :input_html => { :class => 'tinymce', :id => 'summary-textarea', :rows => 15, :'data-error-message' => 'Summary field is required' } %>
   <%= f.input :rollback, as: :text, required: true, :input_html => { :class => 'tinymce', :id => 'rollback-textarea', :rows => 15, :'data-error-message' => 'Rollback field is required' } %><br>
-  <%= f.input :change_date,:as => :string, required: true, :input_html => { :'data-provide'=> 'datepicker', :class => 'form-control input-lg', :placeholder => 'Select expected change date' } %><br><br>
   <%= f.input :approvers, required: true, :collection => User.all.map { |u| [u.name, u.id] }, :input_html => { :value => '', :multiple => true, :class => 'approver-select approver-colors', :'data-error-message' => 'Approver field is required', :placeholder => 'Select Approvers' } %><br>
   <div class="submit-button">
     <%= f.button :submit, :class => 'btn btn-primary btn-lg change-submit' %>

@@ -13,8 +13,8 @@ class ChangeController < ApplicationController
 
   def create
     current_user = User.find(4) unless current_user
-    Change.create_change_request(params[:change],current_user)
-    render :text => 'good'
+    change = Change.create_change_request(params[:change],current_user)
+    redirect_to change_path(change)
   end
 
   def add_resource

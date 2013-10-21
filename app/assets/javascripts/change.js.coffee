@@ -25,6 +25,10 @@ $(document).ready ->
     rfChange.colorSet(changeevent)
   rfChange.titleCounter()
   rfChange.bindDatatable()
+  $('#change-date').click (event) ->
+    rfChange.initPickadate()
+    event.stopPropagation()
+
 
 rfChange.validateForm = (event) ->
   if $('#change-form').parsley('validate')
@@ -173,6 +177,9 @@ rfChange.underCount = ->
 rfChange.removeParentClass = (className, selector) ->
   $(selector).parent().removeClass(className)
 
+rfChange.setDate = (event) ->
+  $('#change-date').text($('#change-date-input').val())
+
 rfChange.replaceInput = (modalName) ->
   $.getJSON "/#{modalName}/list", (newValues) ->
     wrapperName = "#{modalName}-wrapper"
@@ -184,3 +191,15 @@ rfChange.replaceInput = (modalName) ->
     $(".#{wrapperName}").first().replaceWith("<input id='#{randomId}' class='select optional select2 #{wrapperName}' style='width: 200px' placeholder='Select #{modalName}' name='change[modalName]'>");
     $("##{randomId}").select2({width: 'element', data: dataJs})
     $("##{randomId}").select2('val', newValues[newValues.length - 1])
+
+rfChange.initPickadate = ->
+  affected_input = $('#change-date-input').pickadate(
+    clear: ''
+    min: true
+    format: 'mm/dd/yyyy'
+    onSet: (event) ->
+      rfChange.setDate(event)
+  )
+  picker_open_close = affected_input.pickadate('picker')
+  picker_open_close.open()
+  $('#change-date-input').attr('type', 'hidden')
