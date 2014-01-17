@@ -1,4 +1,5 @@
 class Change < ActiveRecord::Base
+  include MailApi
   belongs_to :priority
   belongs_to :status
   belongs_to :system
@@ -33,6 +34,7 @@ class Change < ActiveRecord::Base
       new_change.approvers.build(:user_id => approver)
     end
     new_change.save!
+    MailApi.send_message('new',new_change) #TODO add delayed job
     new_change
   end
 
