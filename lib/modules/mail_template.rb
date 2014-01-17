@@ -1,7 +1,7 @@
 module MailTemplate
 
   MESSAGE_SECTIONS = {
-      :new => %W(title details).map(&:to_sym),
+      :new => %W(title details link).map(&:to_sym),
       :update => %W(title details summary rollback).map(&:to_sym), #will need to remove sections
       :approval => %W(title approvers).map(&:to_sym),
       :completed => %W(title details summary rollback notes).map(&:to_sym)
