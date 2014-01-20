@@ -12,8 +12,7 @@ class ChangeController < ApplicationController
   end
 
   def create
-    current_user = User.find(4) unless current_user
-    change = Change.create_change_request(params[:change],current_user)
+    change = Change.create_change_request(params[:change])
     redirect_to change_path(change)
   end
 
