@@ -73,12 +73,11 @@ module MailTemplate
 
     def prepare
       {
-          :from_name => 'RFchange',
-          :from_email => 'sender@computersolutions3.com',
+          :from_name => APP_CONFIG['default_from_name'],
+          :from_email => APP_CONFIG['default_from_email'],
           :subject => subject,
           :to => recipients,
           :auto_text => true,
-
       }
     end
 
@@ -89,8 +88,8 @@ module MailTemplate
     end
 
     def recipients
-      return [{ :email => 'sjp@mailinator.com', :name => 'Tommy Jones'}]
-      approver_emails = @data.approvers.map { |approver| { 'email' => approver.email, 'name' => approver.name } }
+      #return [{ :email => 'sjp@mailinator.com', :name => 'Tommy Jones'}]
+      approver_emails = @data.approvers.map { |approver| { 'email' => approver.user.email, 'name' => approver.user.name } }
       approver_emails.push({ :email => @data.creator.email, :name => @data.creator.name })
     end
   end
