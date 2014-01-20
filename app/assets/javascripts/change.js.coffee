@@ -24,6 +24,7 @@ $(document).ready ->
   $('.approver-select').on 'change', (changeevent) ->
     rfChange.colorSet(changeevent)
   rfChange.titleCounter()
+  rfChange.setInitialFormDate()
   rfChange.bindDatatable()
   $('#change-date').click (event) ->
     rfChange.initPickadate()
@@ -179,6 +180,9 @@ rfChange.removeParentClass = (className, selector) ->
 
 rfChange.setDate = (event) ->
   $('#change-date').text($('#change-date-input').val())
+
+rfChange.setInitialFormDate = ->
+  $('#change-date-input').val($('#change-date').text())
 
 rfChange.replaceInput = (modalName) ->
   $.getJSON "/#{modalName}/list", (newValues) ->
