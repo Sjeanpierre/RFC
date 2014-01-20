@@ -27,7 +27,7 @@ class ServicesController < ApplicationController
         session[:oauth_token_secret] = omnihash[:credentials][:secret]
       else
         user         = User.new
-        user.name    = omnihash[:info][:nickname]
+        user.name    = omnihash[:info][:name] #not sure if all users will have names associated with their accounts
         user.name    = omnihash[:info][:name] if omnihash[:provider].to_s == "developer"
         user.email   = omnihash[:info][:email]
         user_service = user.services.build({
