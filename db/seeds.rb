@@ -33,11 +33,11 @@ statuses.each do |status|
 end
 
 users.each do |user|
-  user_email = "#{user.split(' ').join('_')}@example.com"
+  user_email = "#{user.split(' ').join('_')}@mailinator.com"
   User.create(:name => user.titleize, :email => user_email)
 end
 
-30.times do
+10.times do
   Change.create(
       :title => 'seeded title for change',
       :priority_id => Priority.all.sample(1).first.id,
