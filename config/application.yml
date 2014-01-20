@@ -1,0 +1,4 @@
+development:
+  url: 'http://localhost:3000'
+  default_from_email: 'sender@computersolutions3.com'
+  default_from_name: 'RFchange'

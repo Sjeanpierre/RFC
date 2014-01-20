@@ -81,6 +81,7 @@ GEM
       launchy (~> 2.1)
       mail (~> 2.2)
     erubis (2.7.0)
+    excon (0.27.6)
     execjs (1.4.0)
       multi_json (~> 1.0)
     factory_girl (4.2.0)
@@ -105,6 +106,7 @@ GEM
     jquery-turbolinks (1.0.0)
       railties (>= 3.1.0)
       turbolinks
+    json (1.8.1)
     jwt (0.1.8)
       multi_json (>= 1.5)
     kgio (2.8.0)
@@ -121,6 +123,9 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mandrill-api (1.0.49)
+      excon (>= 0.16.0, < 1.0)
+      json (>= 1.7.7, < 2.0)
     meta_request (0.2.7)
       callsite
       rack-contrib
@@ -289,6 +294,7 @@ DEPENDENCIES
   launchy
   less-rails
   less-rails-bootstrap
+  mandrill-api
   meta_request
   mysql2
   nokogiri

@@ -1,4 +1,5 @@
 class Change < ActiveRecord::Base
+  include MailApi
   belongs_to :priority
   belongs_to :status
   belongs_to :system
@@ -10,7 +11,7 @@ class Change < ActiveRecord::Base
 
   RESOURCES = {:impact => Impact,:status =>Status,:system => System,:changeType => ChangeType,:priority => Priority}
 
-  def self.create_change_request(params,creator)
+  def self.create_change_request(params)
     priority_id = Priority.find_or_create_by(:name => params[:priority].downcase).id
     status_id = Status.find_or_create_by(:name => params[:status].downcase).id
     system_id = System.find_or_create_by(:name => params[:system].downcase).id
@@ -27,12 +28,13 @@ class Change < ActiveRecord::Base
         :change_date => Date.strptime(params[:change_date], '%m/%d/%Y'),
         :summary => params[:summary],
         :rollback => params[:rollback],
-        :creator => creator
+        :creator => current_user || User.find(4)
     )
     approvers.each do |approver|
       new_change.approvers.build(:user_id => approver)
     end
     new_change.save!
+    MailApi.send_message('new',new_change) #TODO add delayed job
     new_change
   end
 

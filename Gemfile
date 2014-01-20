@@ -14,6 +14,9 @@ gem 'omniauth-github'
 # Multi-environment configuration
 # gem 'simpleconfig'
 
+# Mail
+gem 'mandrill-api'
+
 # API
 # gem 'rabl'
 
@@ -44,7 +47,7 @@ gem 'sanitize'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'select2-rails'
 gem 'tinymce-rails'
-# gem 'haml_assets'
+
 
 # gem 'handlebars_assets'
 gem 'i18n-js'
