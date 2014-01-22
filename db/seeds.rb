@@ -12,31 +12,38 @@ system = %w{DNS Rightscale Cloudflare Amazon Sage Zuora S3}
 statuses = %w(new pending completed aborted rejected)
 users = ['tom jones', 'bill smith', 'tony doorman', 'mike snow', 'robert wimby', 'sean turner', 'victor hernandez']
 
+puts 'seeding priorities'
 priorities.each do |priority|
   Priority.create(:name => priority)
 end
 
+puts 'seeding change types'
 change_types.each do |change_type|
   ChangeType.create(:name => change_type)
 end
 
+puts 'seeding impacts'
 impacts.each do |impact|
   Impact.create(:name => impact)
 end
 
+puts 'seeding systems'
 system.each do |service|
   System.create(:name => service)
 end
 
+puts 'seeding statuses'
 statuses.each do |status|
   Status.create(:name => status)
 end
 
+puts 'seeding users'
 users.each do |user|
   user_email = "#{user.split(' ').join('_')}@mailinator.com"
   User.create(:name => user.titleize, :email => user_email)
 end
 
+puts 'seeding changes'
 10.times do
   Change.create(
       :title => 'seeded title for change',
@@ -50,4 +57,12 @@ end
       :rollback => 'this is the rollback',
       :creator => User.all.sample(1).first
   )
+end
+
+puts 'seeding approvers'
+Change.all.each do |change|
+    User.all.each do |approver|
+      change.approvers.build(:user_id => approver.id)
+    end
+  change.save!
 end
