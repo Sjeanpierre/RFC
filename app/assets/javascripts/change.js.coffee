@@ -25,7 +25,9 @@ $(document).ready ->
     rfChange.colorSet(changeevent)
   rfChange.titleCounter()
   rfChange.setInitialFormDate()
+  rfChange.bindApproval()
   rfChange.bindDatatable()
+  rfChange.applyStatus()
   $('#change-date').click (event) ->
     rfChange.initPickadate()
     event.stopPropagation()
@@ -43,6 +45,15 @@ rfChange.updateTextarea = ->
   summaryContent = tinyMCE.get('summary-textarea').getContent()
   $('#rollback-textarea').val(rollbackContent)
   $('#summary-textarea').val(summaryContent)
+
+
+rfChange.bindApproval = ->
+  $('#approve, #reject').click (clickevent) ->
+    $('.btn-success, .btn-danger').addClass('disabled')
+    if clickevent.currentTarget.attributes.id.value == 'approve'
+      rfChange.handleApprove($(this).data('cid'))
+    else
+      rfChange.handleReject($(this).data('cid'))
 
 rfChange.errorNotification = ->
   contents = $('.error-notification .parsley-error-list li')
@@ -195,6 +206,45 @@ rfChange.replaceInput = (modalName) ->
     $(".#{wrapperName}").first().replaceWith("<input id='#{randomId}' class='select optional select2 #{wrapperName}' style='width: 200px' placeholder='Select #{modalName}' name='change[modalName]'>");
     $("##{randomId}").select2({width: 'element', data: dataJs})
     $("##{randomId}").select2('val', newValues[newValues.length - 1])
+
+rfChange.handleApprove = (changeId) ->
+  $.ajax
+    url: "/change/approve/#{changeId}"
+    type: 'POST'
+    success: (data, status, response) ->
+      $('div.change-heading').data('cstatus','approved')
+      $('.approval-buttons').replaceWith('<h2><p class="text-center text-success">Change Approved!</p></h2>')
+      rfChange.applyStatus()
+      error: (data, status, response) ->
+        console.log(data)
+
+
+rfChange.handleReject = (changeId) ->
+  $.ajax
+    url: "/change/reject/#{changeId}"
+    type: 'POST'
+    success: (data, status, response) ->
+      $('div.change-heading').data('cstatus','rejected')
+      $('.approval-buttons').replaceWith('<h2><p class="text-center text-danger">Change Rejected!</p></h2>')
+      rfChange.applyStatus()
+      error: (data, status, response) ->
+        console.log(data)
+
+rfChange.applyStatus = ->
+  status = $('div.change-heading').data('cstatus')
+  bad = 'label label-danger glyphicon glyphicon-thumbs-down'
+  good = 'label label-success glyphicon glyphicon-thumbs-up'
+  if status  in ['completed', 'approved']
+    classes = good
+  else if status in ['rejected', 'aborted']
+    classes = bad
+  else
+    classes = ''
+  $('div.change-heading h2 span.status').addClass(classes)
+
+
+
+
 
 rfChange.initPickadate = ->
   affected_input = $('#change-date-input').pickadate(

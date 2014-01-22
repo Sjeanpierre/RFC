@@ -11,5 +11,7 @@ Starterapp::Application.routes.draw do
   #root 'pages#home'
   root 'change#index'
   match '/:resource/add' => 'change#add_resource', :via => 'post'
+  match '/change/approve/:id' => 'change#approve', :via => 'post'
+  match '/change/reject/:id' => 'change#reject', :via => 'post'
   match '/:resource/list' => 'change#get_resource', :via => 'get'
 end

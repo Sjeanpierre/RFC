@@ -17,6 +17,25 @@ class ChangeController < ApplicationController
     redirect_to change_path(change)
   end
 
+  def approve
+    success = Change.mark_approved(params[:id], current_user.id)
+    if success
+      render :status => 200, :text => "successfully approved changeID #{params[:id]}"
+    else
+      render :status => 403, :layout => false
+    end
+  end
+
+  def reject
+    success = Change.mark_rejected(params[:id], current_user.id)
+    if success
+      render :status => 200, :text => "successfully rejected changeID #{params[:id]}"
+    else
+      render :status => 403, :layout => false
+    end
+  end
+
+
   def add_resource
     Change.add_resource_item(params[:resource],params[:value])
     render nothing:true, status: 200

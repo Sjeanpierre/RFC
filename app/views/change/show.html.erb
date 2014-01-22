@@ -1,10 +1,10 @@
-<div class="change-heading">
-  <h2><%= @change.title.capitalize %></h2>
+<div class="change-heading" data-cstatus="<%= @change.status.name %>">
+<h2><%= @change.title.capitalize %> <span class="status"> </span></h2>
 </div>
 
 <div class="change-subheading">
   <ul>
-	  <li><b>Creator: </b><%= @change.creator.name %></li>
+    <li><b>Creator: </b><%= @change.creator.name %></li>
     <li><b>Due Date: </b><%= @change.change_date.try(:strftime, '%m/%d/%Y') %></li>
     <li><b>Priority: </b><%= @change.priority.name.capitalize %></li>
     <li><b>Status: </b><%= @change.status.name.capitalize %></li>
@@ -14,12 +14,12 @@
   </ul>
 </div>
 <div class="panel panel-default">
-	<div class="panel-heading">
-	  <h3 class="panel-title">Change Summary</h3>
-	</div>
-	<div class="panel-body">
-	  <p><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED).html_safe %></p>
-	</div>
+  <div class="panel-heading">
+    <h3 class="panel-title">Change Summary</h3>
+  </div>
+  <div class="panel-body">
+    <p><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED).html_safe %></p>
+  </div>
 </div>
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -29,4 +29,12 @@
     <p><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED).html_safe %></p>
   </div>
 </div>
+
+<% unless %w(approved completed).include?(@change.status.name)
+     if @change.approvers.map(&:user_id).include?(current_user.id) %>
+  <%= render :partial => 'approval_buttons' %>
+		<% end %>
+<% end %>
+
+
 
