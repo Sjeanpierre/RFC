@@ -1,4 +1,4 @@
-Starterapp::Application.routes.draw do
+Rfc::Application.routes.draw do
   get "change/show"
   get "change/new"
   match '/auth/:service/callback' => 'services#create', via: %i(get post)
