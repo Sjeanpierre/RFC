@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  skip_before_filter :verify_authenticity_token
+  skip_before_filter :verify_authenticity_token, :require_login
   def index
     @providers     ||= omniauth_providers
     @user_services   = current_user.services
@@ -46,7 +46,7 @@ class ServicesController < ApplicationController
       end
     end
 
-    redirect_to services_path
+    redirect_to root_url #services_path
   end
 
   def destroy
