@@ -28,10 +28,19 @@ $(document).ready ->
   rfChange.bindApproval()
   rfChange.bindDatatable()
   rfChange.applyStatus()
+  rfChange.donuts()
   $('#change-date').click (event) ->
     rfChange.initPickadate()
     event.stopPropagation()
 
+$(document).on "click", ".editable-cancel, .editable-submit", ->
+  $(".add").show()
+
+$(document).on "click", ".editable-cancel", ->
+  $('.adder a').last().remove()
+
+rfChange.rowClick = (clickevent) ->
+  window.location = $(clickevent.currentTarget).attr('data-href')
 
 rfChange.validateForm = (event) ->
   if $('#change-form').parsley('validate')
@@ -67,15 +76,6 @@ rfChange.callMessenger = (text, type) ->
     type: type
     showCloseButton: true
 
-
-$(document).on "click", ".editable-cancel, .editable-submit", ->
-  $(".add").show()
-
-$(document).on "click", ".editable-cancel", ->
-  $('.adder a').last().remove()
-
-rfChange.rowClick = (clickevent) ->
-  window.location = $(clickevent.currentTarget).attr('data-href')
 
 rfChange.bindDatatable = ->
   $("#dtable").dataTable
@@ -168,6 +168,13 @@ rfChange.success = (selector, newValue) ->
   $(selector).parent().append(newData)
   $(selector).remove()
 
+rfChange.donuts = ->
+  donuts = ['status', 'priority', 'system', 'creator']
+  for donut in donuts
+    rfChange.morrisCounts(donut, donut)
+
+
+
 rfChange.bsfire = ->
   modals = ['impact', 'status', 'system', 'change_type', 'priority']
   for modalName in modals
@@ -212,7 +219,7 @@ rfChange.handleApprove = (changeId) ->
     url: "/change/approve/#{changeId}"
     type: 'POST'
     success: (data, status, response) ->
-      $('div.change-heading').data('cstatus','approved')
+      $('div.change-heading').data('cstatus', 'approved')
       $('.approval-buttons').replaceWith('<h2><p class="text-center text-success">Change Approved!</p></h2>')
       rfChange.applyStatus()
       error: (data, status, response) ->
@@ -224,7 +231,7 @@ rfChange.handleReject = (changeId) ->
     url: "/change/reject/#{changeId}"
     type: 'POST'
     success: (data, status, response) ->
-      $('div.change-heading').data('cstatus','rejected')
+      $('div.change-heading').data('cstatus', 'rejected')
       $('.approval-buttons').replaceWith('<h2><p class="text-center text-danger">Change Rejected!</p></h2>')
       rfChange.applyStatus()
       error: (data, status, response) ->
@@ -243,9 +250,6 @@ rfChange.applyStatus = ->
   $('div.change-heading h2 span.status').addClass(classes)
 
 
-
-
-
 rfChange.initPickadate = ->
   affected_input = $('#change-date-input').pickadate(
     clear: ''
@@ -257,3 +261,19 @@ rfChange.initPickadate = ->
   picker_open_close = affected_input.pickadate('picker')
   picker_open_close.open()
   $('#change-date-input').attr('type', 'hidden')
+
+rfChange.morrisDonut = (data, element) ->
+  Morris.Donut
+    element: "#{element}"
+    data: data,
+    colors: ['#0BA462', '#3752B7', '#EF1313', '#EF6909']
+
+
+rfChange.morrisCounts = (resource, element) ->
+  $.ajax
+    url: "/#{resource}/count"
+    type: 'get'
+    success: (data, status, response) ->
+      rfChange.morrisDonut(response.responseJSON, element)
+      error: (data, status, response) ->
+        console.log(data)
