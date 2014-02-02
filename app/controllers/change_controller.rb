@@ -35,6 +35,10 @@ class ChangeController < ApplicationController
     end
   end
 
+  def count
+   render :json => Change.agg_count(params[:resource].to_sym)
+  end
+
 
   def add_resource
     Change.add_resource_item(params[:resource],params[:value])

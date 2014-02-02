@@ -76,6 +76,14 @@ class Change < ActiveRecord::Base
     end
   end
 
+  # @param [Symbol] resource
+  def self.agg_count(resource,open=nil)
+    counts = []
+    values = group(resource).count
+    values.each { |key, count| counts.push({:value => count, :label => key.name, })}
+    counts
+  end
+
   def self.get_resource_items(resource_type)
     raise("#{resource_type} is an invalid resource") unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
