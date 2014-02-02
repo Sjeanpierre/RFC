@@ -6,7 +6,7 @@
       </div>
       <div class="navbar-header pull-right">
         <% if logged_in? %>
-          <div class="navbar-brand">Logged in as, <%= current_user.name %>  |</div>
+          <div class="navbar-brand">Logged in as, <strong><%= current_user.name %></strong>  |</div>
           <ul class="nav navbar-nav navbar-right">
             <li><%= link_to 'Logout', logout_path, class: 'navbar-brand' %></li>
             <li>
