@@ -29,6 +29,7 @@
     <p><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED).html_safe %></p>
   </div>
 </div>
+<%= render :partial => 'approvers' %>
 
 <% unless %w(approved completed).include?(@change.status.name)
      if @change.approvers.map(&:user_id).include?(current_user.id) %>

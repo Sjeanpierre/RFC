@@ -5,6 +5,7 @@ window.rfChange = {};
 
 MODAL_NAMES = {'priority-adder': 'priority', 'status-adder': 'status', 'system-adder': 'system', 'change-type-adder': 'changeType', 'impact-adder': 'impact'}
 COLOR_CLASSES = ['blue', 'green', 'purple', 'yellow', 'red']
+COLOR_VALUES = ['#0099CC','#9933CC','#669900','#FF8800','#CC0000']
 Messenger.options = {
   extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
   theme: 'flat'
@@ -27,6 +28,7 @@ $(document).ready ->
   rfChange.setInitialFormDate()
   rfChange.bindApproval()
   rfChange.bindDatatable()
+  rfChange.setApproverColors()
   rfChange.applyStatus()
   rfChange.donuts()
   $('#change-date').click (event) ->
@@ -121,8 +123,22 @@ rfChange.titleCounter = ->
 rfChange.colorSet = (changed) ->
   if typeof changed.added != 'undefined'
     newItem = $('.select2-choices .select2-search-choice').last()
-    randomElement = COLOR_CLASSES[Math.floor(Math.random() * COLOR_CLASSES.length)]
+    randomElement = rfChange.getRandomColor()
     newItem.attr('id', "#{randomElement}")
+
+rfChange.setApproverColors = ->
+  approvers = $('.approver-list li.approver .label')
+  randomElement = rfChange.getRandomColor(true)
+  approvers.each ->
+    $(this).css('background-color', "#{randomElement}")
+
+
+rfChange.getRandomColor = (raw=false) ->
+  if raw
+    COLOR_VALUES[Math.floor(Math.random() * COLOR_VALUES.length)]
+  else
+    COLOR_CLASSES[Math.floor(Math.random() * COLOR_CLASSES.length)]
+
 
 rfChange.modalhandler = (clickevent) ->
   idValue = clickevent.currentTarget.attributes.id.value
@@ -169,9 +185,10 @@ rfChange.success = (selector, newValue) ->
   $(selector).remove()
 
 rfChange.donuts = ->
-  donuts = ['status', 'priority', 'system', 'creator']
-  for donut in donuts
-    rfChange.morrisCounts(donut, donut)
+  if document.title == 'Dashboard'
+    donuts = ['status', 'priority', 'system', 'creator']
+    for donut in donuts
+      rfChange.morrisCounts(donut, donut)
 
 
 
@@ -266,7 +283,7 @@ rfChange.morrisDonut = (data, element) ->
   Morris.Donut
     element: "#{element}"
     data: data,
-    colors: ['#0BA462', '#3752B7', '#EF1313', '#EF6909']
+    colors: COLOR_VALUES #['#0BA462', '#3752B7', '#EF1313', '#EF6909']
 
 
 rfChange.morrisCounts = (resource, element) ->
