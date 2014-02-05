@@ -2,8 +2,7 @@
   <ul>
     <li><strong>Approvers:</strong></li>
     <% @change.approvers.each do |approver| %>
-		  <% user = approver.user %>
-      <li class="approver"><span class="label label-default approver-colors"><abbr title="<%= user.name %>" class="initialism"><strong><%= user.initials %></strong></abbr></span></li>
+      <li class="approver"><span class="label label-default approver-colors"><abbr title="<%= approver.user.name %>" class="initialism"><strong><%= approver.user.initials %></strong></abbr></span></li>
     <% end %>
   </ul>
 </div>

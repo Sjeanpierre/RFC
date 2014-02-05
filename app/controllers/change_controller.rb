@@ -1,6 +1,6 @@
 class ChangeController < ApplicationController
   def show
-    @change = Change.find(params[:id])
+    @change = Change.includes({:approvers => :user}, :approvers).find(params[:id])
   end
 
   def new
@@ -8,7 +8,7 @@ class ChangeController < ApplicationController
   end
 
   def index
-    @changes = Change.all
+    @changes = Change.includes(:status,:priority,:creator) #Change.all
   end
 
   def create
