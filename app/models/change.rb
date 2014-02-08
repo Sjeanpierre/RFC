@@ -1,5 +1,6 @@
 class Change < ActiveRecord::Base
   include MailApi
+  has_many :events
   belongs_to :priority
   belongs_to :status
   belongs_to :system
@@ -35,6 +36,7 @@ class Change < ActiveRecord::Base
     end
     new_change.save!
     MailApi.send_message('new', new_change) #TODO add delayed job
+    new_change.create_event('Created', "Change created by #{new_change.creator.name}")
     new_change
   end
 
@@ -57,6 +59,7 @@ class Change < ActiveRecord::Base
       approval_record.save
       change.status = Status.find_by(:name => 'approved')
       change.save
+      change.create_event('Approved', "Change approved by #{User.find(approver_id).name}")
       true
     else
       false
@@ -70,6 +73,7 @@ class Change < ActiveRecord::Base
     if can_approve
       change.status = Status.find_by(:name => 'rejected')
       change.save
+      change.create_event('Rejected', "Change rejected by #{User.find(approver_id).name}")
       true
     else
       false
@@ -88,5 +92,13 @@ class Change < ActiveRecord::Base
     raise("#{resource_type} is an invalid resource") unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
     resource_class.all.map { |resource| resource.name.capitalize }
+  end
+
+
+  def create_event(event_type,event_details)
+    self.events.create(
+        :event_type => event_type,
+        :details => event_details
+    )
   end
 end

@@ -9,7 +9,7 @@ priorities = %w{high medium low other}
 change_types = %w{emergency planned}
 impacts = ['downtime', 'system outage', 'none']
 system = %w{DNS Rightscale Cloudflare Amazon Sage Zuora S3}
-statuses = %w(new pending completed aborted rejected)
+statuses = %w(new pending completed aborted approved rejected)
 users = ['tom jones', 'bill smith', 'tony doorman', 'mike snow', 'robert wimby', 'sean turner', 'victor hernandez']
 
 puts 'seeding priorities'
@@ -45,7 +45,7 @@ end
 
 puts 'seeding changes'
 10.times do
-  Change.create(
+  change = Change.create(
       :title => 'seeded title for change',
       :priority_id => Priority.all.sample(1).first.id,
       :system_id => System.all.sample(1).first.id,
@@ -53,16 +53,17 @@ puts 'seeding changes'
       :change_type_id => ChangeType.all.sample(1).first.id,
       :impact_id => Impact.all.sample(1).first.id,
       :summary => 'this is a summary',
-      :change_date => Date.strptime(Time.now.strftime('%m/%d/%Y'),'%m/%d/%Y'),
+      :change_date => Date.strptime(Time.now.strftime('%m/%d/%Y'), '%m/%d/%Y'),
       :rollback => 'this is the rollback',
       :creator => User.all.sample(1).first
   )
+  change.create_event('Created', "Change created by #{change.creator.name}")
 end
 
 puts 'seeding approvers'
 Change.all.each do |change|
-    User.all.each do |approver|
-      change.approvers.build(:user_id => approver.id)
-    end
+  User.all.each do |approver|
+    change.approvers.build(:user_id => approver.id)
+  end
   change.save!
 end
