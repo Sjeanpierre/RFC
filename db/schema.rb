@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131014180712) do
+ActiveRecord::Schema.define(version: 20140104161857) do
 
   create_table "approvers", force: true do |t|
     t.integer  "user_id"
@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(version: 20131014180712) do
     t.integer  "created_by"
     t.datetime "change_date"
   end
+
+  create_table "events", force: true do |t|
+    t.integer  "change_id"
+    t.string   "event_type"
+    t.text     "details"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["change_id"], name: "index_events_on_change_id", using: :btree
 
   create_table "impacts", force: true do |t|
     t.string   "name"
