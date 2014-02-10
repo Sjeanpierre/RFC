@@ -29,6 +29,7 @@ $(document).ready ->
   rfChange.bindApproval()
   rfChange.bindDatatable()
   rfChange.setApproverColors()
+  rfChange.processTimeline()
   rfChange.applyStatus()
   rfChange.donuts()
   $('#change-date').click (event) ->
@@ -43,6 +44,32 @@ $(document).on "click", ".editable-cancel", ->
 
 rfChange.rowClick = (clickevent) ->
   window.location = $(clickevent.currentTarget).attr('data-href')
+
+
+rfChange.processTimeline = ->
+  $('div.timeline-container ul.timeline li:odd').addClass('timeline-inverted')
+  $('ul.timeline div.timeline-badge').each ->
+    event_type = $(this).data('etype')
+    rfChange.applyGraphics(event_type,$(this))
+
+
+rfChange.applyGraphics = (event_type,object) ->
+  if event_type == 'Created'
+    object.addClass('info')
+    object.children('i').addClass('glyphicon-edit')
+  else if event_type == 'Approved'
+    object.addClass('success')
+    object.children('i').addClass('glyphicon-thumbs-up')
+  else if event_type == 'Rejected'
+    object.addClass('danger')
+    object.children('i').addClass('glyphicon-thumbs-down')
+  else if event_type == 'Completed'
+    object.addClass('success')
+    object.children('i').addClass('glyphicon-check')
+
+
+
+
 
 rfChange.validateForm = (event) ->
   if $('#change-form').parsley('validate')
