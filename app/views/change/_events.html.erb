@@ -1,7 +1,19 @@
-<div>
-<ul>
-  <% @change.events.each do |event| %>
-    <li><%= event.details %></li>
-  <% end %>
-</ul>
+</div>
+<div class="timeline-container">
+  <ul class="timeline">
+    <% @change.events.each do |event| %>
+      <li>
+        <div data-etype="<%= event.event_type %>" class="timeline-badge"><i class="glyphicon"></i></div>
+        <div class="timeline-panel">
+          <div class="timeline-heading">
+            <h4 class="timeline-title"><%= event.event_type %></h4>
+            <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> <abbr title="<%= event.created_at.to_s(:long) %>" data-livestamp="<%= event.created_at.utc.iso8601 %>"></abbr></small></p>
+          </div>
+          <div class="timeline-body">
+            <p><%= event.details %></p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
 </div>
