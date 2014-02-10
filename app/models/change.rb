@@ -51,6 +51,10 @@ class Change < ActiveRecord::Base
     [approval_record.first, approval_record.exists?]
   end
 
+  def approved_by
+    self.approvers.where(:approved => true).first.user
+  end
+
   def self.mark_approved(change_id, approver_id)
     change = find(change_id)
     approval_record, can_approve = change.approval_details(approver_id)
@@ -64,6 +68,18 @@ class Change < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def self.mark_complete(change_id, current_user)
+    change = find(change_id)
+    #if current_user == change.creator
+      change.status = Status.find_by(:name => 'completed')
+      change.save
+      change.create_event('Completed', "Change completed by #{current_user.name}")
+      true
+    #else
+      #false
+    #end
   end
 
 

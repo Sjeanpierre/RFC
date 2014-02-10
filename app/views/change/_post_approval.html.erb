@@ -1,0 +1,8 @@
+<div class="post-approval">
+	<div class="approver">
+	  <strong>Approved By: <%= @change.approved_by.name %></strong>
+	</div>
+  <div id='complete' class='complete-button' data-cid="<%= @change.id %>">
+    <button class="btn btn-success btn-block btn-lg"><span class="glyphicon glyphicon-check"></span> Mark Complete</button>
+  </div>
+</div>

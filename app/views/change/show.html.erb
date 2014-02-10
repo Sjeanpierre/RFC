@@ -1,5 +1,5 @@
 <div class="change-heading" data-cstatus="<%= @change.status.name %>">
-<h2><%= @change.title.capitalize %> <span class="status"> </span></h2>
+  <h2><%= @change.title.capitalize %> <span class="status"> </span></h2>
 </div>
 
 <div class="change-subheading">
@@ -29,13 +29,21 @@
     <p><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED).html_safe %></p>
   </div>
 </div>
-<%= render :partial => 'approvers' %>
+
+<% if @change.status.name == 'approved' %>
+  <%= render :partial => 'post_approval' %>
+<% end %>
+
+<% unless %w(approved completed).include?(@change.status.name) %>
+  <%= render :partial => 'approvers' %>
+<% end %>
 
 <% unless %w(approved completed).include?(@change.status.name)
      if @change.approvers.map(&:user_id).include?(current_user.id) %>
-  <%= render :partial => 'approval_buttons' %>
-		<% end %>
+    <%= render :partial => 'approval_buttons' %>
+  <% end %>
 <% end %>
+
 
 <%= render :partial => 'events' %>
 

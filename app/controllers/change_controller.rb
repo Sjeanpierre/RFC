@@ -35,6 +35,15 @@ class ChangeController < ApplicationController
     end
   end
 
+  def complete
+    success = Change.mark_complete(params[:id], current_user)
+    if success
+      render :status => 200, :text => "successfully rejected changeID #{params[:id]}"
+    else
+      render :status => 403, :layout => false
+    end
+  end
+
   def count
    render :json => Change.agg_count(params[:resource].to_sym)
   end

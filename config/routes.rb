@@ -1,6 +1,6 @@
 Rfc::Application.routes.draw do
-  get "change/show"
-  get "change/new"
+  get 'change/show'
+  get 'change/new'
   match '/auth/:service/callback' => 'services#create', via: %i(get post)
   match '/auth/failure' => 'services#failure', via: %i(get post)
   match '/logout' => 'sessions#destroy', via: %i(get delete), as: :logout
@@ -13,6 +13,7 @@ Rfc::Application.routes.draw do
   match '/:resource/add' => 'change#add_resource', :via => 'post'
   match '/change/approve/:id' => 'change#approve', :via => 'post'
   match '/change/reject/:id' => 'change#reject', :via => 'post'
+  match '/change/complete/:id' => 'change#complete', :via => 'post'
   match '/:resource/list' => 'change#get_resource', :via => 'get'
   match '/:resource/count' => 'change#count', :via => 'get'
 end

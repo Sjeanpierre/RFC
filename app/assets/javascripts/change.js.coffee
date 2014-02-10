@@ -5,7 +5,7 @@ window.rfChange = {};
 
 MODAL_NAMES = {'priority-adder': 'priority', 'status-adder': 'status', 'system-adder': 'system', 'change-type-adder': 'changeType', 'impact-adder': 'impact'}
 COLOR_CLASSES = ['blue', 'green', 'purple', 'yellow', 'red']
-COLOR_VALUES = ['#0099CC','#9933CC','#669900','#FF8800','#CC0000']
+COLOR_VALUES = ['#0099CC', '#9933CC', '#669900', '#FF8800', '#CC0000']
 Messenger.options = {
   extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
   theme: 'flat'
@@ -50,10 +50,10 @@ rfChange.processTimeline = ->
   $('div.timeline-container ul.timeline li:odd').addClass('timeline-inverted')
   $('ul.timeline div.timeline-badge').each ->
     event_type = $(this).data('etype')
-    rfChange.applyGraphics(event_type,$(this))
+    rfChange.applyGraphics(event_type, $(this))
 
 
-rfChange.applyGraphics = (event_type,object) ->
+rfChange.applyGraphics = (event_type, object) ->
   if event_type == 'Created'
     object.addClass('info')
     object.children('i').addClass('glyphicon-edit')
@@ -66,9 +66,6 @@ rfChange.applyGraphics = (event_type,object) ->
   else if event_type == 'Completed'
     object.addClass('success')
     object.children('i').addClass('glyphicon-check')
-
-
-
 
 
 rfChange.validateForm = (event) ->
@@ -86,12 +83,14 @@ rfChange.updateTextarea = ->
 
 
 rfChange.bindApproval = ->
-  $('#approve, #reject').click (clickevent) ->
+  $('#approve, #reject, #complete').click (clickevent) ->
     $('.btn-success, .btn-danger').addClass('disabled')
     if clickevent.currentTarget.attributes.id.value == 'approve'
       rfChange.handleApprove($(this).data('cid'))
-    else
+    else if clickevent.currentTarget.attributes.id.value == 'reject'
       rfChange.handleReject($(this).data('cid'))
+    else if clickevent.currentTarget.attributes.id.value == 'complete'
+      rfChange.handleComplete($(this).data('cid'))
 
 rfChange.errorNotification = ->
   contents = $('.error-notification .parsley-error-list li')
@@ -160,7 +159,7 @@ rfChange.setApproverColors = ->
     $(this).css('background-color', "#{randomElement}")
 
 
-rfChange.getRandomColor = (raw=false) ->
+rfChange.getRandomColor = (raw = false) ->
   if raw
     COLOR_VALUES[Math.floor(Math.random() * COLOR_VALUES.length)]
   else
@@ -216,7 +215,6 @@ rfChange.donuts = ->
     donuts = ['status', 'priority', 'system', 'creator']
     for donut in donuts
       rfChange.morrisCounts(donut, donut)
-
 
 
 rfChange.bsfire = ->
@@ -277,6 +275,17 @@ rfChange.handleReject = (changeId) ->
     success: (data, status, response) ->
       $('div.change-heading').data('cstatus', 'rejected')
       $('.approval-buttons').replaceWith('<h2><p class="text-center text-danger">Change Rejected!</p></h2>')
+      rfChange.applyStatus()
+      error: (data, status, response) ->
+        console.log(data)
+
+rfChange.handleComplete = (changeId) ->
+  $.ajax
+    url: "/change/complete/#{changeId}"
+    type: 'POST'
+    success: (data, status, response) ->
+      $('div.change-heading').data('cstatus', 'completed')
+      $('.post-approval').replaceWith('<h2><p class="text-center text-success">Change Marked as Completed!</p></h2>')
       rfChange.applyStatus()
       error: (data, status, response) ->
         console.log(data)
