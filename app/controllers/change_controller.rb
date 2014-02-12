@@ -17,6 +17,13 @@ class ChangeController < ApplicationController
     redirect_to change_path(change)
   end
 
+  def comment
+    @change = Change.find(params[:id])
+    @comment = Comment.build_from(@change, current_user.id,params[:subject], params[:comment] )
+    @comment.save!
+    render :partial => 'comments'
+  end
+
   def approve
     success = Change.mark_approved(params[:id], current_user.id)
     if success

@@ -28,8 +28,10 @@ $(document).ready ->
   rfChange.setInitialFormDate()
   rfChange.bindApproval()
   rfChange.bindDatatable()
-  rfChange.setApproverColors()
+  rfChange.prepLabelColors()
   rfChange.processTimeline()
+  rfChange.processComments()
+  rfChange.bindCommentButton()
   rfChange.applyStatus()
   rfChange.donuts()
   $('#change-date').click (event) ->
@@ -51,6 +53,40 @@ rfChange.processTimeline = ->
   $('ul.timeline div.timeline-badge').each ->
     event_type = $(this).data('etype')
     rfChange.applyGraphics(event_type, $(this))
+
+
+rfChange.bindCommentButton = ->
+  $('#new-comment-button').click ->
+    $('#new-comment-button').hide()
+    $('#comment-form-container').show()
+
+
+
+rfChange.processComments = ->
+  $('#comments-form').submit (submitEvent) ->
+    changeId = $('.cdata').data('cid')
+    submitEvent.preventDefault()
+    rfChange.submitComments($(this),changeId)
+
+
+rfChange.submitComments = (submitEvent,changeId) ->
+  $.ajax
+    url: "/change/#{changeId}/comment"
+    type: 'POST'
+    dataType: 'html'
+    data: $(submitEvent).serialize()
+    success: (data, status, response) ->
+      $('.comment-list').html(data)
+      rfChange.callMessenger('Comment Saved!', 'success')
+      $('.comment-input').val('')
+      $('#comment-form-container').hide()
+      $('#new-comment-button').show()
+    error: (data, status, response) ->
+        console.log(data)
+
+
+
+
 
 
 rfChange.applyGraphics = (event_type, object) ->
@@ -152,11 +188,15 @@ rfChange.colorSet = (changed) ->
     randomElement = rfChange.getRandomColor()
     newItem.attr('id', "#{randomElement}")
 
-rfChange.setApproverColors = ->
+rfChange.prepLabelColors = ->
   approvers = $('.approver-list li.approver .label')
+  commenters = $('.commenter .commenter-colors')
+  rfChange.setLabelColors(approvers)
+  rfChange.setLabelColors(commenters)
+
+rfChange.setLabelColors = (selector) ->
   randomElement = rfChange.getRandomColor(true)
-  approvers.each ->
-    $(this).css('background-color', "#{randomElement}")
+  selector.css('background-color', "#{randomElement}")
 
 
 rfChange.getRandomColor = (raw = false) ->

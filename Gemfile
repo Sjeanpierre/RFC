@@ -7,9 +7,14 @@ gem 'rails', '4.0.0'
 gem 'puma'
 gem 'unicorn'
 
+
+# Auth
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
+
+# comments
+gem 'acts_as_commentable_with_threading'
 
 # Multi-environment configuration
 # gem 'simpleconfig'
