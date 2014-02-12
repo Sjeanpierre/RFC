@@ -1,0 +1,21 @@
+<div class="panel-group" id="accordion">
+  <% @change.comment_threads.each_with_index do |comment, index| %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title commenter">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>">
+            <span class="label label-default commenter-colors"><%= User.find(comment.user_id).initials %></span>
+            <%= User.find(comment.user_id).name.split.first %> commented:
+            <small class="text-muted"><i class="glyphicon glyphicon-time"></i> <abbr title="<%= comment.created_at.to_s(:long) %>" data-livestamp="<%= comment.created_at.utc.iso8601 %>"></abbr></small>
+          </a>
+        </h4>
+      </div>
+      <div id="collapse-<%= index %>" class="panel-collapse collapse">
+        <div class="panel-body">
+	        <h4><%= comment.title %></h4>
+          <p><%= comment.body %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,4 +1,4 @@
-<div class="change-heading" data-cstatus="<%= @change.status.name %>">
+<div class="change-heading cdata" data-cid="<%= @change.id %>" data-cstatus="<%= @change.status.name %>">
   <h2><%= @change.title.capitalize %> <span class="status"> </span></h2>
 </div>
 
@@ -44,8 +44,9 @@
   <% end %>
 <% end %>
 
-
+<%= render :partial => 'comments_modal' %>
 <%= render :partial => 'events' %>
+<button class="btn btn-primary" data-toggle="modal" data-target=".bs-modal-sm">Comments</button>
 
 
 
