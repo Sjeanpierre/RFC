@@ -1,4 +1,4 @@
-<div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade bs-modal-sm" tabindex="-1" id="commentsModal" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,7 +8,7 @@
       <div class="modal-body">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#comments" data-toggle="tab">Comments <span class="badge"><%= @change.comment_threads.count %></span></a></li>
+          <li class="active"><a href="#comments" data-toggle="tab">Comments <span id="comment-count" class="badge"><%= @change.comment_threads.count %></span></a></li>
           <li><a href="#uploads" data-toggle="tab">Uploads</a></li>
         </ul>
 
@@ -23,7 +23,7 @@
             </div>
 
             <%= render :partial => 'comment_form' %>
-            <button type="button" id="new-comment-button" class="btn btn-default btn-lg">
+            <button type="button" id="new-comment-button" class="btn btn-primary">
               <span class="glyphicon glyphicon-edit"></span> New Comment
             </button>
 
