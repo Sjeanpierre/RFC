@@ -1,6 +1,6 @@
 <div class="panel-group" id="accordion">
   <% @change.comment_threads.each_with_index do |comment, index| %>
-    <div class="panel panel-default">
+    <div class="comment-item panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title commenter">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= index %>">

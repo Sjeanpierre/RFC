@@ -42,6 +42,8 @@ users.each do |user|
   user_email = "#{user.split(' ').join('_')}@mailinator.com"
   User.create(:name => user.titleize, :email => user_email)
 end
+user = User.create(:name => 'Stevenson Jean-Pierre', :email => 'stevenson.jean-pierre@sage.com' )
+Service.create(:user => user, :provider => 'github', :uid => ENV['GH_UID'])
 
 puts 'seeding changes'
 10.times do
@@ -49,7 +51,7 @@ puts 'seeding changes'
       :title => 'seeded title for change',
       :priority_id => Priority.all.sample(1).first.id,
       :system_id => System.all.sample(1).first.id,
-      :status_id => Status.all.sample(1).first.id,
+      :status_id => Status.for_seed.sample(1).first.id,
       :change_type_id => ChangeType.all.sample(1).first.id,
       :impact_id => Impact.all.sample(1).first.id,
       :summary => 'this is a summary',
@@ -58,6 +60,14 @@ puts 'seeding changes'
       :creator => User.all.sample(1).first
   )
   change.create_event('Created', "Change created by #{change.creator.name}")
+end
+
+puts 'seeding comments'
+Change.all.each do |change|
+  User.all.each do |user|
+    @comment = Comment.build_from(change, user.id,"Comment by #{user.name}", "#{user.name} was here and made a comment on change with title #{change.title}" )
+    @comment.save!
+  end
 end
 
 puts 'seeding approvers'

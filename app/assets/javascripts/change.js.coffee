@@ -28,6 +28,7 @@ $(document).ready ->
   rfChange.setInitialFormDate()
   rfChange.bindApproval()
   rfChange.bindDatatable()
+  rfChange.bindCommentModalClose()
   rfChange.prepLabelColors()
   rfChange.processTimeline()
   rfChange.processComments()
@@ -54,37 +55,52 @@ rfChange.processTimeline = ->
     event_type = $(this).data('etype')
     rfChange.applyGraphics(event_type, $(this))
 
+rfChange.toggleCommentForm = (state) ->
+  if state == 'show'
+    $('#new-comment-button').hide()
+    $('#comment-form-container').show()
+  else if state == 'hide'
+    $('#comment-form-container').hide()
+    $('.comment-input').val('')
+    $('#new-comment-button').show()
+  else
+    console.log('invalid param for toggleCommentForm')
+
 
 rfChange.bindCommentButton = ->
   $('#new-comment-button').click ->
-    $('#new-comment-button').hide()
-    $('#comment-form-container').show()
-
+    rfChange.toggleCommentForm('show')
 
 
 rfChange.processComments = ->
   $('#comments-form').submit (submitEvent) ->
     changeId = $('.cdata').data('cid')
     submitEvent.preventDefault()
-    rfChange.submitComments($(this),changeId)
+    rfChange.submitComments($(this), changeId)
 
 
-rfChange.submitComments = (submitEvent,changeId) ->
+rfChange.submitComments = (submitEvent, changeId) ->
   $.ajax
     url: "/change/#{changeId}/comment"
     type: 'POST'
     dataType: 'html'
     data: $(submitEvent).serialize()
     success: (data, status, response) ->
-      $('.comment-list').html(data)
-      rfChange.callMessenger('Comment Saved!', 'success')
-      $('.comment-input').val('')
-      $('#comment-form-container').hide()
-      $('#new-comment-button').show()
+      rfChange.handleCommentAdd(data)
     error: (data, status, response) ->
-        console.log(data)
+      console.log(data)
 
 
+rfChange.handleCommentAdd = (data) ->
+  $('.comment-list').html(data)
+  rfChange.setLabelColors($('.commenter .commenter-colors'))
+  $('#comment-count').html($('.comment-item').length)
+  rfChange.callMessenger('Comment Saved!', 'success')
+  rfChange.toggleCommentForm('hide')
+
+rfChange.bindCommentModalClose = ->
+  $('#commentsModal').on 'hide.bs.modal', ->
+    rfChange.toggleCommentForm('hide')
 
 
 
