@@ -10,6 +10,7 @@ class Change < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User', :foreign_key => 'created_by'
   has_many :approvers
   has_many :users, through: :approvers
+  has_many :attachments
 
   RESOURCES = { :impact => Impact, :status => Status, :system => System, :changeType => ChangeType, :priority => Priority }
 

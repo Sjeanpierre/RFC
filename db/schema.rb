@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140210231333) do
+ActiveRecord::Schema.define(version: 20140213225400) do
 
   create_table "approvers", force: true do |t|
     t.integer  "user_id"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 20140210231333) do
 
   add_index "approvers", ["change_id"], name: "index_approvers_on_change_id", using: :btree
   add_index "approvers", ["user_id"], name: "index_approvers_on_user_id", using: :btree
+
+  create_table "attachments", force: true do |t|
+    t.integer  "change_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+  end
 
   create_table "change_types", force: true do |t|
     t.string   "name"

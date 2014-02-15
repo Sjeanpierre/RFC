@@ -1,0 +1,32 @@
+<div class="upload-container">
+  <form id="upload" method="post" action="/change/<%= @change.id %>/attach" enctype="multipart/form-data">
+    <div id="drop">
+      <p>Drag Files Here</p>
+
+      <p>OR</p>
+      <button type="button" id="add-upload-button" class="btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-plus"></span> Browse Files...
+      </button>
+      <input type="file" name="attachment" multiple/>
+    </div>
+  </form>
+  <div class="download-list-container">
+    <ul class="download-list">
+      <% @change.attachments.each do |attachment| %>
+        <li class="done">
+          <div class="download-details">
+            <div class="file-extension">
+              <p id="extension"><%= attachment.file_extension %></p>
+            </div>
+            <p><%= attachment.attachment_file_name.upcase %>
+              <i><%= number_to_human_size(attachment.attachment_file_size) %></i>
+            </p>
+          </div>
+          <span id="status-indicator" class="glyphicon glyphicon-cloud-download"></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+

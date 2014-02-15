@@ -33,6 +33,12 @@ class ChangeController < ApplicationController
     end
   end
 
+  def add_attachment
+    @attachment = Change.find(params[:id]).attachments.new(upload_params)
+    @attachment.save
+    render :status => 200, :text => 'success'
+  end
+
   def reject
     success = Change.mark_rejected(params[:id], current_user.id)
     if success
@@ -65,4 +71,11 @@ class ChangeController < ApplicationController
     values = Change.get_resource_items(params[:resource])
     render :json => values
   end
+
+  private
+
+  def upload_params
+    params.permit(:attachment, :attachment_file_name)
+  end
+
 end

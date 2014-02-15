@@ -22,6 +22,9 @@ gem 'acts_as_commentable_with_threading'
 # Mail
 gem 'mandrill-api'
 
+#Attachments
+gem 'paperclip', '~> 3.0'
+
 # API
 # gem 'rabl'
 

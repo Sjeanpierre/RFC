@@ -10,6 +10,7 @@ Rfc::Application.routes.draw do
   resources :services, only: %i(index create destroy)
   #root 'pages#home'
   root 'change#index'
+  match '/change/:id/attach' => 'change#add_attachment', :via => 'post'
   match '/change/:id/comment' => 'change#comment', :via => 'post'
   match '/:resource/add' => 'change#add_resource', :via => 'post'
   match '/change/approve/:id' => 'change#approve', :via => 'post'

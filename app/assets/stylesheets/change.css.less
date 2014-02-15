@@ -76,7 +76,7 @@ abbr {
 
 #change-date {
   border-bottom: 3px dotted #999999;
-//  padding: 1px;
+  //  padding: 1px;
   cursor: pointer;
 }
 
@@ -115,6 +115,7 @@ input {
   float: right;
   color: grey;
 }
+
 .panel-heading .accordion-toggle.collapsed:after {
   content: "\e080";
 }
@@ -124,6 +125,7 @@ input {
   margin: 16px 0px 11px;
   padding-bottom: 9px;
 }
+
 .change-subheading {
   margin-bottom: 10px;
   ul {
@@ -211,8 +213,6 @@ input {
   }
   li {
     display: inline;
-//    padding: 0px 10px 0 10px;
-//    border-right: 2px solid #eeeeee;
     color: #969696;
   }
   .last {
@@ -223,6 +223,7 @@ input {
 #comment-list a {
   text-decoration: none !important;
 }
+
 .commenter {
   a:hover, a:focus {
     text-decoration: none !important;
@@ -232,12 +233,12 @@ input {
   .label {
     padding: 0.3em 0.6em 0.3em;
   }
-    margin: 0px;
-    font-size: 15px;
-    display: inline;
-    padding: 0px 3px 0 3px;
-    color: #969696;
-    text-transform: capitalize;
+  margin: 0px;
+  font-size: 15px;
+  display: inline;
+  padding: 0px 3px 0 3px;
+  color: #969696;
+  text-transform: capitalize;
   .last {
     border-right: 0px;
   }
@@ -264,6 +265,7 @@ input {
 .timeline-container {
   padding-top: 60px;
 }
+
 .timeline {
   list-style: none;
   padding: 20px 0 20px;
@@ -447,3 +449,123 @@ input {
     right: auto;
   }
 }
+
+.upload-container {
+  padding: 19px;
+}
+
+.download-list-container {
+  ul {
+    padding: 0px;
+  }
+  .download-list {
+    li {
+      background: linear-gradient(to bottom, #F5F5F5 0%, #EBEBEB 90%, #EEEEEE 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+      border-radius: 4px;
+      box-shadow: 0 0 1px #A4A4A4 inset, 0 -2px 0 #A4A4A4 inset, 0 3px 3px -1px rgba(0, 0, 0, 0.2);
+      padding: 0 4px;
+      min-height: 30px;
+      margin-bottom: 10px;
+      position: relative;
+      list-style: none outside none;
+      input {
+        position: relative;
+        top: 25px;
+        left: 62px;
+        font-size: 15px !important ;
+      }
+    }
+    .download-details {
+      margin-right: 50px;
+    }
+    .file-extension {
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+
+      #extension {
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+        border: 0 none;
+        margin-left: -75px;
+        font-size: 25px;
+        margin-top: 55px;
+        width: 67px;
+        padding: 0;
+        position: absolute;
+        text-align: center;
+        vertical-align: middle;
+      }
+    }
+    canvas {
+//      padding-left: 10px;
+//      padding-top: 20px;
+      position: relative;
+      top: 25px;
+      left: 10px;
+    }
+    i {
+      font-weight: normal;
+      font-style: normal;
+      color: #7f7f7f;
+      display: block;
+    }
+    p {
+      width: 75%;
+      overflow: auto;
+      white-space: nowrap;
+      color: #969696;
+      font-size: 16px;
+      font-weight: bold;
+      position: relative;
+      top: -25px;
+      left: 100px;
+    }
+    span {
+      width: 15px;
+      height: 12px;
+      position: absolute;
+      top: 32px;
+      right: 35px;
+      font-size: 40px;
+
+    }
+    li.working {
+      span {
+        color: #669900;
+      }
+    }
+    li.done {
+      color: #669900;
+    }
+    li.error {
+      p {
+        color: #CC0000;
+      }
+    }
+  }
+}
+
+#upload {
+  font-family: 'PT Sans Narrow', sans-serif;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#drop {
+  padding: 40px 50px;
+  margin-bottom: 30px;
+  border: 20px solid rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: bold;
+  color: #7f858a;
+  a:hover {
+    background-color: #0986a3;
+  }
+  input {
+    display: none;
+  }
+}
+

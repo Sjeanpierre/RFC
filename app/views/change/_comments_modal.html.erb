@@ -8,8 +8,10 @@
       <div class="modal-body">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#comments" data-toggle="tab">Comments <span id="comment-count" class="badge"><%= @change.comment_threads.count %></span></a></li>
-          <li><a href="#uploads" data-toggle="tab">Uploads</a></li>
+          <li class="active"><a href="#comments" data-toggle="tab">Comments
+            <span id="comment-count" class="badge"><%= @change.comment_threads.count %></span></a></li>
+          <li><a href="#uploads" data-toggle="tab">Uploads
+            <span id="attachment-count" class="badge"><%= @change.attachments.count %></span></a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -27,9 +29,10 @@
               <span class="glyphicon glyphicon-edit"></span> New Comment
             </button>
 
-
           </div>
-          <div class="tab-pane" id="uploads">...</div>
+          <div class="tab-pane" id="uploads">
+            <%= render :partial => 'uploader' %>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
