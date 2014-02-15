@@ -33,6 +33,7 @@ $(document).ready ->
   rfChange.processTimeline()
   rfChange.processComments()
   rfChange.bindCommentButton()
+  rfChange.bindUpload()
   rfChange.applyStatus()
   rfChange.donuts()
   $('#change-date').click (event) ->
@@ -47,6 +48,45 @@ $(document).on "click", ".editable-cancel", ->
 
 rfChange.rowClick = (clickevent) ->
   window.location = $(clickevent.currentTarget).attr('data-href')
+
+rfChange.formatFileSize = (bytes) ->
+  ''  if typeof bytes isnt "number"
+  if bytes >= 1000000000
+    "#{(bytes / 1000000000).toFixed(2)} GB"
+  else if bytes >= 1000000
+    "#{(bytes / 1000000).toFixed(2)} MB"
+  else
+    "#{(bytes / 1000).toFixed(2)} KB"
+
+rfChange.bindUpload = ->
+  $(document).on "drop dragover", (e) ->
+    e.preventDefault()
+  ul = $(".download-list-container .download-list")
+  $("#add-upload-button").click ->
+    $(this).parent().find("input").click()
+  $("#upload").fileupload
+    dropZone: $("#drop")
+    add: (e, data) ->
+      tpl = $('<li class="working"><div class="download-details"><input type="text" value="0" data-width="48" data-height="48" data-fgColor="#5BC0DE" data-readOnly="1" data-bgColor="#fff" /><p></p></div><span id="status-indicator" class="glyphicon glyphicon-refresh"></span></li>');
+      tpl.find("p").text(data.files[0].name).append("<i>#{rfChange.formatFileSize(data.files[0].size)}</i>")
+      data.context = tpl.appendTo(ul)
+      tpl.find("input").knob()
+      tpl.find("span").click ->
+        jqXHR.abort()  if tpl.hasClass("working")
+        tpl.fadeOut ->
+          tpl.remove()
+      jqXHR = data.submit()
+    progress: (e, data) ->
+      progress = parseInt(data.loaded / data.total * 100, 10)
+      data.context.find("input").val(progress).change()
+      rfChange.uploadComplete(data) if progress is 100
+    fail: (e, data) ->
+      data.context.addClass "error"
+
+rfChange.uploadComplete = (data) ->
+  data.context.removeClass "working"  if progress is 100
+  data.context.addClass 'done' if progress is 100
+  data.context.find('#status-indicator').removeClass('glyphicon-refresh').addClass('glyphicon-ok')
 
 
 rfChange.processTimeline = ->
@@ -101,8 +141,6 @@ rfChange.handleCommentAdd = (data) ->
 rfChange.bindCommentModalClose = ->
   $('#commentsModal').on 'hide.bs.modal', ->
     rfChange.toggleCommentForm('hide')
-
-
 
 
 rfChange.applyGraphics = (event_type, object) ->
