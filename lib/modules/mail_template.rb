@@ -6,6 +6,18 @@ module MailTemplate
       :approval => %W(title approvers).map(&:to_sym),
       :completed => %W(title details summary rollback notes).map(&:to_sym)
   }
+  SUBJECTS = {
+      :new => 'RFC %s has been created by %s',
+      :update => 'RFC %s has been updated by %s',
+      :approval => 'Your Approval is needed for RFC %s',
+      :completed => 'RFC %s has been marked as completed by %s'
+  }
+  VALUES = {
+      :new => %w(@data.id @data.creator.name),
+      :update => %w(@data.id @data.creator),
+      :approval => %w(@data.id),
+      :completed => %w(@data.id @data.creator) #needs to be user that marked as complete
+  }
 
   class MailPartialRenderer
     attr_accessor :mail_type, :content
@@ -53,19 +65,6 @@ module MailTemplate
   end
 
   class MailMessageDetails
-    SUBJECTS = {
-        :new => 'RFC %s has been created by %s',
-        :update => 'RFC %s has been updated by %s',
-        :approval => 'Your Approval is needed for RFC %s',
-        :completed => 'RFC %s has been marked as completed by %s'
-    }
-    VALUES = {
-        :new => %w(@data.id @data.creator.name),
-        :update => %w(@data.id @data.creator),
-        :approval => %w(@data.id),
-        :completed => %w(@data.id @data.creator) #needs to be user that marked as complete
-    }
-
     def initialize(mail_type, data)
       @mail_type = mail_type
       @data = data
@@ -83,8 +82,8 @@ module MailTemplate
 
     def subject
       #http://stackoverflow.com/a/554877/1317806
-      values = VALUES[@mail_type.to_sym].map { |val| eval(val) }
-      sprintf(SUBJECTS[@mail_type.to_sym], *values)
+      values = MailTemplate::VALUES[@mail_type.to_sym].map { |val| eval(val) }
+      sprintf(MailTemplate::SUBJECTS[@mail_type.to_sym], *values)
     end
 
     def recipients
