@@ -1,29 +1,41 @@
 module MailTemplate
 
   MESSAGE_SECTIONS = {
-      :new => %W(title details link).map(&:to_sym),
-      :update => %W(title details summary rollback).map(&:to_sym), #will need to remove sections
-      :approval => %W(title approvers).map(&:to_sym),
-      :completed => %W(title details summary rollback notes).map(&:to_sym)
+      :Created => %W(title details link).map(&:to_sym),
+      :Update => %W(title details link).map(&:to_sym), #will need to remove sections
+      :Approved => %W(title details link).map(&:to_sym),
+      :Rejected => %W(title details link).map(&:to_sym),
+      :Approval => %W(title details link).map(&:to_sym),
+      :Completed => %W(title details link).map(&:to_sym),
+      :Comment => %W(title comment link).map(&:to_sym)
   }
   SUBJECTS = {
-      :new => 'RFC %s has been created by %s',
-      :update => 'RFC %s has been updated by %s',
-      :approval => 'Your Approval is needed for RFC %s',
-      :completed => 'RFC %s has been marked as completed by %s'
+      :Created => 'RFC %s has been %s',
+      :Update => 'RFC %s has been updated, %s',
+      :Approved => 'RFC %s has been %s',
+      :Rejected => 'RFC %s has been %s',
+      :Completed => 'RFC %s has been %s',
+      :approval => 'RFC %s requires your Approval',
+      :completed => 'RFC %s has been %s',
+      :Comment => '%s has commented on RFC %s'
   }
   VALUES = {
-      :new => %w(@data.id @data.creator.name),
-      :update => %w(@data.id @data.creator),
+      :Created => %w(@data.id @event.details),
+      :Update => %w(@data.id @event.details),
+      :Approved => %w(@data.id @event.details),
+      :Rejected => %w(@data.id @event.details),
+      :Completed => %w(@data.id @event.details),
       :approval => %w(@data.id),
-      :completed => %w(@data.id @data.creator) #needs to be user that marked as complete
+      :completed => %w(@data.id @event.details), #needs to be user that marked as complete
+      :Comment => %w(@event.user.name @data.id)
   }
 
   class MailPartialRenderer
     attr_accessor :mail_type, :content
 
-    def initialize(mail_type, data)
+    def initialize(mail_type, data, event)
       @data = data
+      @event = event
       @template_sections = MailTemplate::MESSAGE_SECTIONS[mail_type.to_sym]
       @mail_type = mail_type
       @content = nil
@@ -65,9 +77,10 @@ module MailTemplate
   end
 
   class MailMessageDetails
-    def initialize(mail_type, data)
+    def initialize(mail_type, data, event)
       @mail_type = mail_type
       @data = data
+      @event = event
     end
 
     def prepare
@@ -89,7 +102,7 @@ module MailTemplate
     def recipients
       #return [{ :email => 'sjp@mailinator.com', :name => 'Tommy Jones'}]
       approver_emails = @data.approvers.map { |approver| { 'email' => approver.user.email, 'name' => approver.user.name } }
-      approver_emails.push({ :email => @data.creator.email, :name => @data.creator.name })
+      approver_emails.push({ :email => @data.creator.email, :name => @data.creator.name }) unless @mail_type == :Created
     end
   end
 end

@@ -21,12 +21,17 @@ Rfc::Application.configure do
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = true
 
+  # Disable deprecation warnings
+  ActiveSupport::Deprecation.silenced = true
+
+  SKIP_CALLBACKS = false
+
   # Raise an error on page load if there are pending migrations
   config.active_record.migration_error = :page_load
 
   config.after_initialize do
     Bullet.enable = true
-    #Bullet.alert = true
+    Bullet.alert = true
     Bullet.bullet_logger = true
     Bullet.console = true
     Bullet.rails_logger = true
