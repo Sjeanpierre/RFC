@@ -1,5 +1,7 @@
 class Comment < ActiveRecord::Base
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
+  after_commit :send_mail, :unless => Proc.new { SKIP_CALLBACKS }
+
 
   validates :body, :presence => true
   validates :user, :presence => true
@@ -22,6 +24,11 @@ class Comment < ActiveRecord::Base
       :title       => title,
       :body        => comment,
       :user_id     => user_id
+  end
+
+  def send_mail
+    mailer = MailApi::Sender.new('Comment', Change.find(self.commentable_id), self)
+    mailer.send_message
   end
 
   #helper method to check if a comment has children

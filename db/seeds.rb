@@ -5,6 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+SKIP_CALLBACKS = true
+
 priorities = %w{high medium low other}
 change_types = %w{emergency planned}
 impacts = ['downtime', 'system outage', 'none']
@@ -47,7 +50,7 @@ Service.create(:user => user, :provider => 'github', :uid => ENV['GH_UID'])
 
 puts 'seeding changes'
 10.times do
-  change = Change.create(
+  Change.create(
       :title => 'seeded title for change',
       :priority_id => Priority.all.sample(1).first.id,
       :system_id => System.all.sample(1).first.id,
@@ -59,7 +62,6 @@ puts 'seeding changes'
       :rollback => 'this is the rollback',
       :creator => User.all.sample(1).first
   )
-  change.create_event('Created', "Change created by #{change.creator.name}")
 end
 
 puts 'seeding comments'

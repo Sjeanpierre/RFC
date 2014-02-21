@@ -1,6 +1,6 @@
 class ChangeController < ApplicationController
   def show
-    @change = Change.includes({:approvers => :user}, :approvers).find(params[:id])
+    @change = Change.includes({:comment_threads => :user},{:approvers => :user}, :events).find(params[:id])
   end
 
   def new

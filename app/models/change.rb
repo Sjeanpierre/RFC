@@ -11,6 +11,9 @@ class Change < ActiveRecord::Base
   has_many :approvers
   has_many :users, through: :approvers
   has_many :attachments
+  after_update :track_changes
+  after_create :track_create
+
 
   RESOURCES = { :impact => Impact, :status => Status, :system => System, :changeType => ChangeType, :priority => Priority }
 
@@ -37,10 +40,50 @@ class Change < ActiveRecord::Base
       new_change.approvers.build(:user_id => approver)
     end
     new_change.save!
-    MailApi.send_message('new', new_change) #TODO add delayed job
-    new_change.create_event('Created', "Change created by #{new_change.creator.name}")
     new_change
   end
+
+  def self.mark_approved(change_id, approver_id)
+    change = find(change_id)
+    approval_record, can_approve = change.approval_details(approver_id)
+    if can_approve
+      approval_record.approved = true
+      approval_record.save
+      change.status = Status.find_by(:name => 'approved')
+      change.save
+      change.create_event('Approved', "approved by #{User.find(approver_id).name}")
+      true
+    else
+      false
+    end
+  end
+
+  def self.mark_complete(change_id, current_user)
+    change = find(change_id)
+    #if current_user == change.creator
+    change.status = Status.find_by(:name => 'completed')
+    change.save
+    change.create_event('Completed', "marked completed by #{current_user.name}")
+    true
+    #else
+    #false
+    #end
+  end
+
+  def self.mark_rejected(change_id, approver_id)
+    change = find(change_id)
+    _, can_approve = change.approval_details(approver_id)
+    if can_approve
+      change.status = Status.find_by(:name => 'rejected')
+      change.save
+      change.create_event('Rejected', "rejected by #{User.find(approver_id).name}")
+      true
+    else
+      false
+    end
+  end
+
+
 
   def self.add_resource_item(resource_type, resource_name)
     raise('invalid resource') unless RESOURCES.has_key?(resource_type.to_sym)
@@ -53,49 +96,9 @@ class Change < ActiveRecord::Base
     [approval_record.first, approval_record.exists?]
   end
 
+
   def approved_by
     self.approvers.where(:approved => true).first.user
-  end
-
-  def self.mark_approved(change_id, approver_id)
-    change = find(change_id)
-    approval_record, can_approve = change.approval_details(approver_id)
-    if can_approve
-      approval_record.approved = true
-      approval_record.save
-      change.status = Status.find_by(:name => 'approved')
-      change.save
-      change.create_event('Approved', "Change approved by #{User.find(approver_id).name}")
-      true
-    else
-      false
-    end
-  end
-
-  def self.mark_complete(change_id, current_user)
-    change = find(change_id)
-    #if current_user == change.creator
-      change.status = Status.find_by(:name => 'completed')
-      change.save
-      change.create_event('Completed', "Change completed by #{current_user.name}")
-      true
-    #else
-      #false
-    #end
-  end
-
-
-  def self.mark_rejected(change_id, approver_id)
-    change = find(change_id)
-    _, can_approve = change.approval_details(approver_id)
-    if can_approve
-      change.status = Status.find_by(:name => 'rejected')
-      change.save
-      change.create_event('Rejected', "Change rejected by #{User.find(approver_id).name}")
-      true
-    else
-      false
-    end
   end
 
   # @param [Symbol] resource
@@ -119,4 +122,18 @@ class Change < ActiveRecord::Base
         :details => event_details
     )
   end
+
+  def track_changes
+    changes = self.changes
+    changed_fields = changes.keys.reject {|field| %w(status_id updated_at).include?(field)}
+    changed_fields.each do |field|
+      klass = field.split('_').first.classify.constantize
+      self.create_event('Update', "#{klass.to_s} updated from #{klass.find(changes[field][0]).name.capitalize} to #{klass.find(changes[field][1]).name.capitalize} ")
+    end
+  end
+
+  def track_create
+    self.create_event('Created', "created by #{self.creator.name}")
+  end
+
 end
