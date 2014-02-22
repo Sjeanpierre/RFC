@@ -1,41 +1,48 @@
 <div class="change-heading cdata" data-cid="<%= @change.id %>" data-cstatus="<%= @change.status.name %>">
-  <h2><%= @change.title.capitalize %> <span class="status"> </span></h2>
+  <h2><%= @change.title.capitalize %> <span class="change-id">#<%= @change.id %></span></h2>
+	<div class="change-subheading">
+  <button disabled id="status-indicator-button" class="btn btn-sm">
+    <span id="status-indicator-span" class="glyphicon"></span> <%= @change.status.name.capitalize %>
+  </button>
+  <span class="creator"> <%= @change.creator.name %></span> <span class="created">Created this change</span>
+  <small  class="text-muted"><i class="glyphicon glyphicon-time"></i>
+    <abbr title="<%= @change.created_at.to_s(:long) %>" data-livestamp="<%= @change.created_at.utc.iso8601 %>"></abbr>
+  </small>
+  <small data-toggle="modal" data-target="#commentsModal" class="text-muted link"><i class="glyphicon glyphicon-comment"></i>
+    <%= @change.comment_threads.count %> Comments
+  </small>
+  <small data-toggle="modal" data-target="#commentsModal" class="text-muted link"><i class="glyphicon glyphicon-paperclip"></i>
+    <%= @change.attachments.count %> Attachments
+  </small>
+	</div>
 </div>
 
-<div class="change-subheading">
-  <ul>
-    <li><b>Creator: </b><%= @change.creator.name %></li>
-    <li><b>Due Date: </b><%= @change.change_date.try(:strftime, '%m/%d/%Y') %></li>
-    <li><b>Priority: </b><%= @change.priority.name.capitalize %></li>
-    <li><b>Status: </b><%= @change.status.name.capitalize %></li>
-    <li><b>System: </b><%= @change.system.name.capitalize %></li>
-    <li><b>Change Type: </b><%= @change.change_type.name.capitalize %></li>
-    <li class="last"><b>Potential Impact: </b><%= @change.impact.name.capitalize %></li>
-  </ul>
-</div>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Change Summary</h3>
+<div class="row">
+  <div class="col-md-3 change-details-container">
+    <%= render :partial => 'change_details' %>
   </div>
-  <div class="panel-body">
-    <p><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED).html_safe %></p>
-  </div>
-</div>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Rollback Plan</h3>
-  </div>
-  <div class="panel-body">
-    <p><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED).html_safe %></p>
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Change Summary</h3>
+      </div>
+      <div class="panel-body">
+        <p><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED).html_safe %></p>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Rollback Plan</h3>
+      </div>
+      <div class="panel-body">
+        <p><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED).html_safe %></p>
+      </div>
+    </div>
   </div>
 </div>
 
 <% if @change.status.name == 'approved' %>
   <%= render :partial => 'post_approval' %>
-<% end %>
-
-<% unless %w(approved completed).include?(@change.status.name) %>
-  <%= render :partial => 'approvers' %>
 <% end %>
 
 <% unless %w(approved completed).include?(@change.status.name)

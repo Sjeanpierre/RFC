@@ -1,0 +1,60 @@
+<div class="change-details">
+  <ul>
+    <li>
+      <p class="detail-heading">Created By</p>
+
+      <p><%= @change.creator.name %></p>
+    </li>
+    <li>
+      <div>
+        <p class="detail-heading">Due Date</p>
+        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+      </div>
+      <p><%= @change.change_date.try(:strftime, '%m/%d/%Y') %></p>
+    </li>
+    <li>
+      <div>
+        <p class="detail-heading">Priority</p>
+        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+      </div>
+      <p><%= @change.priority.name.capitalize %></p>
+    </li>
+    <li>
+      <div>
+        <p class="detail-heading">Status</p>
+        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+      </div>
+      <p><%= @change.status.name.capitalize %></p>
+    </li>
+    <li>
+      <div>
+        <p class="detail-heading">System</p>
+        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+      </div>
+      <p><%= @change.system.name.capitalize %></p>
+    </li>
+    <li>
+      <div>
+        <p class="detail-heading">Change Type</p>
+        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+      </div>
+      <p><%= @change.change_type.name.capitalize %></p>
+    </li>
+    <li>
+      <div>
+        <p class="detail-heading">Potential Impact</p>
+        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+      </div>
+      <p><%= @change.impact.name.capitalize %></p>
+    </li>
+    <% unless %w(approved completed).include?(@change.status.name) %>
+      <li class="last">
+        <div>
+          <p class="detail-heading"><%= pluralize(@change.approvers.count, 'Approver') %></p>
+          <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+        </div>
+        <%= render :partial => 'approvers' %>
+      </li>
+    <% end %>
+  </ul>
+</div>

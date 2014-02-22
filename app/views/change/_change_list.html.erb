@@ -20,7 +20,7 @@
         <td>
           <abbr title="<%= change.created_at.to_s(:long) %>" data-livestamp="<%= change.created_at.utc.iso8601 %>"></abbr>
         </td>
-        <td><%= change.title %></td>
+        <td><%= truncate(change.title, length: 60, separator: ' ') %></td>
       </tr>
     <% end %>
     </tbody>

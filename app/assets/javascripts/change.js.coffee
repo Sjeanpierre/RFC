@@ -386,15 +386,33 @@ rfChange.handleComplete = (changeId) ->
 
 rfChange.applyStatus = ->
   status = $('div.change-heading').data('cstatus')
-  bad = 'label label-danger glyphicon glyphicon-thumbs-down'
-  good = 'label label-success glyphicon glyphicon-thumbs-up'
-  if status  in ['completed', 'approved']
-    classes = good
+  buttonClass = rfChange.statusButtonColor(status)
+  spanClass = rfChange.statusSpanIcon(status)
+  $('#status-indicator-button').addClass(buttonClass)
+  $('#status-indicator-span').addClass(spanClass)
+
+
+rfChange.statusButtonColor = (status) ->
+  if status  in ['completed', 'approved', 'new', 'pending']
+    return 'btn-success'
   else if status in ['rejected', 'aborted']
-    classes = bad
+    return 'btn-danger'
   else
-    classes = ''
-  $('div.change-heading h2 span.status').addClass(classes)
+    return ''
+
+rfChange.statusSpanIcon = (status) ->
+  if status  in ['approved']
+    return 'glyphicon-thumbs-up'
+  else if status in ['new','pending']
+    return 'glyphicon-info-sign'
+  else if status in ['completed']
+    return 'glyphicon-ok-circle'
+  else if status in ['aborted']
+    return 'glyphicon-ban-circle'
+  else if status in ['rejected', 'aborted']
+    return 'glyphicon-thumbs-down'
+  else
+    return ''
 
 
 rfChange.initPickadate = ->
