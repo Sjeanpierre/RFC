@@ -2,7 +2,7 @@ module MailTemplate
 
   MESSAGE_SECTIONS = {
       :Created => %W(title details link).map(&:to_sym),
-      :Update => %W(title details link).map(&:to_sym), #will need to remove sections
+      :Updated => %W(title details link).map(&:to_sym), #will need to remove sections
       :Approved => %W(title details link).map(&:to_sym),
       :Rejected => %W(title details link).map(&:to_sym),
       :Approval => %W(title details link).map(&:to_sym),
@@ -11,7 +11,7 @@ module MailTemplate
   }
   SUBJECTS = {
       :Created => 'RFC %s has been %s',
-      :Update => 'RFC %s has been updated, %s',
+      :Updated => 'RFC %s has been updated, %s',
       :Approved => 'RFC %s has been %s',
       :Rejected => 'RFC %s has been %s',
       :Completed => 'RFC %s has been %s',
@@ -21,7 +21,7 @@ module MailTemplate
   }
   VALUES = {
       :Created => %w(@data.id @event.details),
-      :Update => %w(@data.id @event.details),
+      :Updated => %w(@data.id @event.details),
       :Approved => %w(@data.id @event.details),
       :Rejected => %w(@data.id @event.details),
       :Completed => %w(@data.id @event.details),
@@ -101,8 +101,9 @@ module MailTemplate
 
     def recipients
       #return [{ :email => 'sjp@mailinator.com', :name => 'Tommy Jones'}]
-      approver_emails = @data.approvers.map { |approver| { 'email' => approver.user.email, 'name' => approver.user.name } }
-      approver_emails.push({ :email => @data.creator.email, :name => @data.creator.name }) unless @mail_type == :Created
+      approver_emails = @data.approvers.map { |approver| { :email => approver.user.email, :name => approver.user.name } }
+      approver_emails.push({ :email => @data.creator.email, :name => @data.creator.name })
+      approver_emails.uniq
     end
   end
 end

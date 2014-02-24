@@ -17,6 +17,11 @@ class ChangeController < ApplicationController
     redirect_to change_path(change)
   end
 
+  def update
+    Change.update_value(params)
+    render :status => 200, :text => 'Success'
+  end
+
   def comment
     @change = Change.find(params[:id])
     @comment = Comment.build_from(@change, current_user.id,params[:subject], params[:comment] )
@@ -69,6 +74,11 @@ class ChangeController < ApplicationController
 
   def get_resource
     values = Change.get_resource_items(params[:resource])
+    render :json => values
+  end
+
+  def get_resources
+    values = Change.get_item_list(params[:resource])
     render :json => values
   end
 

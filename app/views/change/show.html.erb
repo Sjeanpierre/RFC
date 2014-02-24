@@ -1,18 +1,19 @@
 <div class="change-heading cdata" data-cid="<%= @change.id %>" data-cstatus="<%= @change.status.name %>">
+  <%= tinymce :simple %>
   <h2><%= @change.title.capitalize %> <span class="change-id">#<%= @change.id %></span></h2>
 	<div class="change-subheading">
   <button disabled id="status-indicator-button" class="btn btn-sm">
     <span id="status-indicator-span" class="glyphicon"></span> <%= @change.status.name.capitalize %>
   </button>
-  <span class="creator"> <%= @change.creator.name %></span> <span class="created">Created this change</span>
+  <span class="creator"> <%= @change.creator.name %></span> <span class="created">created this change</span>
   <small  class="text-muted"><i class="glyphicon glyphicon-time"></i>
     <abbr title="<%= @change.created_at.to_s(:long) %>" data-livestamp="<%= @change.created_at.utc.iso8601 %>"></abbr>
   </small>
   <small data-toggle="modal" data-target="#commentsModal" class="text-muted link"><i class="glyphicon glyphicon-comment"></i>
-    <%= @change.comment_threads.count %> Comments
+    <%= pluralize(@change.comment_threads.count, 'Comment') %>
   </small>
   <small data-toggle="modal" data-target="#commentsModal" class="text-muted link"><i class="glyphicon glyphicon-paperclip"></i>
-    <%= @change.attachments.count %> Attachments
+    <%= pluralize(@change.attachments.count, 'Attachment') %>
   </small>
 	</div>
 </div>
@@ -22,20 +23,22 @@
     <%= render :partial => 'change_details' %>
   </div>
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-default change-textarea-container">
       <div class="panel-heading">
         <h3 class="panel-title">Change Summary</h3>
+        <span class="glyphicon glyphicon-pencil edit-textarea-icon"></span>
       </div>
       <div class="panel-body">
-        <p><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED).html_safe %></p>
+        <div id="summary" class="text-updatable"><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED).html_safe %></div>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default change-textarea-container">
       <div class="panel-heading">
         <h3 class="panel-title">Rollback Plan</h3>
+        <span class="glyphicon glyphicon-pencil edit-textarea-icon"></span>
       </div>
       <div class="panel-body">
-        <p><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED).html_safe %></p>
+        <div id="rollback" class="text-updatable"><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED).html_safe %></div>
       </div>
     </div>
   </div>
@@ -53,7 +56,6 @@
 
 <%= render :partial => 'comments_modal' %>
 <%= render :partial => 'events' %>
-<button class="btn btn-primary" data-toggle="modal" data-target="#commentsModal">Comments</button>
 
 
 
