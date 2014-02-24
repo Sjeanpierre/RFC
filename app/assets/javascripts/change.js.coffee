@@ -6,6 +6,10 @@ window.rfChange = {};
 MODAL_NAMES = {'priority-adder': 'priority', 'status-adder': 'status', 'system-adder': 'system', 'change-type-adder': 'changeType', 'impact-adder': 'impact'}
 COLOR_CLASSES = ['blue', 'green', 'purple', 'yellow', 'red']
 COLOR_VALUES = ['#0099CC', '#9933CC', '#669900', '#FF8800', '#CC0000']
+EDIT_BUTTONS = '<div class="text-area-edit-actions">
+	        <button id="cancel-edit" type="button" class="btn btn-danger btn-sm">Cancel</button>
+	        <button id="update-edit" type="button" class="btn btn-success btn-sm">Update</button>
+	      </div>'
 Messenger.options = {
   extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
   theme: 'flat'
@@ -34,6 +38,9 @@ $(document).ready ->
   rfChange.processComments()
   rfChange.bindCommentButton()
   rfChange.bindUpload()
+  rfChange.bindEditableUpdater()
+  rfChange.initEditableUpdater('.updatable', 'duedate')
+  rfChange.bindTextAreaUpdater()
   rfChange.applyStatus()
   rfChange.donuts()
   $('#change-date').click (event) ->
@@ -84,8 +91,8 @@ rfChange.bindUpload = ->
       data.context.addClass "error"
 
 rfChange.uploadComplete = (data) ->
-  data.context.removeClass "working"  if progress is 100
-  data.context.addClass 'done' if progress is 100
+  data.context.removeClass "working"
+  data.context.addClass 'done'
   data.context.find('#status-indicator').removeClass('glyphicon-refresh').addClass('glyphicon-ok')
 
 
@@ -146,13 +153,16 @@ rfChange.bindCommentModalClose = ->
 rfChange.applyGraphics = (event_type, object) ->
   if event_type == 'Created'
     object.addClass('info')
-    object.children('i').addClass('glyphicon-edit')
+    object.children('i').addClass('glyphicon-flash')
   else if event_type == 'Approved'
-    object.addClass('success')
+    object.addClass('warning')
     object.children('i').addClass('glyphicon-thumbs-up')
   else if event_type == 'Rejected'
     object.addClass('danger')
     object.children('i').addClass('glyphicon-thumbs-down')
+  else if event_type == 'Updated'
+    object.addClass('primary')
+    object.children('i').addClass('glyphicon-edit')
   else if event_type == 'Completed'
     object.addClass('success')
     object.children('i').addClass('glyphicon-check')
@@ -403,8 +413,8 @@ rfChange.statusButtonColor = (status) ->
 rfChange.statusSpanIcon = (status) ->
   if status  in ['approved']
     return 'glyphicon-thumbs-up'
-  else if status in ['new','pending']
-    return 'glyphicon-info-sign'
+  else if status in ['new', 'pending']
+    return 'glyphicon-flash'
   else if status in ['completed']
     return 'glyphicon-ok-circle'
   else if status in ['aborted']
@@ -414,6 +424,91 @@ rfChange.statusSpanIcon = (status) ->
   else
     return ''
 
+rfChange.bindTextAreaUpdater = ->
+  $('.edit-textarea-icon').click (clickevent) ->
+    clickevent.stopPropagation()
+    selectorId = $(this).closest('.change-textarea-container').find('.text-updatable').attr('id')
+    rfChange.initTextAreaEditer(selectorId)
+
+rfChange.initTextAreaEditer = (elementID) ->
+  currentVal = $("##{elementID}").html()
+  rfChange.localStorageHelper(elementID,currentVal)
+  if tinymce.editors[elementID]?
+    tinymce.editors[elementID].show()
+  else
+    tinymce.init
+      selector: "##{elementID}"
+      inline: false
+  rfChange.addEditActionButtons(elementID)
+
+rfChange.addEditActionButtons = (elementID) ->
+  $("##{elementID}").parent().append(EDIT_BUTTONS)
+  $('#cancel-edit').click (clickevent) ->
+    rfChange.cancelTextAreaEdit(clickevent,this,elementID)
+  $('#update-edit').click (clickevent) ->
+    rfChange.updateTextAreaEdit(clickevent,this,elementID)
+
+rfChange.cancelTextAreaEdit = (clickevent,context,elementId) ->
+  clickevent.stopPropagation()
+  $(context).closest('div').remove()
+  tinymce.editors[elementId].hide()
+  $("##{elementId}").html(rfChange.localStorageHelper(elementId))
+  rfChange.removeLocalStorageItem(elementId)
+
+rfChange.updateTextAreaEdit = (clickevent, context, elementId) ->
+  clickevent.stopPropagation()
+  $(context).closest('div').remove()
+  tinymce.editors[elementId].hide()
+  if $("##{elementId}").html() != rfChange.localStorageHelper(elementId)
+    content = $("##{elementId}").html()
+    changeID = $('.cdata').data('cid')
+    rfChange.postTextArea(changeID,elementId,content)
+
+
+
+rfChange.postTextArea = (changeID,elementID,content) ->
+  $.ajax
+    url: "/change/#{changeID}/#{elementID}/update"
+    type: 'POST'
+    data: {value: content}
+    success: (data, status, response) ->
+      rfChange.callMessenger("#{elementID} Updated!", 'success')
+      error: (data, status, response) ->
+        console.log(data)
+
+
+rfChange.localStorageHelper = (elementID, data=null) ->
+  key = "#{elementID}-preval"
+  if data
+    $("##{elementID}").data('localstorageid', key)
+    localStorage.setItem(key, data)
+  else
+    localStorage.getItem(key)
+
+rfChange.removeLocalStorageItem = (elementID) ->
+  key = "#{elementID}-preval"
+  localStorage.removeItem(key)
+
+
+
+rfChange.bindEditableUpdater = ->
+  $('.edit-detail-icon').click (clickevent) ->
+    clickevent.stopPropagation()
+    $(this).closest('li').children('p').editable('toggle')
+
+rfChange.initEditableUpdater = (selector, resourceName) ->
+  $(selector).editable
+    pk: 1
+#    mode: "popup"
+#    format: 'mm/dd/yyyy'
+#    viewformat: 'mm/dd/yyyy'
+#    url: "/#{resourceName}/update"
+#    placement: "bottom"
+#    toggle: "manual"
+#    success: (response, newValue) ->
+##      rfChange.success(selector, newValue)
+#    error: (err) ->
+#      console.log "#{err}"
 
 rfChange.initPickadate = ->
   affected_input = $('#change-date-input').pickadate(

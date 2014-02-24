@@ -16,6 +16,8 @@ Rfc::Application.routes.draw do
   match '/change/approve/:id' => 'change#approve', :via => 'post'
   match '/change/reject/:id' => 'change#reject', :via => 'post'
   match '/change/complete/:id' => 'change#complete', :via => 'post'
+  match '/change/:id/:resource/update' => 'change#update', :via => 'post'
   match '/:resource/list' => 'change#get_resource', :via => 'get'
+  match '/:resource/items' => 'change#get_resources', :via => 'get'
   match '/:resource/count' => 'change#count', :via => 'get'
 end
