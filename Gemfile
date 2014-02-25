@@ -97,6 +97,5 @@ group :test do
 end
 
 group :staging, :production do
-  gem 'rails_12factor'
   gem 'dotenv-rails'
 end
