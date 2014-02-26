@@ -3,7 +3,7 @@ development:
   default_from_email: 'sender@computersolutions3.com'
   default_from_name: 'RFchange'
 production:
-  url: ENV['APPLICATION_URL']
-  default_from_email: ENV['APPLICATION_FROM_EMAIL']
-  default_from_name: ENV['APPLICATION_EMAIL_FROM_NAME']
+  url: <%= ENV['APPLICATION_URL'] %>
+  default_from_email: <%=ENV['APPLICATION_FROM_EMAIL'] %>
+  default_from_name: <%= ENV['APPLICATION_EMAIL_FROM_NAME'] %>
 
