@@ -5,5 +5,5 @@ development:
 production:
   url: ENV['APPLICATION_URL']
   default_from_email: ENV['APPLICATION_FROM_EMAIL']
-  default_from_name: ENV['APPLICATION_FROM_NAME']
+  default_from_name: ENV['APPLICATION_EMAIL_FROM_NAME']
 
