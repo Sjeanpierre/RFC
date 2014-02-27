@@ -1,18 +1,10 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 SKIP_CALLBACKS = true
 
-priorities = %w{high medium low other}
-change_types = %w{emergency planned}
+priorities = %w{high medium low}
+change_types = %w{planned unplanned}
 impacts = ['downtime', 'system outage', 'none']
-system = %w{DNS Rightscale Cloudflare Amazon Sage Zuora S3}
-statuses = %w(new pending completed aborted approved rejected)
+systems = %w{AWS-S3 AWS-EC2 AWS-IAM CF-DNS CF-PAGERULE CF-SETTING CF-ACL DNS-CREATE DNS-UPDATE DNS-DESTROY RS-CREDS RS-INPUTS RS-FIREWALL RS-USER}
+statuses = %w(new pending approved completed rejected aborted)
 users = ['tom jones', 'bill smith', 'tony doorman', 'mike snow', 'robert wimby', 'sean turner', 'victor hernandez']
 
 puts 'seeding priorities'
@@ -31,8 +23,9 @@ impacts.each do |impact|
 end
 
 puts 'seeding systems'
-system.each do |service|
-  System.create(:name => service)
+systems.each do |system|
+  group,name = system.split('-')
+  System.create(:group => group,:name => system)
 end
 
 puts 'seeding statuses'
@@ -40,42 +33,44 @@ statuses.each do |status|
   Status.create(:name => status)
 end
 
-puts 'seeding users'
-users.each do |user|
-  user_email = "#{user.split(' ').join('_')}@mailinator.com"
-  User.create(:name => user.titleize, :email => user_email)
-end
-user = User.create(:name => 'Stevenson Jean-Pierre', :email => 'stevenson.jean-pierre@sage.com' )
-Service.create(:user => user, :provider => 'github', :uid => ENV['GH_UID'])
-
-puts 'seeding changes'
-10.times do
-  Change.create(
-      :title => 'seeded title for change',
-      :priority_id => Priority.all.sample(1).first.id,
-      :system_id => System.all.sample(1).first.id,
-      :status_id => Status.for_seed.sample(1).first.id,
-      :change_type_id => ChangeType.all.sample(1).first.id,
-      :impact_id => Impact.all.sample(1).first.id,
-      :summary => 'this is a summary',
-      :change_date => Date.strptime(Time.now.strftime('%m/%d/%Y'), '%m/%d/%Y'),
-      :rollback => 'this is the rollback',
-      :creator => User.all.sample(1).first
-  )
-end
-
-puts 'seeding comments'
-Change.all.each do |change|
-  User.all.each do |user|
-    @comment = Comment.build_from(change, user.id,"Comment by #{user.name}", "#{user.name} was here and made a comment on change with title #{change.title}" )
-    @comment.save!
+if ENV['RAILS_ENV'] == 'development'
+  puts 'seeding users'
+  users.each do |user|
+    user_email = "#{user.split(' ').join('_')}@mailinator.com"
+    User.create(:name => user.titleize, :email => user_email)
   end
-end
+  user = User.create(:name => 'Stevenson Jean-Pierre', :email => 'stevenson.jean-pierre@sage.com' )
+  Service.create(:user => user, :provider => 'github', :uid => ENV['GH_UID'])
 
-puts 'seeding approvers'
-Change.all.each do |change|
-  User.all.each do |approver|
-    change.approvers.build(:user_id => approver.id)
+  puts 'seeding changes'
+  10.times do
+    Change.create(
+        :title => 'seeded title for change',
+        :priority_id => Priority.all.sample(1).first.id,
+        :system_id => System.all.sample(1).first.id,
+        :status_id => Status.for_seed.sample(1).first.id,
+        :change_type_id => ChangeType.all.sample(1).first.id,
+        :impact_id => Impact.all.sample(1).first.id,
+        :summary => 'this is a summary',
+        :change_date => Date.strptime(Time.now.strftime('%m/%d/%Y'), '%m/%d/%Y'),
+        :rollback => 'this is the rollback',
+        :creator => User.all.sample(1).first
+    )
   end
-  change.save!
+
+  puts 'seeding comments'
+  Change.all.each do |change|
+    User.all.each do |user|
+      @comment = Comment.build_from(change, user.id,"Comment by #{user.name}", "#{user.name} was here and made a comment on change with title #{change.title}" )
+      @comment.save!
+    end
+  end
+
+  puts 'seeding approvers'
+  Change.all.each do |change|
+    User.all.each do |approver|
+      change.approvers.build(:user_id => approver.id)
+    end
+    change.save!
+  end
 end
