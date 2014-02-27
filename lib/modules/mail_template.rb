@@ -48,6 +48,7 @@ module MailTemplate
         template_contents = File.read(Rails.root.join('lib', 'mail_templates', "#{template_section.to_s}.erb"))
         rendered_templates[template_section] = erb_handler(template_contents)
       end
+
       @content = rendered_templates
     end
 
