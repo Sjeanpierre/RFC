@@ -20,7 +20,6 @@ $(document).ready ->
   $('#change-form').submit (event) ->
     rfChange.updateTextarea()
     rfChange.validateForm(event)
-  $('.select2').select2()
   $('.approver-select').select2()
   $('#priority-adder, #status-adder, #system-adder, #change-type-adder, #impact-adder').click (clickevent) ->
     rfChange.modalhandler(clickevent)
@@ -43,6 +42,7 @@ $(document).ready ->
   rfChange.bindTextAreaUpdater()
   rfChange.applyStatus()
   rfChange.donuts()
+  rfChange.getSelect2Items('.select2-dropdown')
   $('#change-date').click (event) ->
     rfChange.initPickadate()
     event.stopPropagation()
@@ -432,7 +432,7 @@ rfChange.bindTextAreaUpdater = ->
 
 rfChange.initTextAreaEditer = (elementID) ->
   currentVal = $("##{elementID}").html()
-  rfChange.localStorageHelper(elementID,currentVal)
+  rfChange.localStorageHelper(elementID, currentVal)
   if tinymce.editors[elementID]?
     tinymce.editors[elementID].show()
   else
@@ -444,11 +444,11 @@ rfChange.initTextAreaEditer = (elementID) ->
 rfChange.addEditActionButtons = (elementID) ->
   $("##{elementID}").parent().append(EDIT_BUTTONS)
   $('#cancel-edit').click (clickevent) ->
-    rfChange.cancelTextAreaEdit(clickevent,this,elementID)
+    rfChange.cancelTextAreaEdit(clickevent, this, elementID)
   $('#update-edit').click (clickevent) ->
-    rfChange.updateTextAreaEdit(clickevent,this,elementID)
+    rfChange.updateTextAreaEdit(clickevent, this, elementID)
 
-rfChange.cancelTextAreaEdit = (clickevent,context,elementId) ->
+rfChange.cancelTextAreaEdit = (clickevent, context, elementId) ->
   clickevent.stopPropagation()
   $(context).closest('div').remove()
   tinymce.editors[elementId].hide()
@@ -462,11 +462,10 @@ rfChange.updateTextAreaEdit = (clickevent, context, elementId) ->
   if $("##{elementId}").html() != rfChange.localStorageHelper(elementId)
     content = $("##{elementId}").html()
     changeID = $('.cdata').data('cid')
-    rfChange.postTextArea(changeID,elementId,content)
+    rfChange.postTextArea(changeID, elementId, content)
 
 
-
-rfChange.postTextArea = (changeID,elementID,content) ->
+rfChange.postTextArea = (changeID, elementID, content) ->
   $.ajax
     url: "/change/#{changeID}/#{elementID}/update"
     type: 'POST'
@@ -477,7 +476,7 @@ rfChange.postTextArea = (changeID,elementID,content) ->
         console.log(data)
 
 
-rfChange.localStorageHelper = (elementID, data=null) ->
+rfChange.localStorageHelper = (elementID, data = null) ->
   key = "#{elementID}-preval"
   if data
     $("##{elementID}").data('localstorageid', key)
@@ -488,7 +487,6 @@ rfChange.localStorageHelper = (elementID, data=null) ->
 rfChange.removeLocalStorageItem = (elementID) ->
   key = "#{elementID}-preval"
   localStorage.removeItem(key)
-
 
 
 rfChange.bindEditableUpdater = ->
@@ -536,4 +534,28 @@ rfChange.morrisCounts = (resource, element) ->
     success: (data, status, response) ->
       rfChange.morrisDonut(response.responseJSON, element)
       error: (data, status, response) ->
+        console.log(data)
+
+rfChange.initSelect2ForNewPage = (object, data) ->
+  placeHolderText = object.data('placeholder')
+  object.select2
+    placeholder: placeHolderText
+    data:
+      results: data
+      text: 'tag'
+
+rfChange.getSelect2Items = (selector) ->
+  $(selector).each ->
+    resourceName = $(this).data('resource')
+    rfChange.getResourceItems(resourceName, $(this))
+
+rfChange.getResourceItems = (resourceName, object) ->
+  $.ajax
+    url: "/#{resourceName}/items"
+    type: 'get'
+    success: (data, status, response) ->
+      rfChange.initSelect2ForNewPage(object, data)
+      response
+      error: (data, status, response) ->
+        console.log("there was an error retrieving the list of #{resourceName}")
         console.log(data)

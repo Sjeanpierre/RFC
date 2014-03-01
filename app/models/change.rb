@@ -18,19 +18,14 @@ class Change < ActiveRecord::Base
   RESOURCES = { :impact => Impact, :status => Status, :system => System, :changeType => ChangeType, :priority => Priority, :change_type => ChangeType }
 
   def self.create_change_request(params, current_user)
-    priority_id = Priority.find_or_create_by(:name => params[:priority].downcase).id
-    status_id = Status.find_or_create_by(:name => params[:status].downcase).id
-    system_id = System.find_or_create_by(:name => params[:system].downcase).id
-    change_type_id = ChangeType.find_or_create_by(:name => params[:change_type].downcase).id
-    impact_id = Impact.find_or_create_by(:name => params[:impact].downcase).id
     approvers = params[:approvers].reject { |approver| approver.blank? }
-    new_change = Change.create(
+    new_change = Change.new(
         :title => params[:title],
-        :priority_id => priority_id,
-        :system_id => system_id,
-        :status_id => status_id,
-        :change_type_id => change_type_id,
-        :impact_id => impact_id,
+        :priority_id => params[:priority],
+        :system_id => params[:system],
+        :status_id => params[:status],
+        :change_type_id => params[:change_type],
+        :impact_id => params[:impact],
         :change_date => Date.strptime(params[:change_date], '%m/%d/%Y'),
         :summary => params[:summary],
         :rollback => params[:rollback],
@@ -108,6 +103,10 @@ class Change < ActiveRecord::Base
 
   def recipients
 
+  end
+
+  def drop_down_items
+    %w(priority status system change_type impact)
   end
 
   def approval_details(user_id)
