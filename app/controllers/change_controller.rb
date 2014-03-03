@@ -66,6 +66,10 @@ class ChangeController < ApplicationController
    render :json => Change.agg_count(params[:resource].to_sym)
   end
 
+  def render_partial
+    @change = Change.find(params[:id])
+    render :partial => "#{params[:partial]}"
+  end
 
   def add_resource
     Change.add_resource_item(params[:resource],params[:value])

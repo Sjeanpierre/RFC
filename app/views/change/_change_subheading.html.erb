@@ -1,0 +1,15 @@
+<button disabled id="status-indicator-button" class="btn btn-sm">
+  <span id="status-indicator-span" class="glyphicon"></span> <%= @change.status.name.capitalize %>
+</button>
+<span class="creator"> <%= @change.creator.name %></span> <span class="created">created this change</span>
+<small class="text-muted"><i class="glyphicon glyphicon-time"></i>
+  <abbr title="<%= @change.created_at.to_s(:long) %>" data-livestamp="<%= @change.created_at.utc.iso8601 %>"></abbr>
+</small>
+<small data-toggle="modal" data-target="#commentsModal" class="text-muted link">
+  <i class="glyphicon glyphicon-comment"></i>
+  <%= pluralize(@change.comment_threads.count, 'Comment') %>
+</small>
+<small data-toggle="modal" data-target="#commentsModal" class="text-muted link">
+  <i class="glyphicon glyphicon-paperclip"></i>
+  <%= pluralize(@change.attachments.count, 'Attachment') %>
+</small>

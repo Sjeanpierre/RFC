@@ -24,7 +24,7 @@ Rfc::Application.configure do
   # Disable deprecation warnings
   ActiveSupport::Deprecation.silenced = true
 
-  SKIP_CALLBACKS = false
+  SKIP_CALLBACKS = true
 
   # Raise an error on page load if there are pending migrations
   config.active_record.migration_error = :page_load

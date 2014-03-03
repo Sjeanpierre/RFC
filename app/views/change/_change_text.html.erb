@@ -1,0 +1,20 @@
+<div class="col-md-9">
+  <div class="panel panel-default change-textarea-container">
+    <div class="panel-heading">
+      <h3 class="panel-title">Change Summary</h3>
+      <span class="glyphicon glyphicon-pencil edit-textarea-icon"></span>
+    </div>
+    <div class="panel-body">
+      <div id="summary" class="text-updatable"><%= Sanitize.clean(@change.summary, Sanitize::Config::RELAXED).html_safe %></div>
+    </div>
+  </div>
+  <div class="panel panel-default change-textarea-container">
+    <div class="panel-heading">
+      <h3 class="panel-title">Rollback Plan</h3>
+      <span class="glyphicon glyphicon-pencil edit-textarea-icon"></span>
+    </div>
+    <div class="panel-body">
+      <div id="rollback" class="text-updatable"><%= Sanitize.clean(@change.rollback, Sanitize::Config::RELAXED).html_safe %></div>
+    </div>
+  </div>
+</div>
