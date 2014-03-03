@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140213225400) do
+ActiveRecord::Schema.define(version: 20140303054355) do
 
   create_table "approvers", force: true do |t|
     t.integer  "user_id"
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20140213225400) do
   end
 
   create_table "systems", force: true do |t|
-    t.string   "group"
+    t.string   "category"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"

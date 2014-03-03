@@ -152,7 +152,14 @@ class Change < ActiveRecord::Base
   def self.get_item_list(resource_type)
     raise("#{resource_type} is an invalid resource") unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
-    resource_class.all.map { |status| { :id => status.id, :text => status.name.capitalize } }
+    if resource_type == 'system'
+      grouped_data = resource_class.all.to_a.group_by { |item| item.category }.each do |_, v|
+        v.map! { |status| { :id => status.id, :text => status.name.upcase } }
+      end
+      grouped_data.map { |k, v| { :text => k, :children => v } }
+    else
+      resource_class.all.map { |status| { :id => status.id, :text => status.name.capitalize } }
+    end
   end
 
 
@@ -166,7 +173,7 @@ class Change < ActiveRecord::Base
   def track_changes
     changes = self.changes
     text_fields = changes.keys.select { |field| %w(summary rollback).include?(field) }
-    local_fields = changes.keys.select {|field| %w(change_date).include?(field)}
+    local_fields = changes.keys.select { |field| %w(change_date).include?(field) }
     changed_associated_fields = changes.keys.reject { |field| %w(status_id change_date updated_at summary rollback).include?(field) }
     changed_associated_fields.each do |field|
       klass = Change.reflections.select { |_, v| v.foreign_key == field }.values.first.class_name.constantize

@@ -3,7 +3,7 @@ SKIP_CALLBACKS = true
 priorities = %w{high medium low}
 change_types = %w{planned unplanned}
 impacts = ['downtime', 'system outage', 'none']
-systems = %w{AWS-S3 AWS-EC2 AWS-IAM CF-DNS CF-PAGERULE CF-SETTING CF-ACL DNS-CREATE DNS-UPDATE DNS-DESTROY RS-CREDS RS-INPUTS RS-FIREWALL RS-USER}
+systems = %w{Amazon-S3 Amazon-EC2 Amazon-IAM CloudFlare-DNS CloudFlare-PAGERULE CloudFlare-SETTING CloudFlare-ACL DNS-CREATE DNS-UPDATE DNS-DESTROY Rightscale-CREDENTIALS Rightscale-INPUTS Rightscale-FIREWALL Rightscale-USER}
 statuses = %w(new pending approved completed rejected aborted)
 users = ['tom jones', 'bill smith', 'tony doorman', 'mike snow', 'robert wimby', 'sean turner', 'victor hernandez']
 
@@ -24,8 +24,8 @@ end
 
 puts 'seeding systems'
 systems.each do |system|
-  group,name = system.split('-')
-  System.create(:group => group,:name => system)
+  category,name = system.split('-')
+  System.create(:category => category,:name => name)
 end
 
 puts 'seeding statuses'

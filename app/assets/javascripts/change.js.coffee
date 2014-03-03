@@ -532,16 +532,10 @@ rfChange.bindEditableUpdater = ->
 rfChange.initEditableUpdater = (selector, resourceName) ->
   $(selector).editable
     pk: 1
-#    mode: "popup"
-#    format: 'mm/dd/yyyy'
-#    viewformat: 'mm/dd/yyyy'
-#    url: "/#{resourceName}/update"
-#    placement: "bottom"
-#    toggle: "manual"
-#    success: (response, newValue) ->
-##      rfChange.success(selector, newValue)
-#    error: (err) ->
-#      console.log "#{err}"
+    success: (response, newValue) ->
+      rfChange.reloadSections('events')
+    error: (err) ->
+      console.log "#{err}"
 
 rfChange.initPickadate = ->
   affected_input = $('#change-date-input').pickadate(
@@ -575,9 +569,7 @@ rfChange.initSelect2ForNewPage = (object, data) ->
   placeHolderText = object.data('placeholder')
   object.select2
     placeholder: placeHolderText
-    data:
-      results: data
-      text: 'tag'
+    data: data
 
 rfChange.getSelect2Items = (selector) ->
   $(selector).each ->
