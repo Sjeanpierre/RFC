@@ -43,9 +43,10 @@ if ENV['RAILS_ENV'] == 'development'
   Service.create(:user => user, :provider => 'github', :uid => ENV['GH_UID'])
 
   puts 'seeding changes'
-  10.times do
+  20.times do
+    user = User.all.sample(1).first
     Change.create(
-        :title => 'seeded title for change',
+        :title => "Change created by #{user.name}",
         :priority_id => Priority.all.sample(1).first.id,
         :system_id => System.all.sample(1).first.id,
         :status_id => Status.for_seed.sample(1).first.id,
@@ -54,7 +55,7 @@ if ENV['RAILS_ENV'] == 'development'
         :summary => 'this is a summary',
         :change_date => Date.strptime(Time.now.strftime('%m/%d/%Y'), '%m/%d/%Y'),
         :rollback => 'this is the rollback',
-        :creator => User.all.sample(1).first
+        :creator => user
     )
   end
 

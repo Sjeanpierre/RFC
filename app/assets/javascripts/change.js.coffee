@@ -50,6 +50,7 @@ $(document).ready ->
 $(document).on "click", ".editable-cancel, .editable-submit", ->
   $(".add").show()
 
+
 $(document).on "click", ".editable-cancel", ->
   $('.adder a').last().remove()
 
@@ -191,6 +192,35 @@ rfChange.bindApproval = ->
       rfChange.handleReject($(this).data('cid'))
     else if clickevent.currentTarget.attributes.id.value == 'complete'
       rfChange.handleComplete($(this).data('cid'))
+    rfChange.reloadSections('change_details')
+    rfChange.reloadSections('events')
+    rfChange.reloadSections('change_subheading')
+
+rfChange.afterReloadActions = (selector) ->
+  if selector == '#events'
+    rfChange.processTimeline()
+  else if selector == '#change_details'
+    rfChange.prepLabelColors()
+    rfChange.bindEditableUpdater()
+  else if selector == '#change_subheading'
+    rfChange.applyStatus()
+
+
+
+rfChange.reloadSections = (sectionId) ->
+  $.ajax
+    url: "/change/#{rfChange.changeId()}/render/#{sectionId}"
+    type: 'get'
+    dataType: 'html'
+    success: (data, status, response) ->
+      rfChange.replaceContent("##{sectionId}",data)
+    error: (data, status, response) ->
+      console.log(data)
+
+rfChange.replaceContent = (selector, content) ->
+  $(selector).html(content)
+  rfChange.afterReloadActions(selector)
+
 
 rfChange.errorNotification = ->
   contents = $('.error-notification .parsley-error-list li')
@@ -367,6 +397,7 @@ rfChange.handleApprove = (changeId) ->
     success: (data, status, response) ->
       $('div.change-heading').data('cstatus', 'approved')
       $('.approval-buttons').replaceWith('<h2><p class="text-center text-success">Change Approved!</p></h2>')
+      rfChange.callMessenger('Change Approved!', 'success')
       rfChange.applyStatus()
       error: (data, status, response) ->
         console.log(data)
@@ -379,6 +410,7 @@ rfChange.handleReject = (changeId) ->
     success: (data, status, response) ->
       $('div.change-heading').data('cstatus', 'rejected')
       $('.approval-buttons').replaceWith('<h2><p class="text-center text-danger">Change Rejected!</p></h2>')
+      rfChange.callMessenger('Change Rejected!', 'success')
       rfChange.applyStatus()
       error: (data, status, response) ->
         console.log(data)
@@ -390,6 +422,7 @@ rfChange.handleComplete = (changeId) ->
     success: (data, status, response) ->
       $('div.change-heading').data('cstatus', 'completed')
       $('.post-approval').replaceWith('<h2><p class="text-center text-success">Change Marked as Completed!</p></h2>')
+      rfChange.callMessenger('Change marked as Completed!', 'success')
       rfChange.applyStatus()
       error: (data, status, response) ->
         console.log(data)
@@ -464,6 +497,8 @@ rfChange.updateTextAreaEdit = (clickevent, context, elementId) ->
     changeID = $('.cdata').data('cid')
     rfChange.postTextArea(changeID, elementId, content)
 
+rfChange.changeId = ->
+  $('.cdata').data('cid')
 
 rfChange.postTextArea = (changeID, elementID, content) ->
   $.ajax

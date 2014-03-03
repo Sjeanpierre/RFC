@@ -1,3 +1,7 @@
+<li class="last">
+  <div>
+    <p class="detail-heading"><%= pluralize(@change.approvers.count, 'Approver') %></p>
+  </div>
 <div class="approver-list">
   <ul>
     <% @change.approvers.each do |approver| %>
@@ -5,3 +9,4 @@
     <% end %>
   </ul>
 </div>
+</li>

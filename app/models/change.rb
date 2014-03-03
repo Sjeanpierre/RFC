@@ -114,6 +114,22 @@ class Change < ActiveRecord::Base
     [approval_record.first, approval_record.exists?]
   end
 
+  def can_approve?(user_id)
+    approvers.exists?(:user_id => user_id)
+  end
+
+  def can_complete?(user)
+    creator == user
+  end
+
+  def editable?
+    if %w(approved completed aborted).include?(status.name)
+      false
+    else
+      true
+    end
+  end
+
 
   def approved_by
     self.approvers.where(:approved => true).first.user

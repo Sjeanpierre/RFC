@@ -1,62 +1,103 @@
-<div class="change-details">
-  <ul>
-    <li>
-      <p class="detail-heading">Created By</p>
+<% if @change.editable? %>
+  <div class="change-details">
+    <ul>
+      <li>
+        <p class="detail-heading">Created By</p>
 
-      <p><%= @change.creator.name %></p>
-    </li>
-    <li>
-      <div>
-        <p class="detail-heading">Due Date</p>
-        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
-      </div>
-      <p class="updatable" data-type="date" data-url="/change/<%= @change.id %>/change_date/update" data-toggle="manual" data-mode="popup" data-format="mm/dd/yyyy" data-viewformat="mm/dd/yyyy" data-placement="bottom">
-        <%= @change.change_date.try(:strftime, '%m/%d/%Y') %>
-      </p>
-    </li>
-    <li>
-      <div>
-        <p class="detail-heading">Priority</p>
-        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
-      </div>
-      <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/priority/update" data-source="/priority/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.priority.name.capitalize %></p>
-    </li>
-    <li>
-      <div>
-        <p class="detail-heading">Status</p>
-        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
-      </div>
-      <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/status/update" data-source="/status/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.status.name.capitalize %></p>
-    </li>
-    <li>
-      <div>
-        <p class="detail-heading">System</p>
-        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
-      </div>
-      <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/system/update" data-source="/system/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.system.name.capitalize %></p>
-    </li>
-    <li>
-      <div>
-        <p class="detail-heading">Change Type</p>
-        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
-      </div>
-      <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/change_type/update" data-source="/changeType/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.change_type.name.capitalize %></p>
-    </li>
-    <li>
-      <div>
-        <p class="detail-heading">Potential Impact</p>
-        <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
-      </div>
-      <p class="updatable" data-inputclass="wide-input" data-inputclass="wide-load" data-type="select2" data-url="/change/<%= @change.id %>/impact/update" data-source="/impact/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.impact.name.capitalize %></p>
-    </li>
-    <% unless %w(approved completed).include?(@change.status.name) %>
-      <li class="last">
+        <p><%= @change.creator.name %></p>
+      </li>
+      <li>
         <div>
-          <p class="detail-heading"><%= pluralize(@change.approvers.count, 'Approver') %></p>
+          <p class="detail-heading">Due Date</p>
           <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
         </div>
-        <%= render :partial => 'approvers' %>
+        <p class="updatable" data-type="date" data-url="/change/<%= @change.id %>/change_date/update" data-toggle="manual" data-mode="popup" data-format="mm/dd/yyyy" data-viewformat="mm/dd/yyyy" data-placement="bottom">
+          <%= @change.change_date.try(:strftime, '%m/%d/%Y') %>
+        </p>
       </li>
-    <% end %>
-  </ul>
-</div>
+      <li>
+        <div>
+          <p class="detail-heading">Priority</p>
+          <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+        </div>
+        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/priority/update" data-source="/priority/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.priority.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">Status</p>
+          <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+        </div>
+        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/status/update" data-source="/status/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.status.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">System</p>
+          <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+        </div>
+        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/system/update" data-source="/system/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.system.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">Change Type</p>
+          <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+        </div>
+        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/change_type/update" data-source="/changeType/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.change_type.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">Potential Impact</p>
+          <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+        </div>
+        <p class="updatable" data-inputclass="wide-input" data-inputclass="wide-load" data-type="select2" data-url="/change/<%= @change.id %>/impact/update" data-source="/impact/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.impact.name.capitalize %></p>
+      </li>
+      <%= approver_list(@change) %>
+    </ul>
+  </div>
+<% else %>
+  <div class="change-details">
+    <ul>
+      <li>
+        <p class="detail-heading">Created By</p>
+
+        <p><%= @change.creator.name %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">Due Date</p>
+        </div>
+        <%= @change.change_date.try(:strftime, '%m/%d/%Y') %>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">Priority</p>
+        </div>
+        <p><%= @change.priority.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">Status</p>
+        </div>
+        <p><%= @change.status.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">System</p>
+        </div>
+        <p><%= @change.system.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">Change Type</p>
+        </div>
+        <p><%= @change.change_type.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
+          <p class="detail-heading">Potential Impact</p>
+        </div>
+        <p><%= @change.impact.name.capitalize %></p>
+      </li>
+      <%= approver_list(@change) %>
+    </ul>
+  </div>
+<% end %>
