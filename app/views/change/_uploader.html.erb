@@ -16,17 +16,20 @@
         <li class="done">
           <div class="download-details">
             <div class="file-extension">
-              <p id="extension"><%= attachment.file_extension %></p>
+              <p class="download-link" id="extension"><%= attachment.file_extension %></p>
             </div>
             <p><%= attachment.attachment_file_name.upcase %>
               <i><%= number_to_human_size(attachment.attachment_file_size) %></i>
             </p>
           </div>
-          <span id="status-indicator" class="glyphicon glyphicon-cloud-download"></span>
+          <a class="download-link" data-href="/change/<%= @change.id %>/attachment/<%= attachment.id %>">
+            <span id="status-indicator" class="glyphicon glyphicon-cloud-download"></span>
+          </a>
         </li>
       <% end %>
     </ul>
   </div>
 </div>
+<iframe id="downloadFrame" style="display:none"></iframe>
 
 

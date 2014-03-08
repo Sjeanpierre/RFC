@@ -62,6 +62,11 @@ class ChangeController < ApplicationController
     end
   end
 
+  def download
+    @download = Attachment.find(params[:aid])
+    render :json => {:url => @download.attachment.expiring_url(10)}
+  end
+
   def count
    render :json => Change.agg_count(params[:resource].to_sym)
   end

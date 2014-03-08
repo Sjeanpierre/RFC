@@ -42,6 +42,10 @@ GEM
     atomic (1.1.14)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
+    aws-sdk (1.35.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
+      uuidtools (~> 2.1)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -286,6 +290,7 @@ GEM
       rack
       raindrops (~> 0.7)
     uniform_notifier (1.4.0)
+    uuidtools (2.1.4)
     webmock (1.17.2)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
@@ -298,6 +303,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading
+  aws-sdk
   better_errors
   binding_of_caller
   bullet

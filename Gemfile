@@ -24,6 +24,7 @@ gem 'mandrill-api'
 
 #Attachments
 gem 'paperclip', '~> 3.0'
+gem 'aws-sdk'
 
 # API
 # gem 'rabl'
