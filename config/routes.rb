@@ -21,4 +21,5 @@ Rfc::Application.routes.draw do
   match '/:resource/items' => 'change#get_resources', :via => 'get'
   match '/:resource/count' => 'change#count', :via => 'get'
   match '/change/:id/render/:partial' => 'change#render_partial', :via => 'get'
+  match '/change/:cid/attachment/:aid' => 'change#download', :via => 'get'
 end

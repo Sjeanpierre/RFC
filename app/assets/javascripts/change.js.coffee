@@ -42,6 +42,7 @@ $(document).ready ->
   rfChange.bindTextAreaUpdater()
   rfChange.applyStatus()
   rfChange.donuts()
+  rfChange.bindDownloadButton()
   rfChange.getSelect2Items('.select2-dropdown')
   $('#change-date').click (event) ->
     rfChange.initPickadate()
@@ -206,14 +207,13 @@ rfChange.afterReloadActions = (selector) ->
     rfChange.applyStatus()
 
 
-
 rfChange.reloadSections = (sectionId) ->
   $.ajax
     url: "/change/#{rfChange.changeId()}/render/#{sectionId}"
     type: 'get'
     dataType: 'html'
     success: (data, status, response) ->
-      rfChange.replaceContent("##{sectionId}",data)
+      rfChange.replaceContent("##{sectionId}", data)
     error: (data, status, response) ->
       console.log(data)
 
@@ -456,6 +456,25 @@ rfChange.statusSpanIcon = (status) ->
     return 'glyphicon-thumbs-down'
   else
     return ''
+
+rfChange.bindDownloadButton = () ->
+  $('.download-link').click (clickevent) ->
+    clickevent.stopPropagation
+    downloadRoute = $(this).data('href')
+    rfChange.getDownloadLink(downloadRoute)
+
+
+rfChange.getDownloadLink = (route) ->
+  $.ajax
+    url: route
+    type: 'get'
+    success: (data, status, response) ->
+      console.log(data)
+      document.getElementById("downloadFrame").src = response.responseJSON.url
+      error: (data, status, response) ->
+        console.log("there was an error retrieving the list of #{resourceName}")
+        console.log(data)
+
 
 rfChange.bindTextAreaUpdater = ->
   $('.edit-textarea-icon').click (clickevent) ->

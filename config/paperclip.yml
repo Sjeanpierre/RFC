@@ -1,0 +1,4 @@
+development:
+  :upload_path: 'development/uploads/:change/:filename'
+production:
+  :upload_path: 'production/uploads/:change/:filename'
