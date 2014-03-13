@@ -16,10 +16,7 @@ Messenger.options = {
 }
 
 $(document).ready ->
-  $('.change-form').parsley()
-  $('#change-form').submit (event) ->
-    rfChange.updateTextarea()
-    rfChange.validateForm(event)
+  rfChange.bindFormSubmit()
   $('.approver-select').select2()
   $('#priority-adder, #status-adder, #system-adder, #change-type-adder, #impact-adder').click (clickevent) ->
     rfChange.modalhandler(clickevent)
@@ -171,7 +168,7 @@ rfChange.applyGraphics = (event_type, object) ->
 
 
 rfChange.validateForm = (event) ->
-  if $('#change-form').parsley('validate')
+  if $('#change-form').parsley().validate()
 #    $('#change-form').submit()
   else
     rfChange.errorNotification()
@@ -223,7 +220,7 @@ rfChange.replaceContent = (selector, content) ->
 
 
 rfChange.errorNotification = ->
-  contents = $('.error-notification .parsley-error-list li')
+  contents = $('.error-notification .filled li')
   contents.each ->
     errorMsg = $(this).html()
     rfChange.callMessenger(errorMsg, 'error')
@@ -349,6 +346,12 @@ rfChange.donuts = ->
     donuts = ['status', 'priority', 'system', 'creator']
     for donut in donuts
       rfChange.morrisCounts(donut, donut)
+
+
+rfChange.bindFormSubmit = ->
+  $('#change-form').submit (event) ->
+    rfChange.updateTextarea()
+    rfChange.validateForm(event)
 
 
 rfChange.bsfire = ->

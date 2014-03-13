@@ -16,7 +16,7 @@
         <td><%= change.id %></td>
         <td><%= change.priority.name.capitalize %></td>
         <td><%= change.status.name.capitalize %></td>
-        <td><%= change.creator.name.capitalize %></td>
+        <td><%= change.creator.name %></td>
         <td>
           <abbr title="<%= change.created_at.to_s(:long) %>" data-livestamp="<%= change.created_at.utc.iso8601 %>"></abbr>
         </td>
