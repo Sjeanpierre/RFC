@@ -14,7 +14,12 @@ class ChangeController < ApplicationController
   def create
     creator = current_user || User.find(4)
     change = Change.create_change_request(params[:change],creator)
-    redirect_to change_path(change)
+    if change.save
+      redirect_to change_path(change)
+    else
+      @change = change
+      render 'new'
+    end
   end
 
   def update

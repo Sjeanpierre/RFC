@@ -1,13 +1,14 @@
 <%= tinymce :simple %>
+<script></script>
 <div class="error-notification"></div>
 <div class="create-page-heading">
   <h1>New Change Request For <span id='change-date'><%= Time.now.strftime('%m/%d/%Y') %></span><input type="hidden"/>
   </h1>
 </div>
-<%= simple_form_for @change, url: { action: 'create' }, :html => { :id => 'change-form', :'data-error-container' => '.error-notification' } do |f| %>
+<%= simple_form_for @change, url: { action: 'create' }, :html => { :'data-parsley-validate' => true, :id => 'change-form', :'data-parsley-errors-container' => '.error-notification' } do |f| %>
   <div class="title-input">
     <div class="input-group">
-      <%= f.input :title, :label => false, required: true, :input_html => { :class => 'form-control input-lg', :id => 'title_label', :'data-error-message' => 'Title field is required', :placeholder => 'Please Enter Title For Change Request' } %>
+      <%= f.input :title, :label => false, required: true, :input_html => { :class => 'form-control input-lg', :id => 'title_label', :'data-parsley-error-message' => 'Title field is required', :placeholder => 'Please Enter Title For Change Request' } %>
       <span class="input-group-addon"><span id="counter"></span>/80 Chars Remaining</span>
     </div>
   </div>
@@ -15,9 +16,9 @@
   <div id='horizontal' class="horizontal col-md-12">
     <%= render :partial => 'form_dropdowns', :locals => { :f => f } %>
   </div>
-  <%= f.input :summary, as: :text, required: true, :input_html => { :class => 'tinymce', :id => 'summary-textarea', :rows => 15, :'data-error-message' => 'Summary field is required' } %>
-  <%= f.input :rollback, as: :text, required: true, :input_html => { :class => 'tinymce', :id => 'rollback-textarea', :rows => 15, :'data-error-message' => 'Rollback field is required' } %><br>
-  <%= f.input :approvers, required: true, :collection => User.all.map { |u| [u.name, u.id] }, :input_html => { :value => '', :multiple => true, :class => 'approver-select approver-colors', :'data-error-message' => 'Approver field is required', :placeholder => 'Select Approvers' } %><br>
+  <%= f.input :summary, as: :text, required: true, :input_html => { :class => 'tinymce', :id => 'summary-textarea', :rows => 15, :'data-parsley-error-message' => 'Summary field is required' } %>
+  <%= f.input :rollback, as: :text, required: true, :input_html => { :class => 'tinymce', :id => 'rollback-textarea', :rows => 15, :'data-parsley-error-message' => 'Rollback field is required' } %><br>
+  <%= f.input :approvers, required: true, :collection => User.all.map { |u| [u.name, u.id] }, :input_html => { :value => '', :multiple => true, :class => 'approver-select approver-colors', :'data-parsley-error-message' => 'Approver field is required', :placeholder => 'Select Approvers' } %><br>
   <div class="submit-button">
     <%= f.button :submit, :class => 'btn btn-primary btn-lg change-submit' %>
   </div>

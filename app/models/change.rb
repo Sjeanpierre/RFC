@@ -11,6 +11,7 @@ class Change < ActiveRecord::Base
   has_many :approvers
   has_many :users, through: :approvers
   has_many :attachments
+  validates_presence_of :title, :priority, :system, :status, :change_type, :summary, :rollback, :creator
   after_update :track_changes
   after_create :track_create
 
@@ -34,7 +35,6 @@ class Change < ActiveRecord::Base
     approvers.each do |approver|
       new_change.approvers.build(:user_id => approver)
     end
-    new_change.save!
     new_change
   end
 
