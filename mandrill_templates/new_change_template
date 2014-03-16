@@ -1,0 +1,566 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--suppress ALL -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>*|SUBJECT|*</title>
+
+<style type="text/css">
+#outlook a {
+    padding: 0;
+}
+
+body {
+    width: 100% !important;
+}
+
+.ReadMsgBody {
+    width: 100%;
+}
+
+.ExternalClass {
+    width: 100%;
+}
+
+body {
+    -webkit-text-size-adjust: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    border: 0;
+    height: auto;
+    line-height: 100%;
+    outline: none;
+    text-decoration: none;
+}
+
+table td {
+    border-collapse: collapse;
+}
+
+#bodyTable {
+    height: 100% !important;
+    margin: 0;
+    padding: 0;
+    width: 100% !important;
+}
+
+/*
+@tab Page
+@section background color
+@tip Set the background color for your email. You may want to choose one that matches your company's branding.
+@theme page
+*/
+body, #bodyTable {
+    /*@editable*/
+    background-color: #DEE0E2;
+}
+
+.borderBar {
+    background-image: url('http://gallery.mailchimp.com/27aac8a65e64c994c4416d6b8/images/diagborder.png');
+    background-position: top left;
+    background-repeat: repeat;
+    height: 5px !important;
+}
+
+/*
+@tab Page
+@section heading 1
+@tip Set the styling for all first-level headings in your emails. These should be the largest of your headings.
+@style heading 1
+*/
+h1 {
+    /*@editable*/
+    color: #3F3A38;
+    display: block;
+    /*@editable*/
+    font-family: Georgia;
+    /*@editable*/
+    font-size: 40px;
+    /*@editable*/
+    font-weight: normal;
+    /*@editable*/
+    line-height: 100%;
+    /*@editable*/
+    letter-spacing: normal;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+    /*@editable*/
+    text-align: left;
+}
+
+/*
+@tab Page
+@section heading 2
+@tip Set the styling for all second-level headings in your emails.
+@style heading 2
+*/
+h2 {
+    /*@editable*/
+    color: #3F3A38;
+    display: block;
+    /*@editable*/
+    font-family: Georgia;
+    /*@editable*/
+    font-size: 24px;
+    /*@editable*/
+    font-weight: bold;
+    /*@editable*/
+    line-height: 100%;
+    /*@editable*/
+    letter-spacing: normal;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+    /*@editable*/
+    text-align: left;
+}
+
+/*
+@tab Page
+@section heading 3
+@tip Set the styling for all third-level headings in your emails.
+@style heading 3
+*/
+h3 {
+    /*@editable*/
+    color: #ED5E29;
+    display: block;
+    /*@editable*/
+    font-family: Georgia;
+    /*@editable*/
+    font-size: 16px;
+    /*@editable*/
+    font-weight: normal;
+    /*@editable*/
+    line-height: 100%;
+    /*@editable*/
+    letter-spacing: normal;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+    /*@editable*/
+    text-align: left;
+}
+
+/*
+@tab Page
+@section heading 4
+@tip Set the styling for all fourth-level headings in your emails. These should be the smallest of your headings.
+@style heading 4
+*/
+h4 {
+    /*@editable*/
+    color: #3F3A38;
+    display: block;
+    /*@editable*/
+    font-family: Georgia;
+    /*@editable*/
+    font-size: 12px;
+    /*@editable*/
+    font-weight: bold;
+    /*@editable*/
+    line-height: 100%;
+    /*@editable*/
+    letter-spacing: normal;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+    /*@editable*/
+    text-align: left;
+}
+
+/*
+@tab Header
+@section preheader text
+@tip Set the styling for your email's preheader text. Choose a size and color that is easy to read.
+*/
+.preheaderContent {
+    /*@editable*/
+    color: #505050;
+    /*@editable*/
+    font-family: Helvetica;
+    /*@editable*/
+    font-size: 11px;
+    /*@editable*/
+    line-height: 125%;
+    /*@editable*/
+    text-align: left;
+}
+
+/*
+@tab Header
+@section preheader link
+@tip Set the styling for your email's preheader links. Choose a color that helps them stand out from your text.
+*/
+.preheaderContent a:link, .preheaderContent a:visited, .preheaderContent a .yshortcuts {
+    /*@editable*/
+    color: #505050;
+    /*@editable*/
+    font-weight: normal;
+    /*@editable*/
+    text-decoration: underline;
+}
+
+/*
+@tab Header
+@section header style
+@tip Set the background color and top border for your email's header area.
+@theme header
+*/
+#templateHeader {
+    /*@editable*/
+    background-color: #F8F8F8;
+    /*@editable*/
+    border-top: 10px solid #A6BFC9;
+}
+
+/*
+@tab Header
+@section header text
+@tip Set the styling for your email's header text. Choose a size and color that is easy to read.
+*/
+.headerContent {
+    /*@editable*/
+    color: #505050;
+    /*@editable*/
+    font-family: Helvetica;
+    /*@editable*/
+    font-size: 18px;
+    /*@editable*/
+    font-weight: bold;
+    /*@editable*/
+    line-height: 100%;
+    /*@editable*/
+    padding-top: 20px;
+    /*@editable*/
+    padding-right: 40px;
+    /*@editable*/
+    padding-bottom: 20px;
+    /*@editable*/
+    padding-left: 40px;
+    /*@editable*/
+    text-align: left;
+    /*@editable*/
+    vertical-align: middle;
+}
+
+/*
+@tab Header
+@section header link
+@tip Set the styling for your email's header links. Choose a color that helps them stand out from your text.
+*/
+.headerContent a:link, .headerContent a:visited, .headerContent a .yshortcuts {
+    /*@editable*/
+    color: #505050;
+    /*@editable*/
+    font-weight: normal;
+    /*@editable*/
+    text-decoration: underline;
+}
+
+#headerImage {
+    height: auto;
+    max-width: 600px !important;
+}
+
+/*
+@tab Body
+@section body style
+@tip Set the background color for your email's body area.
+*/
+#templateBody {
+    /*@editable*/
+    background-color: #F8F8F8;
+}
+
+/*
+@tab Body
+@section body text
+@tip Set the styling for your email's upper main content text. Choose a size and color that is easy to read.
+@theme main
+*/
+.upperBodyContent {
+    /*@editable*/
+    color: #43404D;
+    /*@editable*/
+    font-family: Georgia;
+    /*@editable*/
+    font-size: 16px;
+    /*@editable*/
+    line-height: 150%;
+    /*@editable*/
+    text-align: left;
+}
+
+/*
+@tab Body
+@section upper body link
+@tip Set the styling for your email's upper main content links. Choose a color that helps them stand out from your text.
+*/
+.upperBodyContent a:link, .upperBodyContent a:visited, .upperBodyContent a .yshortcuts {
+    /*@editable*/
+    color: #ED5E29;
+    /*@editable*/
+    font-weight: normal;
+    /*@editable*/
+    text-decoration: none;
+}
+
+/*
+@tab Body
+@section lower body text
+@tip Set the styling for your email's lower main content text. Choose a size and color that is easy to read.
+*/
+.lowerBodyContent {
+    /*@editable*/
+    color: #43404D;
+    /*@editable*/
+    font-family: Georgia;
+    /*@editable*/
+    font-size: 14px;
+    /*@editable*/
+    line-height: 125%;
+    /*@editable*/
+    text-align: left;
+}
+
+/*
+@tab Body
+@section lower body link
+@tip Set the styling for your email's lower main content links. Choose a color that helps them stand out from your text.
+*/
+.lowerBodyContent a:link, .lowerBodyContent a:visited, .lowerBodyContent a .yshortcuts {
+    /*@editable*/
+    color: #ED5E29;
+    /*@editable*/
+    font-weight: normal;
+    /*@editable*/
+    text-decoration: none;
+}
+
+.bodyContent img {
+    display: inline;
+    height: auto;
+}
+
+/*
+@tab Footer
+@section footer style
+@tip Set the background color and borders for your email's footer area.
+@theme footer
+*/
+#templateFooter {
+    /*@editable*/
+    background-color: #F8F8F8;
+    /*@editable*/
+    border-bottom: 10px inset #cccccc;
+}
+
+/*
+@tab Footer
+@section footer text
+@tip Set the styling for your email's footer text. Choose a size and color that is easy to read.
+@theme footer
+*/
+.footerContent {
+    /*@editable*/
+    color: #3F3A38;
+    /*@editable*/
+    font-family: Georgia;
+    /*@editable*/
+    font-size: 12px;
+    /*@editable*/
+    line-height: 150%;
+    /*@editable*/
+    text-align: center;
+}
+
+/*
+@tab Footer
+@section footer link
+@tip Set the styling for your email's footer links. Choose a color that helps them stand out from your text.
+*/
+.footerContent a:link, .footerContent a:visited, .footerContent a .yshortcuts {
+    /*@editable*/
+    color: #EB4102;
+    /*@editable*/
+    font-weight: normal;
+    /*@editable*/
+    text-decoration: none;
+}
+
+.footerContent img {
+    display: inline;
+}
+
+#monkeyRewards img {
+    max-width: 190px;
+}
+
+/*@section button style
+@tip Set the styling for your email's button. Choose a style that draws attention.
+*/
+.templateButton {
+    /*@tab Body
+@section button style
+@tip Set the styling for your email's button. Choose a style that draws attention.*/
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    /*@editable*/
+    background-color: #23B3B4;
+    border-radius: 3px;
+}
+
+/*
+@tab Body
+@section button style
+@tip Set the styling for your email's button. Choose a style that draws attention.
+*/
+.templateButtonContent, .templateButtonContent a:link, .templateButtonContent a:visited, .templateButtonContent a .yshortcuts {
+    /*@editable*/
+    color: #FFFFFF;
+    /*@editable*/
+    font-family: Helvetica;
+    /*@editable*/
+    font-size: 18px;
+    /*@editable*/
+    font-weight: bold;
+    /*@editable*/
+    line-height: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+</style>
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+<center>
+    <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+        <tr>
+            <td align="center" valign="top" style="padding-bottom:40px;">
+                <!-- // BEGIN CONTAINER -->
+                <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer">
+                    <tr>
+                        <td align="center" valign="top" style="padding-bottom:20px;">
+                            <!-- END PREHEADER \\ -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="top">
+                            <!-- // BEGIN HEADER -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateHeader">
+                                <tr>
+                                    <td align="center" valign="top" style="padding-top:20px; padding-bottom:20px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td class="headerContent">
+                                                    RFC
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="headerContent">
+                                                    <div mc:edit="title"><h1>Change Title</h1></div>
+                                                    <div mc:edit="creator"><h3><em>Created by, Stevenson
+                                                        Jean-Pierre</em></h3></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- END HEADER \\ -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="top">
+                            <!-- // BEGIN BODY -->
+                            <table border="0" cellpadding="40" cellspacing="0" width="600" id="templateBody">
+                                <tr>
+                                    <td align="center" valign="top" style="padding-top:20px; padding-bottom:20px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td valign="top" class="upperBodyContent"><h2>
+                                                    Details</h2>
+
+                                                    <div mc:edit="details">
+                                                        <ul>
+                                                            <li>We&#39;ve gathered to change that perception. Email
+                                                                remains
+                                                                the king of communication, and it&#39;s not
+                                                            </li>
+                                                            <li>going to disappear anytime soon. By demonstrating what&#39;s
+                                                                possible with email design, we&#39;ll convince
+                                                            </li>
+                                                            <li>other designers of its usefulness and power. After all,
+                                                                there&#39;s something deeply rewarding about
+                                                            </li>
+                                                            <li>mastering ancient techniques. A man who can catch a fly
+                                                                with
+                                                                chopsticks can accomplish anything.
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" valign="top" style="padding-top:40px;">
+                                                    <table border="0" cellpadding="20" cellspacing="0" width="100%"
+                                                           class="templateButton" mc:hideable="">
+                                                        <tr>
+                                                            <td align="center" valign="middle"
+                                                                class="templateButtonContent">
+                                                                <div mc:edit="link"><a
+                                                                        href="http://www.mailchimp.com" target="_blank">link text</a></div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- END BODY \\ -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="top">
+                            <!-- // BEGIN FOOTER -->
+                            <table border="0" cellpadding="20" cellspacing="0" width="600" id="templateFooter">
+                                <tr>
+                                    <td align="center" valign="top" style="padding-right:40px; padding-left:40px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td valign="top" class="footerContent" style="padding-top:20px;"
+                                                    mc:edit="footer_content"></td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top" class="footerContent" style="padding-top:20px;"
+                                                    mc:edit="footer_utility"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- END FOOTER \\ -->
+                        </td>
+                    </tr>
+                </table>
+                <!-- END CONTAINER \\ -->
+            </td>
+        </tr>
+    </table>
+</center>
+</body>
+</html>

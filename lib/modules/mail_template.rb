@@ -1,13 +1,13 @@
 module MailTemplate
 
   MESSAGE_SECTIONS = {
-      :Created => %W(title details link).map(&:to_sym),
-      :Updated => %W(title details link).map(&:to_sym), #will need to remove sections
-      :Approved => %W(title details link).map(&:to_sym),
-      :Rejected => %W(title details link).map(&:to_sym),
-      :Approval => %W(title details link).map(&:to_sym),
-      :Completed => %W(title details link).map(&:to_sym),
-      :Comment => %W(title comment link).map(&:to_sym)
+      :Created => %W(title creator details link).map(&:to_sym),
+      :Updated => %W(title creator details link).map(&:to_sym), #will need to remove sections
+      :Approved => %W(title creator details link).map(&:to_sym),
+      :Rejected => %W(title creator details link).map(&:to_sym),
+      :Approval => %W(title creator details link).map(&:to_sym),
+      :Completed => %W(title creator details link).map(&:to_sym),
+      :Comment => %W(title comment_title comment link).map(&:to_sym)
   }
   SUBJECTS = {
       :Created => 'RFC %s has been %s',
