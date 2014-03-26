@@ -4,6 +4,10 @@
       <div class="navbar-header">
         <%= link_to Rails.application.class.parent_name.upcase, root_path, class: 'navbar-brand' %>
       </div>
+      <ul class="nav navbar-nav">
+	      <li class="<%= active_nav('index') %>"><%= link_to 'Home', root_path %></li>
+	      <li class="<%= active_nav('report') %>" ><%= link_to 'Reports' ,change_report_path %></li>
+	    </ul>
       <div class="navbar-header pull-right">
         <% if logged_in? %>
           <div class="navbar-brand">Logged in as, <strong><%= current_user.name %></strong>  |</div>

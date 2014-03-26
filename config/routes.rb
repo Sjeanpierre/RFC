@@ -1,6 +1,7 @@
 Rfc::Application.routes.draw do
   get 'change/show'
   get 'change/new'
+  get 'change/report'
   match '/auth/:service/callback' => 'services#create', via: %i(get post)
   match '/auth/failure' => 'services#failure', via: %i(get post)
   match '/logout' => 'sessions#destroy', via: %i(get delete), as: :logout

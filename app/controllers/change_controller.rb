@@ -11,6 +11,10 @@ class ChangeController < ApplicationController
     @changes = Change.includes(:status,:priority,:creator) #Change.all
   end
 
+  def report
+    @changes = Change.includes(:creator,:approvers,:attachments,:change_type,:impact,:priority,:status,:system)
+  end
+
   def create
     creator = current_user || User.find(4)
     change = Change.create_change_request(params[:change],creator)

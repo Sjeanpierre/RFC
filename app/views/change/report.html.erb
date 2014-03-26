@@ -1,0 +1,52 @@
+<%= render :partial => 'report_buttons' %>
+<div id="mixable" class="row">
+  <% @changes.all.each do |change| %>
+    <div class="mix col-xs-12 col-sm-4 col-lg-3 <%= mixer_classes(change) %>" data-myorder="<%= change.id %>">
+      <div class="box">
+        <div class="icon">
+          <div class="text-left">
+            <span class="selectable glyphicon glyphicon-record"></span>
+          </div>
+          <div class="image <%= color_processor(change.status.name) %>"><i class="fa <%= icon_processor(change.status.name) %>"></i></div>
+          <div class="info">
+            <h3 class="title">RFC #<%= change.id %></h3>
+	          <div class="change-title">
+            <p><%= change.title %></p>
+	          </div>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <small class="text-muted link">
+                  <i class="glyphicon glyphicon-user"></i>
+                  <strong>Creator: </strong><%= change.creator.name %>
+                </small>
+              </li>
+              <li class="list-group-item">
+                <small class="text-muted"><i class="glyphicon glyphicon-time"></i>
+                  <strong>Created: </strong><abbr title="<%= change.created_at.to_s(:long) %>" data-livestamp="<%= change.created_at.utc.iso8601 %>"></abbr>
+                </small>
+              </li>
+              <li class="list-group-item">
+                <small class="text-muted link">
+                  <i class="glyphicon glyphicon-th"></i>
+                  <strong>System: </strong><%= change.system.name.capitalize %>
+                </small>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+        <div class="tile-footer <%= priority_color_processor(change.priority.name) %>">
+          <div class="row">
+	        <div class="text-left change-priority col-md-6 col-sm-6 col-xs-6">
+		        <strong><%= change.priority.name.capitalize %></strong>
+	        </div>
+          <div class="text-right change-type col-md-6 col-sm-6 col-xs-6">
+            <strong><%= change.change_type.name.capitalize %></strong>
+          </div>
+          </div>
+        </div>
+        <div class="space"></div>
+      </div>
+    </div>
+  <% end %>
+</div>
