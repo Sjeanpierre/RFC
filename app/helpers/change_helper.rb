@@ -97,5 +97,9 @@ module ChangeHelper
     end
   end
 
+  def mixer_date(change)
+    change.created_at.strftime('%Y%m%d')
+  end
+
 
 end

@@ -1,41 +1,32 @@
+<%= render :partial => 'filter_panel' %>
 <div class="btn-toolbar mixer-buttons">
-  <div class="btn-group mixer-buttons priority-filter-buttons">
-    <select class="multiselect" multiple="multiple">
-      <% Priority.all.each do |priority| %>
-        <option data-class="priority" value="<%= mixer_select_values(priority) %>"><%= priority.name.capitalize %></option>
-      <% end %>
-    </select>
-  </div>
-  <div class="btn-group mixer-buttons status-filter-buttons">
-    <select class="multiselect" multiple="multiple">
-      <% Status.all.each do |status| %>
-        <option data-class="status" value="<%= mixer_select_values(status) %>"><%= status.name.capitalize %></option>
-      <% end %>
-    </select>
-  </div>
-  <div class="btn-group mixer-buttons system-filter-buttons">
-    <select class="multiselect" multiple="multiple">
-	    <% grouped_values = build_option_group(System,'category') %>
-      <% grouped_values.keys.each do |system| %>
-        <optgroup label="<%= system %>">
-	        <% grouped_values[system].each do |value|  %>
-            <option data-class="system" value="<%= mixer_select_values(value) %>"><%= value.name.capitalize %>
-	        <% end %>
-        </optgroup>
-		    <% end %>
-    </select>
-  </div>
-  <div class="btn-group mixer-buttons system-filter-buttons">
-    <select class="multiselect" multiple="multiple">
-      <% User.all.each do |user| %>
-        <option data-class="user" value="<%= mixer_select_values(user) %>"><%= user.name.capitalize %></option>
-      <% end %>
-    </select>
-  </div>
+  <div class="row">
+    <div class="counters col-md-4">
+      <div class="selected-count text-center col-sm-4 col-xs-4 col-md-4">
+        <div><span class="title">Selected</span></div>
+        <span class="count" id="count-selected">0</span>
+      </div>
+      <div class="displayed-count text-center col-sm-4 col-xs-4 col-md-4">
+        <div><span class="title">Displayed</span></div>
+        <span class="count" id="count-displayed">0</span>
+      </div>
+      <div class="total-count text-center col-sm-4 col-xs-4 col-md-4">
+        <div><span class="title">Total</span></div>
+        <span class="count" id="count-total"><%= @changes.count %></span>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <a class="btn btn-primary" href="" id="panel-toggler">&#9776; Filters</a>
+    </div>
+    <div class="col-md-4 date-range-picker">
+      <div><span class="title">Date Filter</span></div>
 
-  <div class="btn-group sort-buttons">
-    <button type="button" data-sort="default" class="sort btn btn-default">Default sort</button>
-    <button type="button" data-sort="myorder:asc" class="sort btn btn-default">Ascending</button>
-    <button type="button" data-sort="myorder:desc" class="sort btn btn-default">Descending</button>
+      <div id="reportrange">
+        <button class="btn btn-default">
+          <i class="fa fa-calendar fa-lg"></i>
+          <span class="filtered-dates">All</span> <b class="caret"></b>
+        </button>
+      </div>
+    </div>
   </div>
 </div>

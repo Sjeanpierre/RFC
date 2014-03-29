@@ -1,13 +1,13 @@
 <%= render :partial => 'report_buttons' %>
 <div id="mixable" class="row">
   <% @changes.all.each do |change| %>
-    <div class="mix col-xs-12 col-sm-4 col-lg-3 <%= mixer_classes(change) %>" data-myorder="<%= change.id %>">
+    <div class="mix col-xs-12 col-sm-6 col-md-4 col-lg-3 <%= mixer_classes(change) %>" data-date="<%= mixer_date(change) %>" data-myorder="<%= change.id %>">
       <div class="box">
         <div class="icon">
-          <div class="text-left">
+          <div class="text-left item-select">
             <span class="selectable glyphicon glyphicon-record"></span>
           </div>
-          <div class="image <%= color_processor(change.status.name) %>"><i class="fa <%= icon_processor(change.status.name) %>"></i></div>
+          <div title="<%= change.status.name.capitalize %>" class="image <%= color_processor(change.status.name) %>"><i class="fa <%= icon_processor(change.status.name) %>"></i></div>
           <div class="info">
             <h3 class="title">RFC #<%= change.id %></h3>
 	          <div class="change-title">

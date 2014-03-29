@@ -1,0 +1,103 @@
+<div id="menu" class="slider">
+  <div class="menu-title text-center">
+    <span class="title">Filters</span>
+  </div>
+  <div class="filter-container">
+    <div class="row">
+      <div class="btn-group mixer-buttons priority-filter-buttons col-md-2">
+        <div class="row">
+          <div>
+            <strong>Priority</strong>
+          </div>
+          <div class="col-md-9">
+            <select class="multiselect" multiple="multiple">
+              <% Priority.all.each do |priority| %>
+                <option data-class="priority" value="<%= mixer_select_values(priority) %>"><%= priority.name.capitalize %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="btn-group mixer-buttons status-filter-buttons col-md-2">
+        <div class="row">
+          <div>
+            <strong>Status</strong>
+          </div>
+          <div class="col-md-9">
+            <select class="multiselect" multiple="multiple">
+              <% Status.all.each do |status| %>
+                <option data-class="status" value="<%= mixer_select_values(status) %>"><%= status.name.capitalize %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="btn-group mixer-buttons system-filter-buttons col-md-2">
+        <div class="row">
+          <div>
+            <strong>System</strong>
+          </div>
+          <div class="col-md-9">
+            <select class="multiselect" multiple="multiple">
+              <% grouped_values = build_option_group(System, 'category') %>
+              <% grouped_values.keys.each do |system| %>
+                <optgroup label="<%= system %>">
+                  <% grouped_values[system].each do |value| %>
+                    <option data-class="system" value="<%= mixer_select_values(value) %>"><%= value.name.capitalize %>
+                  <% end %>
+                </optgroup>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="btn-group mixer-buttons system-filter-buttons col-md-2">
+        <div class="row">
+          <div>
+            <strong>User</strong>
+          </div>
+          <div class="col-md-9">
+            <select class="multiselect" multiple="multiple">
+              <% User.all.each do |user| %>
+                <option data-class="user" value="<%= mixer_select_values(user) %>"><%= user.name.titleize %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="btn-group mixer-buttons col-md-12">
+        <div class="row">
+          <div>
+            <strong>Sort</strong>
+          </div>
+          <div class="col-md-12">
+            <div class="btn-group sort-buttons">
+              <button type="button" data-sort="myorder:asc" class="sort btn btn-sm btn-default">Asc</button>
+              <button type="button" data-sort="myorder:desc" class="sort btn btn-sm btn-default">Desc</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="select-control col-md-12">
+        <div class="row">
+          <div>
+            <strong>Select All</strong>
+          </div>
+          <div class="col-md-12">
+            <span class="selectable glyphicon glyphicon-record"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
