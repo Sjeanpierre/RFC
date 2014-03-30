@@ -4,6 +4,27 @@
   </div>
   <div class="filter-container">
     <div class="row">
+      <div class="btn-group mixer-buttons system-filter-buttons col-md-2">
+        <div class="row">
+          <div>
+            <strong>System</strong>
+          </div>
+          <div class="col-md-9">
+            <select class="multiselect" multiple="multiple">
+              <% grouped_values = build_option_group(System, 'category') %>
+              <% grouped_values.keys.each do |system| %>
+                <optgroup label="<%= system %>">
+                  <% grouped_values[system].each do |value| %>
+                    <option data-class="system" value="<%= mixer_select_values(value) %>"><%= value.name.capitalize %>
+                  <% end %>
+                </optgroup>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="btn-group mixer-buttons priority-filter-buttons col-md-2">
         <div class="row">
           <div>
@@ -61,27 +82,6 @@
             <select class="multiselect" multiple="multiple">
               <% ChangeType.all.each do |change_type| %>
                 <option data-class="change_type" value="<%= mixer_select_values(change_type) %>"><%= change_type.name.capitalize %></option>
-              <% end %>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="btn-group mixer-buttons system-filter-buttons col-md-2">
-        <div class="row">
-          <div>
-            <strong>System</strong>
-          </div>
-          <div class="col-md-9">
-            <select class="multiselect" multiple="multiple">
-              <% grouped_values = build_option_group(System, 'category') %>
-              <% grouped_values.keys.each do |system| %>
-                <optgroup label="<%= system %>">
-                  <% grouped_values[system].each do |value| %>
-                    <option data-class="system" value="<%= mixer_select_values(value) %>"><%= value.name.capitalize %>
-                  <% end %>
-                </optgroup>
               <% end %>
             </select>
           </div>
