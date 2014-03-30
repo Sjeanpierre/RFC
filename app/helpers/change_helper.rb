@@ -35,7 +35,7 @@ module ChangeHelper
     creator = change.creator.id
     impact = change.impact.id
     change_type = change.change_type.id
-    "status-#{status} impact-#{impact} system-#{system} change_type-#{change_type} priority-#{priority} user-#{creator}"
+    "status-#{status} impact-#{impact} system-#{system} changetype-#{change_type} priority-#{priority} user-#{creator}"
   end
 
   def mixer_select_values(resource)
