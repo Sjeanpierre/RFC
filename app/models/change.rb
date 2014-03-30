@@ -1,6 +1,7 @@
 class Change < ActiveRecord::Base
   acts_as_commentable
   include MailApi
+  include PrintHandler
   has_many :events
   belongs_to :priority
   belongs_to :status
@@ -99,6 +100,13 @@ class Change < ActiveRecord::Base
     raise('invalid resource') unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
     resource_class.find_or_create_by(:name => resource_name.downcase)
+  end
+
+  def self.print(ids)
+    return '<h1>No Items Selected</h1>' if ids.blank?
+    changes = Change.includes(:creator,:approvers,:attachments,:change_type,:impact,:priority,:status,:system,{:comment_threads => :user},{:approvers => :user},:events).where(:id=>ids)
+    p = PrintHandler::View.new(changes)
+    p.prepare
   end
 
   def recipients

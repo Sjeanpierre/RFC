@@ -3,12 +3,23 @@ class ChangeController < ApplicationController
     @change = Change.includes({:comment_threads => :user},{:approvers => :user}, :events).find(params[:id])
   end
 
+  def print_data
+    html = Change.print(params[:cids])
+    render :text => html
+  end
+
+  def print_report; end
+
   def new
     @change = Change.new
   end
 
   def index
     @changes = Change.includes(:status,:priority,:creator) #Change.all
+  end
+
+  def report
+    @changes = Change.includes(:creator,:change_type,:impact,:priority,:status,:system)
   end
 
   def create
