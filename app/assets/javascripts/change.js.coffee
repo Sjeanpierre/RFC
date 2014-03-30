@@ -235,7 +235,7 @@ rfChange.callMessenger = (text, type) ->
 rfChange.bindDatatable = ->
   $("#dtable").dataTable
     aaSorting: [
-      [0, "asc"]
+      [0, "desc"]
     ]
     aoColumnDefs: [
       bSearchable: false
