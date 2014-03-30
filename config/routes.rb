@@ -1,6 +1,7 @@
 Rfc::Application.routes.draw do
   get 'change/show'
   get 'change/new'
+  get 'change/print_report'
   get 'change/report'
   match '/auth/:service/callback' => 'services#create', via: %i(get post)
   match '/auth/failure' => 'services#failure', via: %i(get post)
@@ -23,4 +24,5 @@ Rfc::Application.routes.draw do
   match '/:resource/count' => 'change#count', :via => 'get'
   match '/change/:id/render/:partial' => 'change#render_partial', :via => 'get'
   match '/change/:cid/attachment/:aid' => 'change#download', :via => 'get'
+  match '/change/render/report' => 'change#print_data', :via => 'post'
 end

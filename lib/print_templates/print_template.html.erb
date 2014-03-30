@@ -1,0 +1,152 @@
+<center>
+    <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+        <tr>
+            <td align="center" valign="top" style="padding-bottom:40px;">
+                <!-- // BEGIN CONTAINER -->
+                <table border="0" cellpadding="0" cellspacing="0" width="800" id="templateContainer">
+                    <tr>
+                        <td align="center" valign="top" style="padding-bottom:20px;">
+                            <!-- END PREHEADER \\ -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="top">
+                            <!-- // BEGIN HEADER -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="800" id="templateHeader">
+                                <tr>
+                                    <td align="center" valign="top" style="padding-top:20px; padding-bottom:20px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td class="headerContent">
+                                                    RFC#<%= @data.id %>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="headerContent">
+                                                    <div><h1><%= @data.title %></h1></div>
+                                                    <div><h3><em>Created by, <%= @data.creator.name %></em></h3></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- END HEADER \\ -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="top">
+                            <!-- // BEGIN BODY -->
+                            <table border="0" cellpadding="40" cellspacing="0" width="800" id="templateBody">
+                                <tr>
+                                    <td align="center" valign="top" style="padding-top:20px; padding-bottom:20px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td valign="top" class="upperBodyContent"><h2>
+                                                    Details</h2>
+
+                                                    <div>
+                                                      <ul>
+                                                        <li><b>Creator: </b><%= @data.creator.name %></li>
+                                                        <li><b>Due Date: </b><%= @data.change_date.try(:strftime, '%m/%d/%Y') %></li>
+                                                        <li><b>Priority: </b><%= @data.priority.name.capitalize %></li>
+                                                        <li><b>Status: </b><%= @data.status.name.capitalize %></li>
+                                                        <li><b>System: </b><%= @data.system.name.capitalize %></li>
+                                                        <li><b>Change Type: </b><%= @data.change_type.name.capitalize %></li>
+                                                        <li class="last"><b>Potential Impact: </b><%= @data.impact.name.capitalize %></li>
+                                                      </ul>
+                                                    </div>
+	                                                <h2>Summary</h2>
+	                                                <div><p><%= Sanitize.clean(@data.summary, Sanitize::Config::RELAXED).html_safe %></p></div>
+                                                  <h2>Rollback Plan</h2>
+                                                  <div><p><%= Sanitize.clean(@data.rollback, Sanitize::Config::RELAXED).html_safe %></p></div>
+	                                                <h2>Approvers</h2>
+	                                                <ul>
+	                                                <% @data.approvers.each do |approver| %>
+	                                                  <li><%= approver.user.name.capitalize %><% if approver.approved %> <strong>- Approved Change</strong><% end %></li>
+	                                                <% end %>
+	                                                </ul>
+	                                                <h2>Events</h2>
+	                                                <div>
+	                                                  <ul>
+	                                                    <% @data.events.each do |event| %>
+	                                                      <li><p>
+	                                                        <em>Timestamp:</em> <%= event.created_at.to_s(:long) %> <br>
+	                                                        <em>Event Type:</em> <%= event.event_type %> <br>
+	                                                        <em>Event Details:</em> <%= event.details %>
+	                                                      </p></li>
+	                                                    <% end %>
+	                                                  </ul>
+		                                                </div>
+		                                                <h2>Comments</h2>
+	                                                  <div>
+		                                                  <ul>
+	                                                    <% @data.comment_threads.each do |comment| %>
+			                                                  <li><p>
+			                                                  <em>Comment Time:</em> <%= comment.created_at.to_s(:long) %><br>
+			                                                  <em>Comment Title:</em> <%= comment.title %><br>
+			                                                  <em>Comment:</em> <%= comment.body %>
+			                                                  </p></li>
+	                                                    <% end %>
+		                                                  </ul>
+		                                                  <h2>Attached Files</h2>
+		                                                  <div>
+			                                                  <ul>
+				                                                  <ul>
+					                                                  <% @data.attachments.each do |attachment| %>
+					                                                  <li><%= attachment.attachment_file_name.upcase %></li>
+					                                                  <% end %>
+				                                                  </ul>
+			                                                  </ul>
+		                                                  </div>
+	                                                  </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" valign="top" style="padding-top:40px;">
+                                                    <table border="0" cellpadding="20" cellspacing="0" width="100%"
+                                                           class="templateButton">
+                                                        <tr>
+                                                            <td align="center" valign="middle"
+                                                                class="templateButtonContent">
+                                                                <div><a href="<%= APP_CONFIG['url'] %>/change/<%= @data.id %>">URL <%= APP_CONFIG['url'] %>/change/<%= @data.id %></a></div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- END BODY \\ -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="top">
+                            <!-- // BEGIN FOOTER -->
+                            <table border="0" cellpadding="20" cellspacing="0" width="800" id="templateFooter">
+                                <tr>
+                                    <td align="center" valign="top" style="padding-right:40px; padding-left:40px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td valign="top" class="footerContent" style="padding-top:20px;"
+                                                    ></td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top" class="footerContent" style="padding-top:20px;"
+                                                    ></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- END FOOTER \\ -->
+                        </td>
+                    </tr>
+                </table>
+                <!-- END CONTAINER \\ -->
+            </td>
+        </tr>
+    </table>
+</center>

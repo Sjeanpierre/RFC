@@ -36,6 +36,38 @@
       </div>
     </div>
     <div class="row">
+      <div class="btn-group mixer-buttons status-filter-buttons col-md-2">
+        <div class="row">
+          <div>
+            <strong>Impact</strong>
+          </div>
+          <div class="col-md-9">
+            <select class="multiselect" multiple="multiple">
+              <% Impact.all.each do |impact| %>
+                <option data-class="impact" value="<%= mixer_select_values(impact) %>"><%= impact.name.capitalize %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="btn-group mixer-buttons status-filter-buttons col-md-2">
+        <div class="row">
+          <div>
+            <strong>Change_Type</strong>
+          </div>
+          <div class="col-md-9">
+            <select class="multiselect" multiple="multiple">
+              <% ChangeType.all.each do |change_type| %>
+                <option data-class="change_type" value="<%= mixer_select_values(change_type) %>"><%= change_type.name.capitalize %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="btn-group mixer-buttons system-filter-buttons col-md-2">
         <div class="row">
           <div>

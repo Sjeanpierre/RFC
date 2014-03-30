@@ -4,16 +4,14 @@ Array::unique = ->
   value for key, value of output
 
 $(document).ready ->
-  $('#mixable').mixItUp(callbacks:
-    onMixEnd: () ->
-      rfChange.countFiltered()
-  )
+  rfChange.initMixItUp()
   rfChange.initMultiSelect()
   rfChange.bindSelectButtons()
   rfChange.bindSelectControl()
   rfChange.countUpdater()
   rfChange.initDateRangeFilter()
   $('#panel-toggler').bigSlide()
+  rfChange.bindPrintButton()
 
 rfChange.initMultiSelect = ->
   $('.multiselect').multiselect
@@ -22,7 +20,20 @@ rfChange.initMultiSelect = ->
     onChange: () ->
       rfChange.handleMultiSelectChanges()
 
-rfChange.buildFilterWithDate = (targets,activeFilters) ->
+rfChange.initMixItUp = ->
+  if document.title == 'Report'
+    if Object.keys($.MixItUp.prototype._instances).length == 0
+      $('#mixable').mixItUp(callbacks:
+        onMixEnd: () ->
+          rfChange.countFiltered()
+      )
+    else
+      $.MixItUp.prototype._instances.mixable.destroy
+      rfChange.initMixItUp()
+
+
+
+rfChange.buildFilterWithDate = (targets, activeFilters) ->
   min = $('#reportrange').data('startdate')
   max = $('#reportrange').data('enddate')
   if activeFilters == 'all'
@@ -45,7 +56,7 @@ rfChange.handleMultiSelectChanges = () ->
   else
     filter = 'all'
   console.log(filter)
-  filterObject = rfChange.buildFilterWithDate($('#mixable').mixItUp('getState').$targets,filter)
+  filterObject = rfChange.buildFilterWithDate($('#mixable').mixItUp('getState').$targets, filter)
   $('#mixable').mixItUp('filter', filterObject)
 
 
@@ -107,8 +118,8 @@ rfChange.countUpdater = ->
     $('.selected-count #count-selected').text(newCount)
 
 rfChange.initDateRangeFilter = ->
-  $('#reportrange').data('startdate',"10001230")
-  $('#reportrange').data('enddate',"99991230")
+  $('#reportrange').data('startdate', "10001230")
+  $('#reportrange').data('enddate', "99991230")
   $("#reportrange").daterangepicker
     ranges:
       All: [
@@ -151,6 +162,40 @@ rfChange.initDateRangeFilter = ->
         $("#reportrange span").html('All')
       else
         $("#reportrange span").html start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY")
-      $('#reportrange').data('startdate',start.format("YYYYMMDD"))
-      $('#reportrange').data('enddate',end.format("YYYYMMDD"))
+      $('#reportrange').data('startdate', start.format("YYYYMMDD"))
+      $('#reportrange').data('enddate', end.format("YYYYMMDD"))
       rfChange.handleMultiSelectChanges()
+
+rfChange.getSelectedItems = ->
+  selected = []
+  $('.item-select .selected').closest('.mix').each ->
+    selected.push($(this).data('myorder'))
+  return selected
+
+
+rfChange.localStorageData = (key, data = null) ->
+  return JSON.parse(localStorage.getItem(key)) unless data
+  localStorage.setItem(key, JSON.stringify(data))
+
+rfChange.loadReportData = (ids) ->
+  $.ajax
+    url: "/change/render/report"
+    type: 'POST'
+    dataType: 'html'
+    data: {cids: ids}
+    success: (data, status, response) ->
+      $('html').html(data)
+      window.print()
+    error: (data, status, response) ->
+      console.log('Could not generate report')
+      alert('Could not generate report')
+
+rfChange.bindPrintButton = ->
+  $('#print-button').click ->
+    selectedItems = rfChange.getSelectedItems()
+    if selectedItems.length == 0
+      rfChange.callMessenger('No Items are selected for printing. Plase use select all in the filters area option if you intend to print all.',
+        'error')
+    else
+      rfChange.localStorageData('SelectedReportItems', selectedItems)
+      window.open('/change/print_report', 'Print Report View')

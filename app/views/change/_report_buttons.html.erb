@@ -1,7 +1,7 @@
 <%= render :partial => 'filter_panel' %>
 <div class="btn-toolbar mixer-buttons">
   <div class="row">
-    <div class="counters col-md-4">
+    <div class="counters col-md-3">
       <div class="selected-count text-center col-sm-4 col-xs-4 col-md-4">
         <div><span class="title">Selected</span></div>
         <span class="count" id="count-selected">0</span>
@@ -15,10 +15,14 @@
         <span class="count" id="count-total"><%= @changes.count %></span>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
       <a class="btn btn-primary" href="" id="panel-toggler">&#9776; Filters</a>
     </div>
-    <div class="col-md-4 date-range-picker">
+    <div class="col-md-2">
+      <a class="btn btn-primary" id="print-button">&#9776; Print Selected</a>
+    </div>
+    <div class="col-md-5 date-range-picker">
+	    <div class="pull-right">
       <div><span class="title">Date Filter</span></div>
 
       <div id="reportrange">
@@ -27,6 +31,7 @@
           <span class="filtered-dates">All</span> <b class="caret"></b>
         </button>
       </div>
+	    </div>
     </div>
   </div>
 </div>
