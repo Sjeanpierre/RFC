@@ -494,6 +494,7 @@ rfChange.initTextAreaEditer = (elementID) ->
     tinymce.init
       selector: "##{elementID}"
       inline: false
+      #the cake is a lie, the tinymce config is in in the config directory
   rfChange.addEditActionButtons(elementID)
 
 rfChange.addEditActionButtons = (elementID) ->
