@@ -149,7 +149,7 @@ class Change < ActiveRecord::Base
         :created_by => creator.name,
         :created_date => created_at.to_s(:long),
         :due_date => expected_change_date,
-        :summary => summary,
+        :title => title,
         :type => change_type.name,
         :impact => impact.name,
         :priority => priority.name,
