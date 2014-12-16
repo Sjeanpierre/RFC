@@ -25,4 +25,7 @@ Rfc::Application.routes.draw do
   match '/change/:id/render/:partial' => 'change#render_partial', :via => 'get'
   match '/change/:cid/attachment/:aid' => 'change#download', :via => 'get'
   match '/change/render/report' => 'change#print_data', :via => 'post'
+  #API routes
+  match 'api/changes/list' => 'api#list', :via => 'get'
+  match 'api/changes/:id' => 'api#show', :via => 'get'
 end

@@ -17,7 +17,7 @@ class Change < ActiveRecord::Base
   after_create :track_create
 
 
-  RESOURCES = { :impact => Impact, :status => Status, :system => System, :changeType => ChangeType, :priority => Priority, :change_type => ChangeType }
+  RESOURCES = {:impact => Impact, :status => Status, :system => System, :changeType => ChangeType, :priority => Priority, :change_type => ChangeType}
 
   def self.create_change_request(params, current_user)
     approvers = params[:approvers].reject { |approver| approver.blank? }
@@ -54,6 +54,10 @@ class Change < ActiveRecord::Base
     end
   end
 
+  def self.pending
+    joins(:status).where(:statuses => {:name => %w(new pending approved)}).order(:id => :desc)
+  end
+
   def self.mark_complete(change_id, current_user)
     change = find(change_id)
     #if current_user == change.creator
@@ -71,6 +75,8 @@ class Change < ActiveRecord::Base
     if params[:pk]
       if params[:resource] == 'change_date'
         change.change_date = Date.strptime(params[:value], '%m/%d/%Y')
+      elsif params[:resource] == 'title'
+        change.title = params[:value]
       else
         resource_class = RESOURCES[params[:resource].to_sym]
         value = resource_class.find(params[:value])
@@ -95,7 +101,6 @@ class Change < ActiveRecord::Base
     end
   end
 
-
   def self.add_resource_item(resource_type, resource_name)
     raise('invalid resource') unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
@@ -104,7 +109,7 @@ class Change < ActiveRecord::Base
 
   def self.print(ids)
     return '<h1>No Items Selected</h1>' if ids.blank?
-    changes = Change.includes(:creator,:approvers,:attachments,:change_type,:impact,:priority,:status,:system,{:comment_threads => :user},{:approvers => :user},:events).where(:id=>ids)
+    changes = Change.includes(:creator, :approvers, :attachments, :change_type, :impact, :priority, :status, :system, {:comment_threads => :user}, {:approvers => :user}, :events).where(:id => ids)
     p = PrintHandler::View.new(changes)
     p.prepare
   end
@@ -138,6 +143,21 @@ class Change < ActiveRecord::Base
     end
   end
 
+  def json_formatted
+    {
+        :id => id,
+        :created_by => creator.name,
+        :created_date => created_at.to_s(:long),
+        :due_date => expected_change_date,
+        :summary => summary,
+        :type => change_type.name,
+        :impact => impact.name,
+        :priority => priority.name,
+        :status => status.name,
+        :system => "#{system.category}-#{system.name}"
+    }
+  end
+
 
   def approved_by
     self.approvers.where(:approved => true).first.user
@@ -147,7 +167,7 @@ class Change < ActiveRecord::Base
   def self.agg_count(resource, open=nil)
     counts = []
     values = group(resource).count
-    values.each { |key, count| counts.push({ :value => count, :label => key.name, }) }
+    values.each { |key, count| counts.push({:value => count, :label => key.name, }) }
     counts
   end
 
@@ -162,14 +182,13 @@ class Change < ActiveRecord::Base
     resource_class = RESOURCES[resource_type.to_sym]
     if resource_type == 'system'
       grouped_data = resource_class.all.to_a.group_by { |item| item.category }.each do |_, v|
-        v.map! { |status| { :id => status.id, :text => status.name.upcase } }
+        v.map! { |status| {:id => status.id, :text => status.name.upcase} }
       end
-      grouped_data.map { |k, v| { :text => k, :children => v } }
+      grouped_data.map { |k, v| {:text => k, :children => v} }
     else
-      resource_class.all.map { |status| { :id => status.id, :text => status.name.capitalize } }
+      resource_class.all.map { |status| {:id => status.id, :text => status.name.capitalize} }
     end
   end
-
 
   def create_event(event_type, event_details)
     self.events.create(
@@ -181,8 +200,8 @@ class Change < ActiveRecord::Base
   def track_changes
     changes = self.changes
     text_fields = changes.keys.select { |field| %w(summary rollback).include?(field) }
-    local_fields = changes.keys.select { |field| %w(change_date).include?(field) }
-    changed_associated_fields = changes.keys.reject { |field| %w(status_id change_date updated_at summary rollback).include?(field) }
+    local_fields = changes.keys.select { |field| %w(change_date title).include?(field) }
+    changed_associated_fields = changes.keys.reject { |field| %w(status_id change_date updated_at summary rollback title).include?(field) }
     changed_associated_fields.each do |field|
       klass = Change.reflections.select { |_, v| v.foreign_key == field }.values.first.class_name.constantize
       self.create_event('Updated', "#{klass.model_name.human.titleize} updated from #{klass.find(changes[field][0]).name.capitalize} to #{klass.find(changes[field][1]).name.capitalize} ")
@@ -191,7 +210,11 @@ class Change < ActiveRecord::Base
       self.create_event('Updated', "#{field.capitalize} field updated!")
     end
     local_fields.each do |field|
-      self.create_event('Updated', "#{field.humanize.titleize} updated from #{changes[field][0].try(:strftime, '%m/%d/%Y')} to #{changes[field][1].try(:strftime, '%m/%d/%Y')}")
+      if field == change_date
+        self.create_event('Updated', "#{field.humanize.titleize} updated from #{changes[field][0].try(:strftime, '%m/%d/%Y')} to #{changes[field][1].try(:strftime, '%m/%d/%Y')}")
+      else
+        self.create_event('Updated', "#{field.humanize.titleize} updated from #{changes[field][0]} to #{changes[field][1]}")
+      end
     end
   end
 
