@@ -28,6 +28,14 @@ module ChangeHelper
     end
   end
 
+  def title_text(change)
+    if change.editable?
+      render :partial => 'change/editable_title'
+    else
+      render :inline => '<h2><%= @change.title.capitalize %> <span class="change-id">#<%= @change.id %></span></h2>'
+    end
+  end
+
   def mixer_classes(change)
     status = change.status.id
     system = change.system.id

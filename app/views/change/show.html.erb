@@ -1,6 +1,8 @@
 <%= title("Change ##{@change.id} | #{@change.status.name.capitalize}") %>
 <div class="change-heading cdata" data-cid="<%= @change.id %>" data-cstatus="<%= @change.status.name %>">
-  <h2><%= @change.title.capitalize %> <span class="change-id">#<%= @change.id %></span></h2>
+  <div class="heading-text">
+    <%= title_text(@change) %>
+  </div>
 
   <div id="change_subheading" class="change-subheading">
     <%= render :partial => 'change_subheading' %>
