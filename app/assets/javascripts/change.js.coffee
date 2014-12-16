@@ -37,6 +37,7 @@ $(document).ready ->
   rfChange.bindEditableUpdater()
   rfChange.initEditableUpdater('.updatable', 'duedate')
   rfChange.bindTextAreaUpdater()
+  rfChange.bindTitleUpdater()
   rfChange.applyStatus()
   rfChange.donuts()
   rfChange.bindDownloadButton()
@@ -551,6 +552,12 @@ rfChange.bindEditableUpdater = ->
   $('.edit-detail-icon').click (clickevent) ->
     clickevent.stopPropagation()
     $(this).closest('li').children('p').editable('toggle')
+
+rfChange.bindTitleUpdater = ->
+  $('.edit-title-icon').click (clickevent) ->
+    clickevent.stopPropagation()
+    $('.editable-title').editable('toggle')
+
 
 rfChange.initEditableUpdater = (selector, resourceName) ->
   $(selector).editable

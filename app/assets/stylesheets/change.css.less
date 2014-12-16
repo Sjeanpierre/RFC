@@ -186,6 +186,20 @@ abbr {
   }
 }
 
+.change-heading {
+  .edit-title-icon {
+    cursor: pointer;
+    color: #777777;
+    font-size: 16px;
+  }
+  .edit-title-icon:hover {
+    color: #5CB85C;
+  }
+  .text-area-edit-actions {
+    padding-top: 10px;
+  }
+}
+
 .change-details-container {
   border-right: 2px solid #eeeeee;
   .change-details {
@@ -281,6 +295,17 @@ abbr {
     width: 50%;
     padding-left: 5px;
   }
+}
+
+/* Make inline editables take the full width of their parents */
+.editable-container.editable-inline,
+.editable-container.editable-inline .control-group.form-group,
+.editable-container.editable-inline .control-group.form-group .editable-input,
+.editable-container.editable-inline .control-group.form-group .editable-input textarea,
+.editable-container.editable-inline .control-group.form-group .editable-input select,
+.editable-container.editable-inline .control-group.form-group .editable-input input:not([type=radio]):not([type=checkbox]):not([type=submit])
+{
+  width: 100%;
 }
 
 .approver-list {
