@@ -23,7 +23,7 @@ class ChangeController < ApplicationController
   end
 
   def create
-    creator = current_user || User.find(4)
+    creator = current_user
     change = Change.create_change_request(params[:change],creator)
     if change.save
       redirect_to change_path(change)
@@ -92,9 +92,11 @@ class ChangeController < ApplicationController
     render :partial => "#{params[:partial]}"
   end
 
-  def add_resource
-    Change.add_resource_item(params[:resource],params[:value])
-    render nothing:true, status: 200
+  def add_system
+    System.add_new(params[:system_category],params[:system_name])
+    render nothing: true, status: 204
+  rescue ActiveRecord::RecordInvalid => error
+    render :json => {:error => error.message}, :status => 400
   end
 
   def get_resource
@@ -105,6 +107,10 @@ class ChangeController < ApplicationController
   def get_resources
     values = Change.get_item_list(params[:resource])
     render :json => values
+  end
+
+  def render_systems
+    render :partial => 'change/system_names'
   end
 
   private

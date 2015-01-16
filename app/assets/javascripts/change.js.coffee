@@ -19,7 +19,7 @@ $(document).ready ->
   rfChange.bindFormSubmit()
   $('.approver-select').select2()
   $('#priority-adder, #status-adder, #system-adder, #change-type-adder, #impact-adder').click (clickevent) ->
-    rfChange.modalhandler(clickevent)
+    rfChange.modalhandler(clickevent) #todo, remove this.
   $('tbody tr[data-href]').addClass('clickable-row').click (clickevent) ->
     rfChange.rowClick(clickevent)
   $('.approver-select').on 'change', (changeevent) ->
@@ -305,12 +305,14 @@ rfChange.modalhandler = (clickevent) ->
   rfChange.handleAdd(MODAL_NAMES[idValue])
   rfChange.bindClose(modalName, idValue)
 
+#todo, this function can be removed. no longer used
 rfChange.bindClose = (modalName, idValue) ->
   $("##{modalName}").on 'hide.bs.modal', ->
     newResourceListItems = "##{modalName} ul li.new"
     rfChange.replaceInput(MODAL_NAMES[idValue]) if $(newResourceListItems).length isnt 0
     $(newResourceListItems).removeClass('new').addClass('notsonew');
 
+#todo, this function will change to handle adding systems,remove the need for x-editable
 rfChange.handleAdd = (modalId)->
   watchButton = "##{modalId}Modal .modal-content .add-button"
   $(watchButton).click (e) ->
@@ -325,6 +327,7 @@ rfChange.handleAdd = (modalId)->
     $(editFieldSelector).editable "toggle"
     $(this).hide()
 
+#todo, remove dependancy on x-editable for this functionality
 rfChange.initeditable = (selector, resourceName) ->
   $(selector).editable
     type: "text"

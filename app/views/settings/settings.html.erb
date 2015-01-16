@@ -1,0 +1,20 @@
+<%= render :partial => 'system_modal' %>
+
+<div class="panel-body">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading text-center">
+          <h3 class="panel-title">RFC Settings</h3>
+
+        </div>
+        <div class="list-group">
+          <a href="systems" class="list-group-item <%= active_setting_nav('systems') %>">Manage Systems</a>
+          <a href="products" class="list-group-item <%= active_setting_nav('products') %>">Manage Products</a>
+          <a href="users" class="list-group-item <%= active_setting_nav('users') %>">Users</a>
+        </div>
+      </div>
+    </div>
+    <%= setting_area %>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="row">
+  <ul class="nav nav-pills nav-stacked col-md-4 category-list">
+    <% grouped_systems = format_systems_for_settings %>
+    <% grouped_systems.keys.each do |category| %>
+        <li data-category="<%= category %>">
+          <a href='#tab_<%= category %>' data-toggle="pill"><%= category.titleize %>
+            <span class="badge pull-right"><%= grouped_systems[category].count %></span></a></li>
+    <% end %>
+    <span class="glyphicon glyphicon-plus add-system-link"></span>
+  </ul>
+  <div class="tab-content col-md-8 system-list">
+    <% grouped_systems.keys.each do |category| %>
+        <div class="tab-pane" id='tab_<%= category %>'>
+          <h4><%= category.titleize %></h4>
+          <ul>
+            <% grouped_systems[category].each do |system| %>
+                <li><%= system.name.upcase %></li>
+            <% end %>
+          </ul>
+          <div class="add-change-button">
+            <button data-category="<%= category %>" type="button" class="add-sys-item btn btn-success btn-xs">New <%= category %>
+              Item
+            </button>
+          </div>
+        </div>
+    <% end %>
+  </div>
+  <!-- tab content -->
+</div>

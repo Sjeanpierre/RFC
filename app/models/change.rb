@@ -101,10 +101,15 @@ class Change < ActiveRecord::Base
     end
   end
 
-  def self.add_resource_item(resource_type, resource_name)
+  #todo refector for more resource types
+  def self.add_resource_item(resource_type, resource_name,resource_category=nil)
     raise('invalid resource') unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
-    resource_class.find_or_create_by(:name => resource_name.downcase)
+    if resource_class == System
+      System.add_new(resource_category,resource_name)
+    else
+      resource_class.find_or_create_by(:name => resource_name.downcase)
+    end
   end
 
   def self.print(ids)
@@ -181,10 +186,10 @@ class Change < ActiveRecord::Base
     raise("#{resource_type} is an invalid resource") unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
     if resource_type == 'system'
-      grouped_data = resource_class.all.to_a.group_by { |item| item.category }.each do |_, v|
-        v.map! { |status| {:id => status.id, :text => status.name.upcase} }
+      grouped_data = resource_class.all.to_a.group_by { |item| item.category }.each do |_, systems|
+        systems.map! { |system| {:id => system.id, :text => system.name.upcase} }
       end
-      grouped_data.map { |k, v| {:text => k, :children => v} }
+      grouped_data.map { |system_category, system_name_array| {:text => system_category.titleize, :children => system_name_array} }
     else
       resource_class.all.map { |status| {:id => status.id, :text => status.name.capitalize} }
     end

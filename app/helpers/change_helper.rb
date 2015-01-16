@@ -20,6 +20,19 @@ module ChangeHelper
     end
   end
 
+  def setting_area
+    area = params[:setting_area]
+    case area
+      when 'systems'
+        render :partial => 'settings/manage_systems'
+      when 'products'
+        render :partial => 'settings/manage_products'
+      when 'users'
+        render :partial => 'settings/manage_systems'
+    end
+
+  end
+
   def change_text(change)
     if change.editable?
       render :partial => 'change/change_text'
@@ -109,6 +122,10 @@ module ChangeHelper
 
   def mixer_date(change)
     change.created_at.strftime('%Y%m%d')
+  end
+
+  def format_systems_for_settings
+    System.all.group_by {|system| system.category}
   end
 
 
