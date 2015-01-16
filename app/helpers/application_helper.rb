@@ -12,4 +12,10 @@ module ApplicationHelper
       'active'
     end
   end
+
+  def active_setting_nav(setting_area)
+    if params[:setting_area] == setting_area
+      'active'
+    end
+  end
 end
