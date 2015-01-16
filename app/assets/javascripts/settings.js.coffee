@@ -1,5 +1,4 @@
 $(document).ready ->
-  rfChange.openModalOnButtonClick('#AddSystemButton', '.bs-modal-lg')
   rfChange.openModalOnButtonClick('.add-sys-item', '.system-item-modal')
   rfChange.openModalOnButtonClick('.add-system-link', '.system-modal')
   rfChange.bindNewItemButton()
