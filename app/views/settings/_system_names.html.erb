@@ -6,7 +6,7 @@
           <a href='#tab_<%= category %>' data-toggle="pill"><%= category.titleize %>
             <span class="badge pull-right"><%= grouped_systems[category].count %></span></a></li>
     <% end %>
-    <span class="glyphicon glyphicon-plus add-system-link"></span>
+    <span class="glyphicon glyphicon-plus add-link add-system-link"></span>
   </ul>
   <div class="tab-content col-md-8 system-list">
     <% grouped_systems.keys.each do |category| %>

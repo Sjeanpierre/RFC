@@ -8,6 +8,7 @@ class Change < ActiveRecord::Base
   belongs_to :system
   belongs_to :change_type
   belongs_to :impact
+  belongs_to :product
   belongs_to :creator, :class_name => 'User', :foreign_key => 'created_by'
   has_many :approvers
   has_many :users, through: :approvers

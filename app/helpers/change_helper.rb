@@ -128,5 +128,9 @@ module ChangeHelper
     System.all.group_by {|system| system.category}
   end
 
+  def format_products_for_settings
+    Product.includes(:country).all.group_by {|product| product.country.name}
+  end
+
 
 end

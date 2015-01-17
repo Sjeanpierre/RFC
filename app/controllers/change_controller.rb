@@ -92,12 +92,6 @@ class ChangeController < ApplicationController
     render :partial => "#{params[:partial]}"
   end
 
-  def add_system
-    System.add_new(params[:system_category],params[:system_name])
-    render nothing: true, status: 204
-  rescue ActiveRecord::RecordInvalid => error
-    render :json => {:error => error.message}, :status => 400
-  end
 
   def get_resource
     values = Change.get_resource_items(params[:resource])
@@ -109,9 +103,6 @@ class ChangeController < ApplicationController
     render :json => values
   end
 
-  def render_systems
-    render :partial => 'change/system_names'
-  end
 
   private
 
