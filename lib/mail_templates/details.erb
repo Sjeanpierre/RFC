@@ -2,6 +2,7 @@
   <li><b>Creator: </b><%= @data.creator.name %></li>
   <li><b>Due Date: </b><%= @data.change_date.try(:strftime, '%m/%d/%Y') %></li>
   <li><b>Priority: </b><%= @data.priority.name.capitalize %></li>
+  <li><b>Product: </b><%= @data.product.name.titleize %></li>
   <li><b>Status: </b><%= @data.status.name.capitalize %></li>
   <li><b>System: </b><%= @data.system.name.capitalize %></li>
   <li><b>Change Type: </b><%= @data.change_type.name.capitalize %></li>

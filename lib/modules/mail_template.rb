@@ -7,7 +7,7 @@ module MailTemplate
       :Rejected => %W(title creator details link).map(&:to_sym),
       :Approval => %W(title creator details link).map(&:to_sym),
       :Completed => %W(title creator details link).map(&:to_sym),
-      :Comment => %W(title comment_title comment link).map(&:to_sym)
+      :Comment => %W(title creator comment_title comment link).map(&:to_sym)
   }
   SUBJECTS = {
       :Created => 'RFC %s has been %s',
@@ -101,7 +101,6 @@ module MailTemplate
     end
 
     def recipients
-      #return [{ :email => 'sjp@mailinator.com', :name => 'Tommy Jones'}]
       approver_emails = @data.approvers.map { |approver| { :email => approver.user.email, :name => approver.user.name } }
       approver_emails.push({ :email => @data.creator.email, :name => @data.creator.name })
       approver_emails.uniq
