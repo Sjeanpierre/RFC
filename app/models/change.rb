@@ -13,12 +13,12 @@ class Change < ActiveRecord::Base
   has_many :approvers
   has_many :users, through: :approvers
   has_many :attachments
-  validates_presence_of :title, :priority, :system, :status, :change_type, :summary, :rollback, :creator
+  validates_presence_of :title, :priority, :system, :status, :change_type, :summary, :rollback, :creator, :product
   after_update :track_changes
   after_create :track_create
 
 
-  RESOURCES = {:impact => Impact, :status => Status, :system => System, :changeType => ChangeType, :priority => Priority, :change_type => ChangeType}
+  RESOURCES = {:impact => Impact, :product => Product, :status => Status, :system => System, :changeType => ChangeType, :priority => Priority, :change_type => ChangeType}
 
   def self.create_change_request(params, current_user)
     approvers = params[:approvers].reject { |approver| approver.blank? }
@@ -125,7 +125,7 @@ class Change < ActiveRecord::Base
   end
 
   def drop_down_items
-    %w(priority status system change_type impact)
+    %w(priority product system change_type impact)
   end
 
   def approval_details(user_id)
@@ -156,6 +156,7 @@ class Change < ActiveRecord::Base
         :created_date => created_at.to_s(:long),
         :due_date => expected_change_date,
         :title => title,
+        :product => product.name,
         :type => change_type.name,
         :impact => impact.name,
         :priority => priority.name,
@@ -186,14 +187,7 @@ class Change < ActiveRecord::Base
   def self.get_item_list(resource_type)
     raise("#{resource_type} is an invalid resource") unless RESOURCES.has_key?(resource_type.to_sym)
     resource_class = RESOURCES[resource_type.to_sym]
-    if resource_type == 'system'
-      grouped_data = resource_class.all.to_a.group_by { |item| item.category }.each do |_, systems|
-        systems.map! { |system| {:id => system.id, :text => system.name.upcase} }
-      end
-      grouped_data.map { |system_category, system_name_array| {:text => system_category.titleize, :children => system_name_array} }
-    else
-      resource_class.all.map { |status| {:id => status.id, :text => status.name.capitalize} }
-    end
+    resource_class.list_for_dropdown
   end
 
   def create_event(event_type, event_details)
