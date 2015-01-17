@@ -24,6 +24,13 @@
       </li>
       <li>
         <div>
+          <p class="detail-heading">Product</p>
+          <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
+        </div>
+        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/product/update" data-source="/product/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.product.name.capitalize %></p>
+      </li>
+      <li>
+        <div>
           <p class="detail-heading">Status</p>
           <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
         </div>

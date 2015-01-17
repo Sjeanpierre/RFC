@@ -1,6 +1,6 @@
 class ChangeController < ApplicationController
   def show
-    @change = Change.includes({:comment_threads => :user},{:approvers => :user}, :events).find(params[:id])
+    @change = Change.includes({:comment_threads => :user},{:approvers => :user},:product, :events).find(params[:id])
   end
 
   def print_data
@@ -19,7 +19,7 @@ class ChangeController < ApplicationController
   end
 
   def report
-    @changes = Change.includes(:creator,:change_type,:impact,:priority,:status,:system)
+    @changes = Change.includes(:creator,:change_type,:impact,:priority,:status,:system,:product)
   end
 
   def create

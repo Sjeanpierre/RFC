@@ -10,7 +10,7 @@ class Product < ActiveRecord::Base
   end
 
   def self.list_for_dropdown
-    grouped_by_country = all.to_a.group_by { |product| product.country }
+    grouped_by_country = includes(:country).all.to_a.group_by { |product| product.country }
     grouped_by_country.each do |_,product_list|
       product_list.map! { |product| {:id => product.id, :text => product.name.upcase} }
     end

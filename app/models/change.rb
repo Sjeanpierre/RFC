@@ -115,7 +115,7 @@ class Change < ActiveRecord::Base
 
   def self.print(ids)
     return '<h1>No Items Selected</h1>' if ids.blank?
-    changes = Change.includes(:creator, :approvers, :attachments, :change_type, :impact, :priority, :status, :system, {:comment_threads => :user}, {:approvers => :user}, :events).where(:id => ids)
+    changes = Change.includes(:creator, :approvers, :attachments, :change_type, :impact, :priority, {:product => :country}, :status, :system, {:comment_threads => :user}, {:approvers => :user}, :events).where(:id => ids)
     p = PrintHandler::View.new(changes)
     p.prepare
   end
