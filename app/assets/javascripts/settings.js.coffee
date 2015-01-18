@@ -1,8 +1,6 @@
 ready = ->
-  rfChange.openModalOnButtonClick('.add-sys-item', '.system-item-modal')
-  rfChange.openModalOnButtonClick('.add-system-link', '.system-modal')
-  rfChange.openModalOnButtonClick('.add-product-name', '.product-name-modal')
-  rfChange.openModalOnButtonClick('.add-product-link', '.product-modal')
+  rfChange.bindModalButtons('system_names')
+  rfChange.bindModalButtons('product_names')
   rfChange.bindNewItemButton()
   rfChange.bindNewProductButton()
   rfChange.applyActiveClass()
@@ -16,6 +14,13 @@ rfChange.openModalOnButtonClick = (button_selector, modal_selector) ->
   $("#{button_selector}").click ->
     $("#{modal_selector}").modal('show')
 
+rfChange.bindModalButtons = (setting_area) ->
+  if setting_area == 'system_names'
+    rfChange.openModalOnButtonClick('.add-sys-item', '.system-item-modal')
+    rfChange.openModalOnButtonClick('.add-system-link', '.system-modal')
+  else if setting_area == 'product_names'
+    rfChange.openModalOnButtonClick('.add-product-name', '.product-name-modal')
+    rfChange.openModalOnButtonClick('.add-product-link', '.product-modal')
 
 #System list stacked tabs
 rfChange.applyActiveClass = ->
@@ -103,6 +108,8 @@ rfChange.reloadSettingsArea = (area_name) ->
     dataType: 'html'
     success: (data, status, response) ->
       $("##{area_name}").html(data)
+      rfChange.applyActiveClass()
+      rfChange.bindModalButtons(area_name)
     error: (data, status, response) ->
       console.log(data)
 
