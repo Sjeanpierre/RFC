@@ -27,7 +27,7 @@
           <p class="detail-heading">Product</p>
           <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
         </div>
-        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/product/update" data-source="/product/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.product.name.capitalize %></p>
+        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/product/update" data-source="/product/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.product.display_name %></p>
       </li>
       <li>
         <div>
@@ -41,7 +41,7 @@
           <p class="detail-heading">System</p>
           <span class="glyphicon glyphicon-cog edit-detail-icon"></span>
         </div>
-        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/system/update" data-source="/system/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.system.name.capitalize %></p>
+        <p class="updatable" data-inputclass="wide-input" data-type="select2" data-url="/change/<%= @change.id %>/system/update" data-source="/system/items" data-toggle="manual" data-mode="popup" data-placement="right"><%= @change.system.display_name %></p>
       </li>
       <li>
         <div>
@@ -82,6 +82,12 @@
       </li>
       <li>
         <div>
+          <p class="detail-heading">Product</p>
+        </div>
+        <p><%= @change.product.display_name %></p>
+      </li>
+      <li>
+        <div>
           <p class="detail-heading">Status</p>
         </div>
         <p><%= @change.status.name.capitalize %></p>
@@ -90,7 +96,7 @@
         <div>
           <p class="detail-heading">System</p>
         </div>
-        <p><%= @change.system.name.capitalize %></p>
+        <p><%= @change.system.display_name %></p>
       </li>
       <li>
         <div>

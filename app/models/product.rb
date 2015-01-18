@@ -9,6 +9,10 @@ class Product < ActiveRecord::Base
     new(:name => name.downcase, :country => Country.find_or_create_by(:name => country)).save!
   end
 
+  def display_name
+    "#{country.name.upcase}-#{name.capitalize}"
+  end
+
   def self.list_for_dropdown
     grouped_by_country = includes(:country).all.to_a.group_by { |product| product.country }
     grouped_by_country.each do |_,product_list|

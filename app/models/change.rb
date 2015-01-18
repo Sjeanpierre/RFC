@@ -154,14 +154,14 @@ class Change < ActiveRecord::Base
         :id => id,
         :created_by => creator.name,
         :created_date => created_at.to_s(:long),
-        :due_date => expected_change_date,
+        :due_date => change_date.to_s(:long),
         :title => title,
-        :product => product.name,
+        :product => {:name => product.name, :country => product.country.name},
         :type => change_type.name,
         :impact => impact.name,
         :priority => priority.name,
         :status => status.name,
-        :system => "#{system.category}-#{system.name}"
+        :system => {:name => system.name, :category => system.category}
     }
   end
 

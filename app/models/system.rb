@@ -6,15 +6,16 @@ class System < ActiveRecord::Base
 
 
   def self.add_new(category,name)
-    system = new
-    system.category = category
-    system.name = name
-    system.save!
+    new(:name => name, :category => category).save!
   end
 
   def downcase_attributes
     self.category.downcase!
     self.name.downcase!
+  end
+
+  def display_name
+    "#{category.upcase}-#{name.capitalize}"
   end
 
   def self.list_for_dropdown
