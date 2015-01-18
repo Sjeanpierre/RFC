@@ -161,6 +161,7 @@ class Change < ActiveRecord::Base
         :impact => impact.name,
         :priority => priority.name,
         :status => status.name,
+        # todo use friendly name here
         :system => "#{system.category}-#{system.name}"
     }
   end

@@ -4,7 +4,7 @@
   <li><b>Priority: </b><%= @data.priority.name.capitalize %></li>
   <li><b>Product: </b><%= @data.product.name.titleize %></li>
   <li><b>Status: </b><%= @data.status.name.capitalize %></li>
-  <li><b>System: </b><%= @data.system.name.capitalize %></li>
+  <li><b>System: </b><%= @data.system.display_name %></li>
   <li><b>Change Type: </b><%= @data.change_type.name.capitalize %></li>
   <li class="last"><b>Potential Impact: </b><%= @data.impact.name.capitalize %></li>
 </ul>
