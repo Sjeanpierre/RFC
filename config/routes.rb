@@ -12,8 +12,7 @@ Rfc::Application.routes.draw do
   resources :services, only: %i(index create destroy)
   #root 'pages#home'
   #Settings routes
-  match '/system/add' => 'settings#add_system', :via => 'post'
-  match '/product/add' => 'settings#add_product', :via => 'post'
+  match '/:resource/add' => 'settings#add_resource', :via => 'post'
   match 'change/settings/:setting_area' => 'settings#settings', :via => 'get'
   match '/change/settings/render/:settings_area' => 'settings#render_settings_area', :via => 'get'
   #end settings
