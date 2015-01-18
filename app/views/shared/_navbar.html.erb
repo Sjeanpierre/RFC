@@ -1,22 +1,29 @@
 <div class='navbar navbar-default push'>
   <div class='container'>
     <div class='container'>
-      <div class="navbar-header pull-right">
-        <% if logged_in? %>
-          <div class="navbar-brand">Logged in as, <strong><%= current_user.name %></strong> |</div>
-          <div class=" pull-right">
-            <div><%= link_to 'Logout', logout_path, class: 'navbar-brand' %></div>
-		      </div>
-        <% end %>
-      </div>
+      <% if logged_in? %>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                <div class="user-name-dropdown"><strong><%= current_user.name %></strong></div>
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href='/change/settings/systems'><i class="fa fa-cog"></i> Settings</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+              </ul>
+            </li>
+          </ul>
+      <% end %>
       <div class="navbar-header">
         <%= link_to Rails.application.class.parent_name.upcase, root_path, class: 'navbar-brand' %>
       </div>
-      <ul class="nav navbar-nav">
-        <li class="<%= active_nav('index') %>"><%= link_to 'Home', root_path %></li>
-        <li class="<%= active_nav('report') %>"><%= link_to 'Reports', change_report_path, 'data-no-turbolink' => true %></li>
-        <li class="<%= active_nav('settings') %>"><%= link_to 'Settings', '/change/settings/systems' %></li>
-      </ul>
+      <% if logged_in? %>
+          <ul class="nav navbar-nav">
+            <li class="<%= active_nav('index') %>"><%= link_to 'Home', root_path %></li>
+            <li class="<%= active_nav('report') %>"><%= link_to 'Reports', change_report_path, 'data-no-turbolink' => true %></li>
+          </ul>
+      <% end %>
     </div>
   </div>
 </div>

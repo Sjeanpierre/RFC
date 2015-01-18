@@ -1,18 +1,28 @@
 <% content_for :title, 'Login' %>
-<h1><p class="text-center">Please log in to continue</p></h1>
-<div class="panel panel-default">
-  <div class="panel-body">
-    <div>
-      <% if logged_in? %>
-        <a href="<%= logout_path %>" class="btn"><%= t('auth.logout') %></a>
-      <% else %>
-        <div class="text-center">
-          <!--<a href="/auth/twitter" class="btn btn-primary"><i class="icon-twitter"></i> <span><%= t('auth.twitter_html') %></span></a>-->
-          <a href="/auth/github" class="btn btn-primary"><i class="icon-github-alt"></i> <span><%= t('auth.github_html') %></span></a>
-          <!--<% unless Rails.env.production? %><a href="/auth/developer" class="btn btn-primary"><i class="icon-github-alt"></i> <span><%= t('auth.developer_html') %></span></a><% end %>-->
+<div class="row">
+  <div class="col-md-4  col-centered">
+    <div class="panel panel-default">
+      <div class="panel-heading"><strong class="">Login</strong>
+      </div>
+      <div class="panel-body">
+        <div>
+          <% if logged_in? %>
+              <a href="<%= logout_path %>" class="btn"><%= t('auth.logout') %></a>
+          <% else %>
+              <div class="text-center">
+                <!--<a href="/auth/twitter" class="btn btn-primary"><i class="icon-twitter"></i> <span><%= t('auth.twitter_html') %></span></a>-->
+                <a href="/auth/github" class="btn btn-primary"><span>Login with <strong><i class="fa fa-github"></i> GitHub</strong></span></a>
+                <!--
+                <% unless Rails.env.production? %><a href="/auth/developer" class="btn btn-primary"><i class="icon-github-alt"></i> <span><%= t('auth.developer_html') %></span></a>
+                <% end %>-->
+              </div>
+          <% end %>
         </div>
-      <% end %>
+      </div>
+      <div class="panel-footer"><a href="https://github.com/Sjeanpierre/RFC/issues/new" class="">Trouble logging in?</a>
+      </div>
     </div>
   </div>
 </div>
+
 

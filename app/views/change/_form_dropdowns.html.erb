@@ -1,5 +1,5 @@
 <% @change.drop_down_items.each do |drop_down_item| %>
   <div class='drop-down col-md-2'>
-    <%= f.input drop_down_item.to_sym, required: true, :input_html => {:type => 'hidden', :class => 'select2-dropdown', :'data-placeholder' => " Select #{drop_down_item}", :'data-resource' => "#{drop_down_item}", :'data-parsley-error-message' => "#{drop_down_item.titleize} field is required", :style => 'width: 200px' } %>
+    <%= f.input drop_down_item.to_sym, required: true, :input_html => {:type => 'hidden', :class => 'select2-dropdown', :'data-placeholder' => " Select #{drop_down_item.titleize}", :'data-resource' => "#{drop_down_item}", :'data-parsley-error-message' => "#{drop_down_item.titleize} field is required", :style => 'width: 200px' } %>
   </div>
 <% end %>
