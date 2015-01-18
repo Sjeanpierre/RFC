@@ -1,0 +1,28 @@
+<div class="row">
+  <ul class="nav nav-pills nav-stacked col-md-4 country-list">
+    <% grouped_products = format_products_for_settings %>
+    <% grouped_products.keys.each do |country| %>
+        <li data-category="<%= country %>">
+          <a href='#tab_<%= country %>' data-toggle="pill"><%= country %>
+            <span class="badge pull-right"><%= grouped_products[country].count %></span></a></li>
+    <% end %>
+    <span class="glyphicon glyphicon-plus add-link add-product-link"></span>
+  </ul>
+  <div class="tab-content col-md-8 product-list">
+    <% grouped_products.keys.each do |country| %>
+        <div class="tab-pane" id='tab_<%= country %>'>
+          <h4><%= country %></h4>
+          <ul>
+            <% grouped_products[country].each do |product| %>
+                <li><%= product.name.upcase %></li>
+            <% end %>
+          </ul>
+          <div class="add-change-button">
+            <button data-category="<%= country %>" type="button" class="add-product-name btn btn-success btn-xs">New <%= country %>
+              Product
+            </button>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

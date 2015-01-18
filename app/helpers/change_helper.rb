@@ -56,7 +56,8 @@ module ChangeHelper
     creator = change.creator.id
     impact = change.impact.id
     change_type = change.change_type.id
-    "status-#{status} impact-#{impact} system-#{system} changetype-#{change_type} priority-#{priority} user-#{creator}"
+    product = change.product.id
+    "status-#{status} impact-#{impact} system-#{system} changetype-#{change_type} priority-#{priority} user-#{creator} product-#{product}"
   end
 
   def mixer_select_values(resource)
@@ -126,6 +127,10 @@ module ChangeHelper
 
   def format_systems_for_settings
     System.all.group_by {|system| system.category}
+  end
+
+  def format_products_for_settings
+    Product.includes(:country).all.group_by {|product| product.country.name}
   end
 
 

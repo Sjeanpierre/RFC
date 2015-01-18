@@ -16,4 +16,13 @@ class System < ActiveRecord::Base
     self.category.downcase!
     self.name.downcase!
   end
+
+  def self.list_for_dropdown
+    grouped_by_category = all.to_a.group_by { |system| system.category }
+    grouped_by_category.each do |_, system_list|
+      system_list.map! { |system| {:id => system.id, :text => system.name.upcase} }
+    end
+    grouped_by_category.map { |system_category, system_name_array| {:text => system_category.titleize, :children => system_name_array} }
+  end
+
 end

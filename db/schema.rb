@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303054355) do
+ActiveRecord::Schema.define(version: 20150116054214) do
 
   create_table "approvers", force: true do |t|
     t.integer  "user_id"
@@ -54,7 +54,10 @@ ActiveRecord::Schema.define(version: 20140303054355) do
     t.integer  "impact_id"
     t.integer  "created_by"
     t.datetime "change_date"
+    t.integer  "product_id"
   end
+
+  add_index "changes", ["product_id"], name: "index_changes_on_product_id", using: :btree
 
   create_table "comments", force: true do |t|
     t.integer  "commentable_id",   default: 0
@@ -72,6 +75,10 @@ ActiveRecord::Schema.define(version: 20140303054355) do
 
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "countries", force: true do |t|
+    t.string "name"
+  end
 
   create_table "events", force: true do |t|
     t.integer  "change_id"
@@ -94,6 +101,13 @@ ActiveRecord::Schema.define(version: 20140303054355) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "products", force: true do |t|
+    t.string  "name"
+    t.integer "country_id"
+  end
+
+  add_index "products", ["country_id"], name: "index_products_on_country_id", using: :btree
 
   create_table "services", force: true do |t|
     t.integer  "user_id"

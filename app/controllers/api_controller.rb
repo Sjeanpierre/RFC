@@ -22,13 +22,13 @@ class ApiController < ApplicationController
 
 
   def list
-    @changes = Change.includes(:creator, :change_type, :impact, :priority, :status, :system).pending
+    @changes = Change.includes(:creator, :change_type, :impact, :priority, :status, :system, {:product => :country}).pending
     formatted_for_json = @changes.map { |change| change.json_formatted }
     render :json => formatted_for_json
   end
 
   def show
-    @change = Change.includes(:creator, :change_type, :impact, :priority, :status, :system).find(params[:id])
+    @change = Change.includes(:creator, :change_type, :impact, :priority, :status, :system, {:product => :country}).find(params[:id])
     formatted_for_json = @change.json_formatted
     render :json => formatted_for_json
   end

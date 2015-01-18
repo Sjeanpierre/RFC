@@ -6,6 +6,21 @@ impacts = ['downtime', 'system outage', 'none']
 systems = %w{Amazon-S3 Amazon-EC2 Amazon-IAM CloudFlare-DNS CloudFlare-PAGERULE CloudFlare-SETTING CloudFlare-ACL DNS-CREATE DNS-UPDATE DNS-DESTROY Rightscale-CREDENTIALS Rightscale-INPUTS Rightscale-FIREWALL Rightscale-USER}
 statuses = %w(new pending approved completed rejected aborted)
 users = ['tom jones', 'bill smith', 'tony doorman', 'mike snow', 'robert wimby', 'sean turner', 'victor hernandez']
+countries = %w{us ca uki fr br}
+products = ['Sage One', 'Sage Drive', 'Sage View']
+
+puts 'seeding countries'
+countries.each do |country|
+  Country.new(:name => country.upcase).save
+end
+
+puts 'seeding products'
+products.each do |product|
+  Country.all.each do |country|
+    Product.new(:name => product, :country => country).save
+  end
+end
+
 
 puts 'seeding priorities'
 priorities.each do |priority|
@@ -39,8 +54,8 @@ if ENV['RAILS_ENV'] == 'development'
     user_email = "#{user.split(' ').join('_')}@mailinator.com"
     User.create(:name => user.titleize, :email => user_email)
   end
-  user = User.create(:name => 'Stevenson Jean-Pierre', :email => 'stevenson.jean-pierre@sage.com' )
-  Service.create(:user => user, :provider => 'github', :uid => ENV['GH_UID'])
+  # user = User.create(:name => 'Stevenson Jean-Pierre', :email => 'stevenson.jean-pierre@sage.com' )
+  # Service.create(:user => user, :provider => 'github', :uid => ENV['GH_UID'])
 
   puts 'seeding changes'
   20.times do
@@ -52,6 +67,7 @@ if ENV['RAILS_ENV'] == 'development'
         :status_id => Status.for_seed.sample(1).first.id,
         :change_type_id => ChangeType.all.sample(1).first.id,
         :impact_id => Impact.all.sample(1).first.id,
+        :product => Product.all.sample(1).first,
         :summary => 'this is a summary',
         :change_date => Date.strptime(Time.now.strftime('%m/%d/%Y'), '%m/%d/%Y'),
         :rollback => 'this is the rollback',
