@@ -28,7 +28,7 @@ module ChangeHelper
       when 'products'
         render :partial => 'settings/manage_products'
       when 'users'
-        render :partial => 'settings/manage_systems'
+        render :partial => 'settings/manage_users'
     end
 
   end
